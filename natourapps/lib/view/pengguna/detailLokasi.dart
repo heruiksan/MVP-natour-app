@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:natourapps/view/pengguna/pembayaranBerkemah.dart';
 
 class DetailLokasi extends StatefulWidget {
   final String gambarLokasi;
@@ -215,7 +216,7 @@ class _DetailLokasiState extends State<DetailLokasi> {
               ),
               child: IconButton(
                 icon:
-                    Icon(Icons.arrow_back_ios_new_rounded, color: Colors.blue),
+                    Icon(Icons.arrow_back, color: Colors.blue),
                 onPressed: () {
                   Navigator.pop(
                       context); // Navigates back to the previous screen
@@ -277,9 +278,30 @@ class _DetailLokasiState extends State<DetailLokasi> {
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          setState(() {
-                            _isClicked = !_isClicked; // Toggle tombol
-                          });
+                          if (_isClicked) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => PembayaranBerkemah(
+                                  gambarLokasi: widget.gambarLokasi,
+                                  namaLokasi: widget.namaLokasi,
+                                  ratingLokasi: widget.ratingLokasi,
+                                  alamatLokasi: widget.alamatLokasi,
+                                  deskripsiLokasi: widget.deskripsiLokasi,
+                                  sisaArea: widget.sisaArea,
+                                  hargaLokasi: widget.hargaLokasi,
+                                  selectedDate: widget.selectedDate,
+                                  nights: widget.nights,
+                                  hargaTotal: _totalHarga,
+                                  jumlahOrang: _jumlahOrang,
+                                ),
+                              ),
+                            );
+                          } else {
+                            setState(() {
+                              _isClicked = true; // Mengubah status tombol
+                            });
+                          }
                         },
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
@@ -347,7 +369,7 @@ class _DetailLokasiState extends State<DetailLokasi> {
                                     },
                                   ),
                                   Text(
-                                    '$_jumlahOrang', // Menampilkan jumlah orang
+                                    '$_jumlahOrang Orang', // Menampilkan jumlah orang
                                     style: TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold,

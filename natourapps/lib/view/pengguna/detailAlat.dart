@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:natourapps/view/pengguna/pembayaranAlat.dart';
+
 
 class DetailAlat extends StatefulWidget {
   final String gambarAlat;
@@ -215,7 +217,7 @@ class _DetailAlatState extends State<DetailAlat> {
               ),
               child: IconButton(
                 icon:
-                    Icon(Icons.arrow_back_ios_new_rounded, color: Colors.blue),
+                    Icon(Icons.arrow_back, color: Colors.blue),
                 onPressed: () {
                   Navigator.pop(
                       context); // Navigates back to the previous screen
@@ -277,9 +279,30 @@ class _DetailAlatState extends State<DetailAlat> {
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          setState(() {
-                            _isClicked = !_isClicked; // Toggle tombol
-                          });
+                          if (_isClicked) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => PembayaranAlat(
+                                  gambarAlat: widget.gambarAlat,
+                                  namaAlat: widget.namaAlat,
+                                  ratingAlat: widget.ratingAlat,
+                                  alamatAlat: widget.alamatAlat,
+                                  deskripsiAlat: widget.deskripsiAlat,
+                                  sisaAlat: widget.sisaAlat,
+                                  hargaAlat: widget.hargaAlat,
+                                  selectedDate: widget.selectedDate,
+                                  days: widget.days,
+                                  hargaTotal: _totalHarga,
+                                  jumlahOrang: _jumlahOrang,
+                                ),
+                              ),
+                            );
+                          } else {
+                            setState(() {
+                              _isClicked = true; // Mengubah status tombol
+                            });
+                          }
                         },
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
