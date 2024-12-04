@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:natourapps/view/pengguna/detailAlat.dart';
 
 class pilihanAlat extends StatefulWidget {
+  final DateTime selectedDate;
+  final int days;
+
+  pilihanAlat({required this.selectedDate, required this.days});
+
   @override
   _pilihanAlatState createState() => _pilihanAlatState();
 }
@@ -149,6 +154,8 @@ class _pilihanAlatState extends State<pilihanAlat> {
                 itemCount: alatList.length,
                 itemBuilder: (context, index) {
                   final alat = alatList[index];
+                  final int hargaTotalHari = alat['hargaAlat'] * widget.days;
+
                   return GestureDetector(
                     onTap: () {
                       // Navigasi ke halaman DetailLokasi dengan data lokasi
@@ -162,7 +169,9 @@ class _pilihanAlatState extends State<pilihanAlat> {
                             alamatAlat: alat['alamatAlat'],
                             deskripsiAlat: alat['deskripsiAlat'],
                             sisaAlat: alat['sisaAlat'],
-                            hargaAlat: alat['hargaAlat']
+                            hargaAlat: hargaTotalHari,
+                            selectedDate: widget.selectedDate,
+                            days: widget.days
                           ),
                         ),
                       );
@@ -233,7 +242,7 @@ class _pilihanAlatState extends State<pilihanAlat> {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    'Rp ${alat['hargaAlat']}',
+                                    'Rp $hargaTotalHari',
                                     style: TextStyle(
                                         fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white),
                                   ),

@@ -8,6 +8,8 @@ class DetailAlat extends StatefulWidget {
   final String deskripsiAlat;
   final int sisaAlat;
   final int hargaAlat;
+  final DateTime selectedDate;
+  final int days;
 
   // Constructor untuk menerima data dari halaman sebelumnya
   DetailAlat({
@@ -18,6 +20,8 @@ class DetailAlat extends StatefulWidget {
     required this.deskripsiAlat,
     required this.sisaAlat,
     required this.hargaAlat,
+    required this.selectedDate,
+    required this.days,
   });
 
   @override
@@ -301,35 +305,65 @@ class _DetailAlatState extends State<DetailAlat> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         if (_isClicked) ...[
-                          Row(
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              IconButton(
-                                icon: Icon(Icons.remove, color: Colors.white),
-                                onPressed: () {
-                                  setState(() {
-                                    if (_jumlahOrang > 1) {
-                                      _jumlahOrang--; // Mengurangi jumlah orang
-                                      _totalHarga = _harga * _jumlahOrang;
-                                    }
-                                  });
-                                },
-                              ),
-                              Text(
-                                '$_jumlahOrang', // Menampilkan jumlah orang
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      '${widget.selectedDate}',
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    Text(
+                                      '${widget.days} Hari',
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                              IconButton(
-                                icon: Icon(Icons.add, color: Colors.white),
-                                onPressed: () {
-                                  setState(() {
-                                    _jumlahOrang++; // Menambah jumlah orang
-                                    _totalHarga = _harga * _jumlahOrang;
-                                  });
-                                },
+                              Row(
+                                children: [
+                                  IconButton(
+                                    icon:
+                                        Icon(Icons.remove, color: Colors.white),
+                                    onPressed: () {
+                                      setState(() {
+                                        if (_jumlahOrang > 1) {
+                                          _jumlahOrang--; // Mengurangi jumlah orang
+                                          _totalHarga = _harga * _jumlahOrang;
+                                        }
+                                      });
+                                    },
+                                  ),
+                                  Text(
+                                    '$_jumlahOrang', // Menampilkan jumlah orang
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  IconButton(
+                                    icon: Icon(Icons.add, color: Colors.white),
+                                    onPressed: () {
+                                      setState(() {
+                                        _jumlahOrang++; // Menambah jumlah orang
+                                        _totalHarga = _harga * _jumlahOrang;
+                                      });
+                                    },
+                                  ),
+                                ],
                               ),
                             ],
                           ),

@@ -194,11 +194,7 @@ class _dashboardPenggunaState extends State<dashboardPengguna> {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => pilihanBerkemah()),
-                      );
+                      _showDateAndNightModal(context);
                     },
                     child: Container(
                       padding: EdgeInsets.all(
@@ -223,33 +219,30 @@ class _dashboardPenggunaState extends State<dashboardPengguna> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => pilihanAlat()),
-                      );
+                      _showDateAndNightModalAlat(context);
                     },
                     child: Container(
-                    padding:
-                        EdgeInsets.all(16), // Add padding inside the container
-                    decoration: BoxDecoration(
-                      color: Colors.blue[50], // Set background color of the box
-                      borderRadius:
-                          BorderRadius.circular(12), // Rounded corners
-                      border: Border.all(
-                          color: Colors.blue,
-                          width: 2), // Border color and width
-                    ),
-                    child: Column(
-                      children: [
-                        Icon(Icons.shopping_cart, size: 40, color: Colors.blue),
-                        SizedBox(height: 8),
-                        Text("Sewa Alat"),
-                      ],
+                      padding: EdgeInsets.all(
+                          16), // Add padding inside the container
+                      decoration: BoxDecoration(
+                        color:
+                            Colors.blue[50], // Set background color of the box
+                        borderRadius:
+                            BorderRadius.circular(12), // Rounded corners
+                        border: Border.all(
+                            color: Colors.blue,
+                            width: 2), // Border color and width
+                      ),
+                      child: Column(
+                        children: [
+                          Icon(Icons.shopping_cart,
+                              size: 40, color: Colors.blue),
+                          SizedBox(height: 8),
+                          Text("Sewa Alat"),
+                        ],
+                      ),
                     ),
                   ),
-                  ),
-                  
                   Container(
                     padding: EdgeInsets.only(
                         right: 10, left: 10, top: 30, bottom: 30),
@@ -353,6 +346,182 @@ class _dashboardPenggunaState extends State<dashboardPengguna> {
           ),
         ],
       ),
+    );
+  }
+
+  void _showDateAndNightModal(BuildContext context) {
+    DateTime selectedDate = DateTime.now();
+    int nights = 1;
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (BuildContext context) {
+        return Padding(
+          padding: EdgeInsets.only(
+            left: 16,
+            right: 16,
+            bottom: MediaQuery.of(context).viewInsets.bottom + 16,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(height: 16),
+              Text(
+                "Pilih Tanggal dan Jumlah Malam",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 16),
+              // Pilihan Tanggal
+              TextFormField(
+                readOnly: true,
+                decoration: InputDecoration(
+                  labelText: "Pilih Tanggal",
+                  border: OutlineInputBorder(),
+                  suffixIcon: Icon(Icons.calendar_today),
+                ),
+                onTap: () async {
+                  DateTime? pickedDate = await showDatePicker(
+                    context: context,
+                    initialDate: selectedDate,
+                    firstDate: DateTime.now(),
+                    lastDate: DateTime(2100),
+                  );
+                  if (pickedDate != null) {
+                    setState(() {
+                      selectedDate = pickedDate;
+                    });
+                  }
+                },
+                controller: TextEditingController(
+                  text:
+                      "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}",
+                ),
+              ),
+              SizedBox(height: 16),
+              // Jumlah Malam
+              TextFormField(
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  labelText: "Jumlah Malam",
+                  border: OutlineInputBorder(),
+                ),
+                onChanged: (value) {
+                  nights = int.tryParse(value) ?? 1;
+                },
+              ),
+              SizedBox(height: 16),
+              // Tombol Lanjut
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context); // Tutup modal
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => pilihanBerkemah(
+                        selectedDate: selectedDate,
+                        nights: nights,
+                      ),
+                    ),
+                  );
+                },
+                child: Text("Lanjut"),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void _showDateAndNightModalAlat(BuildContext context) {
+    DateTime selectedDate = DateTime.now();
+    int days = 1;
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (BuildContext context) {
+        return Padding(
+          padding: EdgeInsets.only(
+            left: 16,
+            right: 16,
+            bottom: MediaQuery.of(context).viewInsets.bottom + 16,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(height: 16),
+              Text(
+                "Pilih Tanggal dan Jumlah Hari",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 16),
+              // Pilihan Tanggal
+              TextFormField(
+                readOnly: true,
+                decoration: InputDecoration(
+                  labelText: "Pilih Tanggal",
+                  border: OutlineInputBorder(),
+                  suffixIcon: Icon(Icons.calendar_today),
+                ),
+                onTap: () async {
+                  DateTime? pickedDate = await showDatePicker(
+                    context: context,
+                    initialDate: selectedDate,
+                    firstDate: DateTime.now(),
+                    lastDate: DateTime(2100),
+                  );
+                  if (pickedDate != null) {
+                    setState(() {
+                      selectedDate = pickedDate;
+                    });
+                  }
+                },
+                controller: TextEditingController(
+                  text:
+                      "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}",
+                ),
+              ),
+              SizedBox(height: 16),
+              // Jumlah Malam
+              TextFormField(
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  labelText: "Jumlah Hari",
+                  border: OutlineInputBorder(),
+                ),
+                onChanged: (value) {
+                  days = int.tryParse(value) ?? 1;
+                },
+              ),
+              SizedBox(height: 16),
+              // Tombol Lanjut
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context); // Tutup modal
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => pilihanAlat(
+                        selectedDate: selectedDate,
+                        days: days,
+                      ),
+                    ),
+                  );
+                },
+                child: Text("Lanjut"),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

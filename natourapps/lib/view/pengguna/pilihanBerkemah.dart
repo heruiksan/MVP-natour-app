@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:natourapps/view/pengguna/detailLokasi.dart';
 
 class pilihanBerkemah extends StatefulWidget {
+  final DateTime selectedDate;
+  final int nights;
+
+  pilihanBerkemah({required this.selectedDate, required this.nights});
+
   @override
   _pilihanBerkemahState createState() => _pilihanBerkemahState();
 }
@@ -101,6 +106,22 @@ class _pilihanBerkemahState extends State<pilihanBerkemah> {
                 ],
               ),
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text('Tanggal : ${widget.selectedDate}', 
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blue
+                ),),
+                Text('Malam : ${widget.nights}', 
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blue
+                ),),
+              ],
+            ),
+            SizedBox(height: 10,),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 10),
               child: GridView.builder(
@@ -114,6 +135,10 @@ class _pilihanBerkemahState extends State<pilihanBerkemah> {
                 itemCount: lokasiList.length,
                 itemBuilder: (context, index) {
                   final lokasi = lokasiList[index];
+                  // Hitung harga total berdasarkan jumlah malam
+                  final int hargaTotalMalam = lokasi['hargaLokasi'] * widget.nights;
+
+                  
                   return GestureDetector(
                     onTap: () {
                       // Navigasi ke halaman DetailLokasi dengan data lokasi
@@ -127,7 +152,9 @@ class _pilihanBerkemahState extends State<pilihanBerkemah> {
                             alamatLokasi: lokasi['alamatLokasi'],
                             deskripsiLokasi: lokasi['deskripsiLokasi'],
                             sisaArea: lokasi['sisaArea'],
-                            hargaLokasi: lokasi['hargaLokasi']
+                            hargaLokasi: hargaTotalMalam,
+                            selectedDate: widget.selectedDate,
+                            nights: widget.nights,
                           ),
                         ),
                       );
@@ -191,7 +218,7 @@ class _pilihanBerkemahState extends State<pilihanBerkemah> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  'Rp ${lokasi['hargaLokasi']}',
+                                  'Rp $hargaTotalMalam',
                                   style: TextStyle(
                                       fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white),
                                 ),
