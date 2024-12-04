@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:natourapps/view/pengguna/pilihanBerkemah.dart';
+import 'package:natourapps/view/pengguna/pilihanAlat.dart';
 
-class dashboardAdmin extends StatefulWidget {
+class dashboardPengguna extends StatefulWidget {
   @override
-  _dashboardAdminState createState() => _dashboardAdminState();
+  _dashboardPenggunaState createState() => _dashboardPenggunaState();
 }
 
-class _dashboardAdminState extends State<dashboardAdmin> {
+class _dashboardPenggunaState extends State<dashboardPengguna> {
   int _selectedIndex = 0;
 
   void _onItemTapped(int index) {
@@ -81,7 +83,6 @@ class _dashboardAdminState extends State<dashboardAdmin> {
                   ),
                 ),
               ),
-              SizedBox(height: 16),
               Text(
                 "Kunjungi Tempat Indah Sekitarmu!",
                 style: TextStyle(
@@ -176,47 +177,8 @@ class _dashboardAdminState extends State<dashboardAdmin> {
                 ],
               ),
               SizedBox(height: 16),
-              Container(
-                padding: EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.blue[50],
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(
-                          right: 10), // Add padding between icon and text
-                      child: Icon(
-                        Icons.wallet, // Use the wallet icon
-                        color: Colors.blue, // Set the icon color to blue
-                        size: 100.0, // Set the icon size to make it larger
-                      ),
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment
-                          .start, // Align the texts to the start
-                      children: [
-                        Text(
-                          "Deposit",
-                          style: TextStyle(fontSize: 16, color: Colors.blue),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                              top: 5), // Add a little space between texts
-                          child: Text(
-                            "Rp50.000,00",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.blue),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+              Row(
+                children: [],
               ),
               SizedBox(height: 16),
               Text(
@@ -230,26 +192,44 @@ class _dashboardAdminState extends State<dashboardAdmin> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Container(
-                    padding:
-                        EdgeInsets.all(16), // Add padding inside the container
-                    decoration: BoxDecoration(
-                      color: Colors.blue[50], // Set background color of the box
-                      borderRadius:
-                          BorderRadius.circular(12), // Rounded corners
-                      border: Border.all(
-                          color: Colors.blue,
-                          width: 2), // Border color and width
-                    ),
-                    child: Column(
-                      children: [
-                        Icon(Icons.landscape, size: 40, color: Colors.blue),
-                        SizedBox(height: 8),
-                        Text("Berkemah"),
-                      ],
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => pilihanBerkemah()),
+                      );
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(
+                          16), // Add padding inside the container
+                      decoration: BoxDecoration(
+                        color:
+                            Colors.blue[50], // Set background color of the box
+                        borderRadius:
+                            BorderRadius.circular(12), // Rounded corners
+                        border: Border.all(
+                            color: Colors.blue,
+                            width: 2), // Border color and width
+                      ),
+                      child: Column(
+                        children: [
+                          Icon(Icons.landscape, size: 40, color: Colors.blue),
+                          SizedBox(height: 8),
+                          Text("Berkemah"),
+                        ],
+                      ),
                     ),
                   ),
-                  Container(
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => pilihanAlat()),
+                      );
+                    },
+                    child: Container(
                     padding:
                         EdgeInsets.all(16), // Add padding inside the container
                     decoration: BoxDecoration(
@@ -265,6 +245,52 @@ class _dashboardAdminState extends State<dashboardAdmin> {
                         Icon(Icons.shopping_cart, size: 40, color: Colors.blue),
                         SizedBox(height: 8),
                         Text("Sewa Alat"),
+                      ],
+                    ),
+                  ),
+                  ),
+                  
+                  Container(
+                    padding: EdgeInsets.only(
+                        right: 10, left: 10, top: 30, bottom: 30),
+                    decoration: BoxDecoration(
+                      color: Colors.blue[50],
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(
+                              right: 10), // Add padding between icon and text
+                          child: Icon(
+                            Icons.wallet, // Use the wallet icon
+                            color: Colors.blue, // Set the icon color to blue
+                            size: 50.0, // Set the icon size to make it larger
+                          ),
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment
+                              .start, // Align the texts to the start
+                          children: [
+                            Text(
+                              "Deposit",
+                              style:
+                                  TextStyle(fontSize: 16, color: Colors.blue),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  top: 5), // Add a little space between texts
+                              child: Text(
+                                "Rp50.000,00",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.blue),
+                              ),
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                   ),
@@ -295,10 +321,8 @@ class _dashboardAdminState extends State<dashboardAdmin> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   _buildNavItem(Icons.home, "Beranda", 0),
-                  _buildNavItem(Icons.explore, "Eksplorasi", 1),
-                  _buildNavItem(Icons.search, "Cari", 2),
-                  _buildNavItem(Icons.confirmation_num, "Tiket", 3),
-                  _buildNavItem(Icons.settings, "Pengaturan", 4),
+                  _buildNavItem(Icons.confirmation_num, "Tiket", 1),
+                  _buildNavItem(Icons.settings, "Pengaturan", 2),
                 ],
               ),
             ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:natourapps/view/dashboardAdmin.dart';
+import 'package:natourapps/view/pengguna/dashboardPengguna.dart';
 import 'package:natourapps/view/registerUser.dart';
 
 class loginUser extends StatelessWidget {
@@ -92,7 +92,7 @@ class loginUser extends StatelessWidget {
                 onPressed: () {
                   Navigator.pushAndRemoveUntil(
                     context,
-                    MaterialPageRoute(builder: (context) => dashboardAdmin()),
+                    MaterialPageRoute(builder: (context) => dashboardPengguna()),
                     (route) => false, // Menghapus semua route sebelumnya
                   );
                 },
