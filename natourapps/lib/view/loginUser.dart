@@ -1,13 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:natourapps/view/pengguna/dashboardPengguna.dart';
 import 'package:natourapps/view/registerUser.dart';
+import 'package:natourapps/Controller/LoginController.dart'; // Import Controller
 
-class loginUser extends StatelessWidget {
+class loginUser extends StatefulWidget {
+  @override
+  _loginUserState createState() => _loginUserState();
+}
+
+class _loginUserState extends State<loginUser> {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  String errorMessage = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:
-          Color.fromARGB(255, 0, 108, 196), // Warna latar belakang utama
+      backgroundColor: Color.fromARGB(255, 0, 108, 196),
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -17,13 +26,11 @@ class loginUser extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 10.0),
                 child: Image.asset(
-                  'assets/logo.png', // Ganti dengan path logo Anda
+                  'assets/logo.png',
                   height: 100,
                 ),
               ),
               const SizedBox(height: 24.0),
-
-              // Judul Login
               const Text(
                 'Login',
                 style: TextStyle(
@@ -33,9 +40,8 @@ class loginUser extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 24.0),
-
-              // TextField Email
               TextField(
+                controller: emailController,
                 decoration: InputDecoration(
                   hintText: '@ Email/Nama',
                   hintStyle: TextStyle(color: Colors.grey[400]),
@@ -49,9 +55,8 @@ class loginUser extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16.0),
-
-              // TextField Kata Sandi
               TextField(
+                controller: passwordController,
                 obscureText: true,
                 decoration: InputDecoration(
                   hintText: 'Kata Sandi',
@@ -59,8 +64,7 @@ class loginUser extends StatelessWidget {
                   filled: true,
                   fillColor: Colors.white,
                   prefixIcon: const Icon(Icons.lock, color: Colors.blue),
-                  suffixIcon:
-                      Icon(Icons.visibility_off, color: Colors.grey[400]),
+                  suffixIcon: Icon(Icons.visibility_off, color: Colors.grey[400]),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12.0),
                     borderSide: BorderSide.none,
@@ -68,14 +72,10 @@ class loginUser extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16.0),
-
-              // Lupa Kata Sandi
               Align(
                 alignment: Alignment.centerRight,
                 child: GestureDetector(
-                  onTap: () {
-                    // Aksi Lupa Kata Sandi
-                  },
+                  onTap: () {},
                   child: const Text(
                     'Lupa Kata Sandi?',
                     style: TextStyle(
@@ -86,28 +86,45 @@ class loginUser extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 24.0),
-
-              // Tombol Masuk
               ElevatedButton(
-                onPressed: () {
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(builder: (context) => dashboardPengguna()),
-                    (route) => false, // Menghapus semua route sebelumnya
-                  );
+                onPressed: () async {
+                  // Memanggil LoginController untuk memverifikasi login
+                  String email = emailController.text.trim();
+                  String password = passwordController.text.trim();
+
+                  if (email.isEmpty || password.isEmpty) {
+                    setState(() {
+                      errorMessage = 'Harap isi semua kolom.';
+                    });
+                    return;
+                  }
+
+                  final controller = LoginController();
+                  String result = await controller.loginUser(email, password);
+
+                  if (result == 'Login Berhasil') {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(result)),
+                    );
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => dashboardPengguna()),
+                    );
+                  } else {
+                    setState(() {
+                      errorMessage = result;
+                    });
+                  }
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor:
-                      Color.fromARGB(255, 55, 192, 255), // Warna tombol
-                  elevation: 5, // Tinggi shadow
-                  shadowColor: Colors.black.withOpacity(0.5), // Warna shadow
+                  backgroundColor: Color.fromARGB(255, 55, 192, 255),
+                  elevation: 5,
+                  shadowColor: Colors.black.withOpacity(0.5),
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
                   shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.circular(12.0), // Sudut melengkung
+                    borderRadius: BorderRadius.circular(12.0),
                   ),
-                  minimumSize:
-                      const Size(double.infinity, 48), // Ukuran tombol penuh
+                  minimumSize: const Size(double.infinity, 48),
                 ),
                 child: const Text(
                   'Masuk',
@@ -117,23 +134,24 @@ class loginUser extends StatelessWidget {
                   ),
                 ),
               ),
-
+              if (errorMessage.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(top: 16.0),
+                  child: Text(
+                    errorMessage,
+                    style: TextStyle(color: Colors.red, fontSize: 14.0),
+                  ),
+                ),
               const SizedBox(height: 200.0),
-
-              // Daftar Baru
               GestureDetector(
                 onTap: () {
-                  // Navigate to the next page when 'Daftar' is tapped
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            registerUser()), // Replace with your next page
+                    MaterialPageRoute(builder: (context) => registerUser()),
                   );
                 },
                 child: Row(
-                  mainAxisSize: MainAxisSize
-                      .min, // Makes sure the row only takes up the necessary space
+                  mainAxisSize: MainAxisSize.min,
                   children: const [
                     Text(
                       'User baru?',
@@ -143,7 +161,7 @@ class loginUser extends StatelessWidget {
                         decoration: TextDecoration.underline,
                       ),
                     ),
-                    SizedBox(width: 5), // Space between texts
+                    SizedBox(width: 5),
                     Text(
                       'Daftar',
                       style: TextStyle(
