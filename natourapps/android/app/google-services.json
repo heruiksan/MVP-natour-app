@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "147024723301",
+    "project_id": "natour-apk",
+    "storage_bucket": "natour-apk.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:147024723301:android:98486e1ea281f8ad9bb58c",
+        "android_client_info": {
+          "package_name": "com.example.natourapps"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBiNGBSxBaQB5Lfpj2yaiyZ3WIJNoXyhmQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
