@@ -292,34 +292,6 @@ class _dashboardPenggunaState extends State<dashboardPengguna> {
               SizedBox(height: 70),
             ],
           ),
-          Positioned(
-            bottom: 16,
-            left: 16,
-            right: 16,
-            child: Container(
-              padding: EdgeInsets.symmetric(vertical: 12),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    blurRadius: 10,
-                    spreadRadius: 2,
-                    offset: Offset(0, 5),
-                  ),
-                ],
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  _buildNavItem(Icons.home, "Beranda", 0),
-                  _buildNavItem(Icons.confirmation_num, "Tiket", 1),
-                  _buildNavItem(Icons.settings, "Pengaturan", 2),
-                ],
-              ),
-            ),
-          ),
         ],
       ),
     );
