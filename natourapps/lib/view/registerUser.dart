@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:natourapps/view/loginUser.dart';
+import 'package:natourapps/Controller/regisController.dart';
+import 'package:natourapps/Model/regisModel.dart';
 
 class registerUser extends StatelessWidget {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
-
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.blue[700],
-      resizeToAvoidBottomInset: true, // Mencegah overlap dengan keyboard
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         backgroundColor: Colors.blue[700],
         elevation: 0,
@@ -32,7 +36,7 @@ class registerUser extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 10.0),
                 child: Image.asset(
-                  'assets/logo.png', // Ganti dengan path logo Anda
+                  'assets/logo.png',
                   height: 100,
                 ),
               ),
@@ -50,6 +54,7 @@ class registerUser extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     TextField(
+                      controller: emailController,
                       decoration: InputDecoration(
                         labelText: '@ Email/Nama',
                         hintStyle: TextStyle(color: Colors.white),
@@ -64,6 +69,7 @@ class registerUser extends StatelessWidget {
                     ),
                     SizedBox(height: 16),
                     TextField(
+                      controller: nameController,
                       decoration: InputDecoration(
                         labelText: 'Nama Lengkap',
                         hintStyle: TextStyle(color: Colors.white),
@@ -79,6 +85,7 @@ class registerUser extends StatelessWidget {
                     ),
                     SizedBox(height: 16),
                     TextField(
+                      controller: phoneController,
                       decoration: InputDecoration(
                         labelText: 'Nomor Ponsel',
                         hintStyle: TextStyle(color: Colors.white),
@@ -94,6 +101,7 @@ class registerUser extends StatelessWidget {
                     ),
                     SizedBox(height: 16),
                     TextField(
+                      controller: passwordController,
                       obscureText: true,
                       decoration: InputDecoration(
                         labelText: 'Kata Sandi',
@@ -110,43 +118,57 @@ class registerUser extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 16),
-                    Text.rich(
-                      TextSpan(
-                        text: 'Dengan mendaftar, anda setuju dengan ',
-                        style: TextStyle(fontSize: 12, color: Colors.white),
-                        children: [
-                          TextSpan(
-                            text: 'Terms & Conditions',
-                            style: TextStyle(
-                              color: Colors.blue,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          TextSpan(text: ' dan '),
-                          TextSpan(
-                            text: 'Privacy Policy',
-                            style: TextStyle(
-                              color: Colors.blue,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          TextSpan(text: ' kami'),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 16),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         padding: EdgeInsets.all(16),
-                        backgroundColor: Colors.blue, // Warna tombol
-                        elevation: 8, // Tinggi bayangan
-                        shadowColor: Colors.blueAccent, // Warna bayangan
+                        backgroundColor: Colors.blue,
+                        elevation: 8,
+                        shadowColor: Colors.blueAccent,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
-                      onPressed: () {
-                        // Action for registration
+                      onPressed: () async {
+                        // Validasi input
+                        if (emailController.text.trim().isEmpty ||
+                            nameController.text.trim().isEmpty ||
+                            phoneController.text.trim().isEmpty ||
+                            passwordController.text.trim().isEmpty) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Harap isi semua kolom.')),
+                          );
+                          return;
+                        }
+
+                        // Buat model pengguna
+                        final userModel = RegisterUserModel(
+                          email: emailController.text,
+                          fullName: nameController.text,
+                          phoneNumber: phoneController.text,
+                          password: passwordController.text,
+                        );
+
+                        // Gunakan controller untuk registrasi
+                        final controller = RegisterUserController();
+                        String result =
+                            await controller.registerUser(userModel);
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => loginUser()),
+                          );
+
+                        // Tampilkan hasil dan navigasi
+                        if (result == 'Success') {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Registrasi berhasil.')),
+                          );
+                          
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text(result)),
+                          );
+                        }
                       },
                       child: Text(
                         'Daftar',
@@ -154,42 +176,6 @@ class registerUser extends StatelessWidget {
                       ),
                     ),
                   ],
-                ),
-              ),
-              SizedBox(height: 50),
-              GestureDetector(
-                onTap: () {
-                  // Navigate to the next page when 'Daftar' is tapped
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            loginUser()), // Replace with your next page
-                  );
-                },
-                child: Center(
-                  child: Row(
-                    mainAxisSize: MainAxisSize
-                        .min, // Makes sure the row only takes up the necessary space
-                    children: const [
-                      Text(
-                        'Punya akun?',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 17.0,
-                          decoration: TextDecoration.underline,
-                        ),
-                      ),
-                      SizedBox(width: 5), // Space between texts
-                      Text(
-                        'Masuk',
-                        style: TextStyle(
-                          color: Colors.blue,
-                          fontSize: 17.0,
-                        ),
-                      ),
-                    ],
-                  ),
                 ),
               ),
             ],
