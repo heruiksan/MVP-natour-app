@@ -254,7 +254,7 @@ class _PembayaranBerkemahState extends State<PembayaranBerkemah> {
                                         255, 110, 190, 255)),
                               ),
                               Text(
-                                'Rp${widget.hargaLokasi}',
+                                'Rp${widget.hargaLokasi/widget.nights}',
                                 style: TextStyle(
                                     fontWeight: FontWeight.w600,
                                     fontSize: 16,

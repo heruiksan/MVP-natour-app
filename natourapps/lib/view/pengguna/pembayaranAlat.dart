@@ -254,7 +254,7 @@ class _PembayaranAlatState extends State<PembayaranAlat> {
                                         255, 110, 190, 255)),
                               ),
                               Text(
-                                'Rp${widget.hargaAlat}',
+                                'Rp${widget.hargaAlat/widget.days}',
                                 style: TextStyle(
                                     fontWeight: FontWeight.w600,
                                     fontSize: 16,
