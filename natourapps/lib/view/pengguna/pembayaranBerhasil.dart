@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:natourapps/view/pengguna/dashboardPengguna.dart';
+import 'package:natourapps/view/pengguna/bottomNavbarPengguna.dart';
 
 
 class PembayaranBerhasil extends StatefulWidget {
@@ -16,7 +16,7 @@ class _PembayaranBerhasilState extends State<PembayaranBerhasil> {
       // Navigasi ke halaman DashboardPengguna
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => dashboardPengguna()),
+        MaterialPageRoute(builder: (context) => NavBar()),
       );
     });
   }

@@ -176,7 +176,7 @@ class _TiketPenggunaState extends State<TiketPengguna> {
                                                     255, 110, 190, 255)),
                                           ),
                                           Text(
-                                            'Cukul',
+                                            'Pantai Indah',
                                             style: TextStyle(
                                                 fontWeight: FontWeight.w600,
                                                 fontSize: 16,
@@ -203,7 +203,7 @@ class _TiketPenggunaState extends State<TiketPengguna> {
                                                     255, 110, 190, 255)),
                                           ),
                                           Text(
-                                            '22/02/2025',
+                                            '6/12/2024',
                                             style: TextStyle(
                                                 fontWeight: FontWeight.w600,
                                                 fontSize: 16,
@@ -447,14 +447,14 @@ class _TiketPenggunaState extends State<TiketPengguna> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                            'Nama Lokasi',
+                                            'Nama Barang',
                                             style: TextStyle(
                                                 fontWeight: FontWeight.w600,
                                                 color: const Color.fromARGB(
                                                     255, 110, 190, 255)),
                                           ),
                                           Text(
-                                            'Tenda Eiger',
+                                            'Tenda',
                                             style: TextStyle(
                                                 fontWeight: FontWeight.w600,
                                                 fontSize: 16,
@@ -481,7 +481,7 @@ class _TiketPenggunaState extends State<TiketPengguna> {
                                                     255, 110, 190, 255)),
                                           ),
                                           Text(
-                                            '22/02/2025',
+                                            '6/12/2024',
                                             style: TextStyle(
                                                 fontWeight: FontWeight.w600,
                                                 fontSize: 16,

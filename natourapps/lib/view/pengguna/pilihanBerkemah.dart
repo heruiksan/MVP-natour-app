@@ -18,7 +18,7 @@ class _pilihanBerkemahState extends State<pilihanBerkemah> {
       'namaLokasi': 'Pantai Indah',
       'ratingLokasi': 4.5,
       'alamatLokasi': 'Jl. Pantai No. 123',
-      'hargaLokasi': 150000,
+      'hargaLokasi': 15000,
       'deskripsiLokasi':'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
       'sisaArea':10
     },
@@ -27,7 +27,7 @@ class _pilihanBerkemahState extends State<pilihanBerkemah> {
       'namaLokasi': 'Gunung Agung',
       'ratingLokasi': 4.8,
       'alamatLokasi': 'Jl. Gunung Agung No. 45',
-      'hargaLokasi': 200000,
+      'hargaLokasi': 20000,
       'deskripsiLokasi':'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
       'sisaArea':10
     },
@@ -36,7 +36,7 @@ class _pilihanBerkemahState extends State<pilihanBerkemah> {
       'namaLokasi': 'Taman',
       'ratingLokasi': 4.2,
       'alamatLokasi': 'Jl. Taman No. 22',
-      'hargaLokasi': 100000,
+      'hargaLokasi': 10000,
       'deskripsiLokasi':'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
       'sisaArea':10
     },

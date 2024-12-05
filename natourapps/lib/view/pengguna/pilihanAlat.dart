@@ -18,7 +18,7 @@ class _pilihanAlatState extends State<pilihanAlat> {
       'namaAlat': 'Tenda',
       'ratingAlat': 4.5,
       'alamatAlat': 'Jl. Pantai No. 123',
-      'hargaAlat': 150000,
+      'hargaAlat': 50000,
       'deskripsiAlat':'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
       'sisaAlat':10
     },
@@ -27,7 +27,7 @@ class _pilihanAlatState extends State<pilihanAlat> {
       'namaAlat': 'Kompor',
       'ratingAlat': 4.8,
       'alamatAlat': 'Jl. Gunung Agung No. 45',
-      'hargaAlat': 200000,
+      'hargaAlat': 20000,
       'deskripsiAlat':'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
       'sisaAlat':10
     },
@@ -36,7 +36,7 @@ class _pilihanAlatState extends State<pilihanAlat> {
       'namaAlat': 'SB',
       'ratingAlat': 4.2,
       'alamatAlat': 'Jl. Taman No. 22',
-      'hargaAlat': 100000,
+      'hargaAlat': 25000,
       'deskripsiAlat':'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
       'sisaAlat':10
     },
