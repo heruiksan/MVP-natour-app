@@ -181,6 +181,67 @@ class _dashboardPenggunaState extends State<dashboardPengguna> {
                 children: [],
               ),
               SizedBox(height: 16),
+              Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      padding: EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.blue[50],
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Icon(
+                            Icons.wallet, // Ikon keuntungan
+                            size: 80, // Ukuran ikon
+                            color: Colors.blue, // Warna ikon
+                          ),
+                          SizedBox(width: 8), // Jarak antara ikon dan teks
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Deposit", // Teks menggantikan tanggal
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 25,
+                                  color: Colors.blue, // Warna teks
+                                ),
+                              ),
+                              SizedBox(height: 4),
+                              Row(
+                                children: [
+                                  Text(
+                                    "RP", // Tulisan keuntungan
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.green, // Warna teks 15%
+                                    ),
+                                  ),
+                                  SizedBox(
+                                      width:
+                                          4), // Jarak antara ikon "UP" dan teks 15%
+                                  Text(
+                                    "50.000.00", // Tulisan keuntungan
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.green, // Warna teks 15%
+                                    ),
+                                  ),
+                                ],
+                              ), // Jarak antara teks keuntungan dan 15%
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
               Text(
                 "Layanan Kami",
                 style: TextStyle(
@@ -241,50 +302,6 @@ class _dashboardPenggunaState extends State<dashboardPengguna> {
                           Text("Sewa Alat"),
                         ],
                       ),
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.only(
-                        right: 10, left: 10, top: 30, bottom: 30),
-                    decoration: BoxDecoration(
-                      color: Colors.blue[50],
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(
-                              right: 10), // Add padding between icon and text
-                          child: Icon(
-                            Icons.wallet, // Use the wallet icon
-                            color: Colors.blue, // Set the icon color to blue
-                            size: 50.0, // Set the icon size to make it larger
-                          ),
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment
-                              .start, // Align the texts to the start
-                          children: [
-                            Text(
-                              "Deposit",
-                              style:
-                                  TextStyle(fontSize: 16, color: Colors.blue),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  top: 5), // Add a little space between texts
-                              child: Text(
-                                "Rp50.000,00",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.blue),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
                     ),
                   ),
                 ],
@@ -358,7 +375,7 @@ class _dashboardPenggunaState extends State<dashboardPengguna> {
                 onTap: () async {
                   DateTime? pickedDate = await showDatePicker(
                     context: context,
-                    initialDate: selectedDate,
+                    initialDate: selectedDate ?? DateTime.now(),
                     firstDate: DateTime.now(),
                     lastDate: DateTime(2100),
                   );
@@ -446,7 +463,7 @@ class _dashboardPenggunaState extends State<dashboardPengguna> {
                 onTap: () async {
                   DateTime? pickedDate = await showDatePicker(
                     context: context,
-                    initialDate: selectedDate,
+                    initialDate: selectedDate ?? DateTime.now(),
                     firstDate: DateTime.now(),
                     lastDate: DateTime(2100),
                   );

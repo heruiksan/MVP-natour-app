@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:natourapps/view/pengguna/dashboardPengguna.dart';
 import 'package:natourapps/view/pengguna/tiketPengguna.dart';
+import 'package:natourapps/view/penyewa/dashboardPenyewa.dart';
+import 'package:natourapps/view/penyewa/listAlatSewa.dart';
 
 class NavBar extends StatefulWidget {
   @override
@@ -13,6 +15,8 @@ class _NavBarState extends State<NavBar> {
   static List<Widget> _widgetOptions = <Widget>[
     dashboardPengguna(),
     TiketPengguna(),
+    dashboardPenyewa(),
+    listAlatSewa(),
   ];
 
   void _onItemTapped(int index) {
