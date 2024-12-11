@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:natourapps/view/adminWisata/addWisata.dart';
+import 'package:natourapps/view/adminWisata/listTiket.dart';
 
 class dashboardAdmin extends StatefulWidget {
   @override
@@ -304,7 +306,12 @@ class _dashboardAdminState extends State<dashboardAdmin> {
                   SizedBox(width: 8), // Jarak antar kotak
                   Expanded(
                     child: GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => addWisata()),
+                        );
+                      },
                       child: Container(
                         padding: EdgeInsets.all(16),
                         decoration: BoxDecoration(

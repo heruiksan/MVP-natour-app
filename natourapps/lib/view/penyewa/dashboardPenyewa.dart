@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:natourapps/view/pengguna/pilihanBerkemah.dart';
-import 'package:natourapps/view/pengguna/pilihanAlat.dart';
+import 'package:natourapps/view/penyewa/addAlat.dart';
+import 'package:natourapps/view/penyewa/listAlatSewa.dart';
 
 class dashboardPenyewa extends StatefulWidget {
   @override
@@ -282,7 +282,13 @@ class _dashboardPenyewaState extends State<dashboardPenyewa> {
                 children: [
                   Expanded(
                     child: GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => listAlatSewa()),
+                        );
+                      },
                       child: Container(
                         padding: EdgeInsets.all(15),
                         decoration: BoxDecoration(
@@ -303,7 +309,12 @@ class _dashboardPenyewaState extends State<dashboardPenyewa> {
                   SizedBox(width: 8), // Jarak antar kotak
                   Expanded(
                     child: GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => addAlat()),
+                        );
+                      },
                       child: Container(
                         padding: EdgeInsets.all(16),
                         decoration: BoxDecoration(
