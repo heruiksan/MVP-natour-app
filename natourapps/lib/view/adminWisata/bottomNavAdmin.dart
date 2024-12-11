@@ -47,8 +47,8 @@ class _navbarAdminState extends State<navbarAdmin> {
                 label: 'Beranda',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.confirmation_num_outlined),
-                activeIcon: Icon(Icons.confirmation_num, size: 32),
+                icon: Icon(Icons.location_on),
+                activeIcon: Icon(Icons.location_on, size: 32),
                 label: 'lahan',
               ),
               BottomNavigationBarItem(

@@ -49,18 +49,19 @@ class _listAlatSewaState extends State<listAlatSewa> {
     },
   ];
 
-  int _selectedIndex = 0;
+  void _editItem(int index) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Edit item: ${items[index]['title']}')),
+    );
+  }
 
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text('Home Screen', style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold)),
-    Text('Pesan Screen', style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold)),
-    Text('Profil Screen', style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold)),
-  ];
-
-  void _onItemTapped(int index) {
+  void _deleteItem(int index) {
     setState(() {
-      _selectedIndex = index;
+      items.removeAt(index);
     });
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Deleted item: ${items[index]['title']}')),
+    );
   }
 
   @override
@@ -89,7 +90,8 @@ class _listAlatSewaState extends State<listAlatSewa> {
         children: [
           // Tombol Posting Baru
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
             child: Container(
               height: 50,
               decoration: BoxDecoration(
@@ -130,7 +132,8 @@ class _listAlatSewaState extends State<listAlatSewa> {
               itemBuilder: (context, index) {
                 final item = items[index];
                 return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0, vertical: 8.0),
                   child: InkWell(
                     onTap: () {
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -167,15 +170,41 @@ class _listAlatSewaState extends State<listAlatSewa> {
                           SizedBox(width: 8),
                           Expanded(
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 8.0),
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 8.0),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    item['title'],
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        item['title'],
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16),
+                                      ),
+                                      PopupMenuButton<String>(
+                                        onSelected: (value) {
+                                          if (value == 'Edit') {
+                                            _editItem(index);
+                                          } else if (value == 'Delete') {
+                                            _deleteItem(index);
+                                          }
+                                        },
+                                        itemBuilder: (context) => [
+                                          PopupMenuItem(
+                                            value: 'Edit',
+                                            child: Text('Edit'),
+                                          ),
+                                          PopupMenuItem(
+                                            value: 'Delete',
+                                            child: Text('Delete'),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
                                   ),
                                   SizedBox(height: 4),
                                   Text(item['capacity'],
@@ -210,25 +239,6 @@ class _listAlatSewaState extends State<listAlatSewa> {
             ),
           ),
         ],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.message),
-            label: 'Pesan',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle),
-            label: 'Profil',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.blue,
-        onTap: _onItemTapped,
       ),
     );
   }

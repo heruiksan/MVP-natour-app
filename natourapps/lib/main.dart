@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:natourapps/view/adminWisata/addWisata.dart';
+import 'package:natourapps/view/adminWisata/editWisata.dart';
 import 'package:natourapps/view/adminWisata/listTiket.dart'; //nyoba aja
 import 'package:natourapps/view/adminWisata/settingAdmin.dart';
 import 'package:natourapps/view/pengguna/dashboardPengguna.dart';
@@ -32,7 +33,7 @@ class NatourApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         fontFamily: 'Roboto', // Tambahkan font jika diinginkan
       ),
-      home: loginUser(), // Halaman pertama adalah LoginPage
+      home: listAlatSewa(), // Halaman pertama adalah LoginPage
     );
   }
 }

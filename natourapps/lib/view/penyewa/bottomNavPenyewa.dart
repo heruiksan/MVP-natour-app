@@ -47,8 +47,8 @@ class _navbarPenyewaState extends State<navbarPenyewa> {
                 label: 'Beranda',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.confirmation_num_outlined),
-                activeIcon: Icon(Icons.confirmation_num, size: 32),
+                icon: Icon(Icons.house_siding_rounded),
+                activeIcon: Icon(Icons.house_siding_rounded, size: 32),
                 label: 'alat',
               ),
               BottomNavigationBarItem(

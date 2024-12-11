@@ -8,27 +8,6 @@ class dashboardPenyewa extends StatefulWidget {
 }
 
 class _dashboardPenyewaState extends State<dashboardPenyewa> {
-  int _selectedIndex = 0;
-
-  // Daftar halaman yang akan ditampilkan ketika menu di navbar dipilih
-  static const List<Widget> _widgetOptions = <Widget>[
-    // Halaman pertama (misalnya: Home)
-    Text('Home Screen',
-        style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold)),
-    // Halaman kedua (misalnya: Pesan)
-    Text('Pesan Screen',
-        style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold)),
-    // Halaman ketiga (misalnya: Profil)
-    Text('Profil Screen',
-        style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold)),
-  ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -357,26 +336,6 @@ class _dashboardPenyewaState extends State<dashboardPenyewa> {
             ],
           ),
         ],
-      ),
-      // BottomNavigationBar untuk menavigasi
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.message),
-            label: 'Pesan',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle),
-            label: 'Profil',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.blue,
-        onTap: _onItemTapped,
       ),
     );
   }

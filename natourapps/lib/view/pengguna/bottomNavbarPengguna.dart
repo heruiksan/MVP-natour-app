@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:natourapps/view/adminWisata/dashboardAdmin.dart';
 import 'package:natourapps/view/pengguna/dashboardPengguna.dart';
+import 'package:natourapps/view/pengguna/settingPengguna.dart';
 import 'package:natourapps/view/pengguna/tiketPengguna.dart';
 import 'package:natourapps/view/penyewa/dashboardPenyewa.dart';
 import 'package:natourapps/view/penyewa/listAlatSewa.dart';
@@ -16,6 +17,7 @@ class _NavBarState extends State<NavBar> {
   static List<Widget> _widgetOptions = <Widget>[
     dashboardPengguna(),
     TiketPengguna(),
+    settingPengguna()
   ];
 
   void _onItemTapped(int index) {
