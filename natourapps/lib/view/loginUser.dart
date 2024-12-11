@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:natourapps/view/pengguna/bottomNavbarPengguna.dart';
+import 'package:natourapps/view/pengguna/dashboardPengguna.dart';
+import 'package:natourapps/view/adminWisata/dashboardAdmin.dart';
+import 'package:natourapps/view/penyewa/dashboardPenyewa.dart';
+import 'package:natourapps/Controller/LoginController.dart';
 import 'package:natourapps/view/registerUser.dart';
-import 'package:natourapps/Controller/LoginController.dart'; // Import Controller
 
 class loginUser extends StatefulWidget {
   @override
@@ -64,7 +66,8 @@ class _loginUserState extends State<loginUser> {
                   filled: true,
                   fillColor: Colors.white,
                   prefixIcon: const Icon(Icons.lock, color: Colors.blue),
-                  suffixIcon: Icon(Icons.visibility_off, color: Colors.grey[400]),
+                  suffixIcon:
+                      Icon(Icons.visibility_off, color: Colors.grey[400]),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12.0),
                     borderSide: BorderSide.none,
@@ -88,7 +91,6 @@ class _loginUserState extends State<loginUser> {
               const SizedBox(height: 24.0),
               ElevatedButton(
                 onPressed: () async {
-                  // Memanggil LoginController untuk memverifikasi login
                   String email = emailController.text.trim();
                   String password = passwordController.text.trim();
 
@@ -100,19 +102,42 @@ class _loginUserState extends State<loginUser> {
                   }
 
                   final controller = LoginController();
-                  String result = await controller.loginUser(email, password);
+                  Map<String, dynamic> result =
+                      (await controller.loginUser(email, password)) as Map<String, dynamic>;
 
-                  if (result == 'Login Berhasil') {
+                  if (result['status'] == 'success') {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(result)),
+                      SnackBar(content: Text('Login Berhasil')),
                     );
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => NavBar()),
-                    );
+
+                    // Arahkan ke halaman berdasarkan role
+                    String role = result['role'];
+                    if (role == 'Pengguna') {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => dashboardPengguna()),
+                      );
+                    } else if (role == 'Admin Wisata') {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => dashboardAdmin()),
+                      );
+                    } else if (role == 'Penyewa Alat') {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => dashboardPenyewa()),
+                      );
+                    } else {
+                      setState(() {
+                        errorMessage = 'Role tidak dikenali.';
+                      });
+                    }
                   } else {
                     setState(() {
-                      errorMessage = result;
+                      errorMessage = result['message'];
                     });
                   }
                 },

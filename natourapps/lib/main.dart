@@ -31,7 +31,7 @@ class NatourApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         fontFamily: 'Roboto', // Tambahkan font jika diinginkan
       ),
-      home: addWisata(), // Halaman pertama adalah LoginPage
+      home: loginUser(), // Halaman pertama adalah LoginPage
     );
   }
 }

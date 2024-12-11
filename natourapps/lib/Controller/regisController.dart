@@ -16,7 +16,7 @@ class RegisterUserController {
 
       // Simpan data tambahan pengguna di Firestore
       await _firestore.collection('users').doc(userCredential.user?.uid).set(user.toMap());
-      
+
       return 'Success'; // Mengembalikan status sukses
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
@@ -30,3 +30,4 @@ class RegisterUserController {
     }
   }
 }
+

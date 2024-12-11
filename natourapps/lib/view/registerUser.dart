@@ -3,11 +3,18 @@ import 'package:natourapps/view/loginUser.dart';
 import 'package:natourapps/Controller/regisController.dart';
 import 'package:natourapps/Model/regisModel.dart';
 
-class registerUser extends StatelessWidget {
+class registerUser extends StatefulWidget {
+  @override
+  _registerUserState createState() => _registerUserState();
+}
+
+class _registerUserState extends State<registerUser> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+
+  String? selectedRole; // Nullable
 
   @override
   Widget build(BuildContext context) {
@@ -118,6 +125,34 @@ class registerUser extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 16),
+                    DropdownButtonFormField<String>(
+                      value: selectedRole, // Tetap null hingga pengguna memilih
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      hint: Text(
+                        'Pilih Role', // Placeholder
+                        style: TextStyle(
+                            color: Colors.grey), // Styling placeholder
+                      ),
+                      items: ['Pengguna', 'Admin Wisata', 'Penyewa Alat']
+                          .map((role) => DropdownMenuItem(
+                                value: role,
+                                child: Text(role),
+                              ))
+                          .toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          selectedRole =
+                              value; // Memperbarui nilai berdasarkan pilihan
+                        });
+                      },
+                    ),
+                    SizedBox(height: 16),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         padding: EdgeInsets.all(16),
@@ -129,7 +164,6 @@ class registerUser extends StatelessWidget {
                         ),
                       ),
                       onPressed: () async {
-                        // Validasi input
                         if (emailController.text.trim().isEmpty ||
                             nameController.text.trim().isEmpty ||
                             phoneController.text.trim().isEmpty ||
@@ -140,25 +174,23 @@ class registerUser extends StatelessWidget {
                           return;
                         }
 
-                        // Buat model pengguna
                         final userModel = RegisterUserModel(
                           email: emailController.text,
                           fullName: nameController.text,
                           phoneNumber: phoneController.text,
                           password: passwordController.text,
+                          role: selectedRole!,
                         );
 
-                        // Gunakan controller untuk registrasi
                         final controller = RegisterUserController();
                         String result =
                             await controller.registerUser(userModel);
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => loginUser()),
-                          );
 
-                        // Tampilkan hasil dan navigasi
+                        Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => loginUser()));
+
                         if (result == 'Success') {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text('Registrasi berhasil.')),
