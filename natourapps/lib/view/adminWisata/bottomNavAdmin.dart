@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:natourapps/view/adminWisata/dashboardAdmin.dart';
-import 'package:natourapps/view/pengguna/dashboardPengguna.dart';
-import 'package:natourapps/view/pengguna/tiketPengguna.dart';
-import 'package:natourapps/view/penyewa/dashboardPenyewa.dart';
-import 'package:natourapps/view/penyewa/listAlatSewa.dart';
+import 'package:natourapps/view/adminWisata/listTiket.dart';
+import 'package:natourapps/view/adminWisata/settingAdmin.dart';
 
-class NavBar extends StatefulWidget {
+class navbarAdmin extends StatefulWidget {
   @override
-  _NavBarState createState() => _NavBarState();
+  _navbarAdminState createState() => _navbarAdminState();
 }
 
-class _NavBarState extends State<NavBar> {
+class _navbarAdminState extends State<navbarAdmin> {
   int _selectedIndex = 0;
 
   static List<Widget> _widgetOptions = <Widget>[
-    dashboardPengguna(),
-    TiketPengguna(),
+    dashboardAdmin(),
+    listTiket(),
+    settingAdmin()
   ];
 
   void _onItemTapped(int index) {
@@ -50,7 +49,7 @@ class _NavBarState extends State<NavBar> {
               BottomNavigationBarItem(
                 icon: Icon(Icons.confirmation_num_outlined),
                 activeIcon: Icon(Icons.confirmation_num, size: 32),
-                label: 'Tiket',
+                label: 'lahan',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.settings),

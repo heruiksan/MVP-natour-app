@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:natourapps/view/adminWisata/bottomNavAdmin.dart';
+import 'package:natourapps/view/pengguna/bottomNavbarPengguna.dart';
 import 'package:natourapps/view/pengguna/dashboardPengguna.dart';
 import 'package:natourapps/view/adminWisata/dashboardAdmin.dart';
+import 'package:natourapps/view/penyewa/bottomNavPenyewa.dart';
 import 'package:natourapps/view/penyewa/dashboardPenyewa.dart';
 import 'package:natourapps/Controller/LoginController.dart';
 import 'package:natourapps/view/registerUser.dart';
@@ -102,8 +105,8 @@ class _loginUserState extends State<loginUser> {
                   }
 
                   final controller = LoginController();
-                  Map<String, dynamic> result =
-                      (await controller.loginUser(email, password)) as Map<String, dynamic>;
+                  Map<String, dynamic> result = (await controller.loginUser(
+                      email, password)) as Map<String, dynamic>;
 
                   if (result['status'] == 'success') {
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -115,20 +118,18 @@ class _loginUserState extends State<loginUser> {
                     if (role == 'Pengguna') {
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => dashboardPengguna()),
+                        MaterialPageRoute(builder: (context) => NavBar()),
                       );
                     } else if (role == 'Admin Wisata') {
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => dashboardAdmin()),
+                        MaterialPageRoute(builder: (context) => navbarAdmin()),
                       );
                     } else if (role == 'Penyewa Alat') {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => dashboardPenyewa()),
+                            builder: (context) => navbarPenyewa()),
                       );
                     } else {
                       setState(() {

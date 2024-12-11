@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:natourapps/view/adminWisata/addWisata.dart';
 import 'package:natourapps/view/adminWisata/listTiket.dart'; //nyoba aja
+import 'package:natourapps/view/adminWisata/settingAdmin.dart';
 import 'package:natourapps/view/pengguna/dashboardPengguna.dart';
 import 'package:natourapps/view/pengguna/detailAlat.dart';
 import 'package:natourapps/view/penyewa/dashboardPenyewa.dart'; // nyoba aja
