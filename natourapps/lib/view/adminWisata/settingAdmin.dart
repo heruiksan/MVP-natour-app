@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:natourapps/view/loginUser.dart'; // Ganti dengan lokasi file login Anda
 
 class settingAdmin extends StatelessWidget {
   @override
@@ -57,7 +59,7 @@ class settingAdmin extends StatelessWidget {
             SizedBox(height: 20),
             GestureDetector(
               onTap: () {
-                // Logika logout
+                // Show the logout confirmation dialog
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {
@@ -72,9 +74,18 @@ class settingAdmin extends StatelessWidget {
                           child: Text("Batal"),
                         ),
                         TextButton(
-                          onPressed: () {
-                            // Tambahkan logika logout di sini
-                            Navigator.pop(context);
+                          onPressed: () async {
+                            // Logika logout
+                            try {
+                              await FirebaseAuth.instance.signOut();
+                              // Navigate back to login screen after logout
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(builder: (context) => loginUser()), // Ganti dengan nama halaman login Anda
+                              );
+                            } catch (e) {
+                              print("Error during logout: $e");
+                            }
                           },
                           child: Text("Logout"),
                         ),

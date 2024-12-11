@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:natourapps/view/adminWisata/bottomNavAdmin.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:natourapps/Controller/wisataController.dart';
+import 'package:natourapps/Model/wisataMode.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 class addWisata extends StatefulWidget {
   @override
@@ -10,10 +16,30 @@ class _addWisataState extends State<addWisata> {
   String? selectedJenisProduk;
   String? selectedKapasitas;
   String? selectedJumlahStok;
+  File? _image;
 
   // Data dropdown
   final List<String> jenisProdukList = ["A", "B", "C"];
   final List<String> kapasitasList = ["Small", "Medium", "Large"];
+
+  // Fungsi untuk memilih gambar dari kamera atau galeri
+  Future<void> _pickImage(ImageSource source) async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: source);
+
+    if (pickedFile != null) {
+      setState(() {
+        _image = File(pickedFile.path); // Simpan file gambar
+      });
+    }
+  }
+
+  // TextEditingController untuk setiap TextField
+  TextEditingController namaLahanController = TextEditingController();
+  TextEditingController deskripsiController = TextEditingController();
+  TextEditingController fasilitasController = TextEditingController();
+  TextEditingController hargaController = TextEditingController();
+  TextEditingController lokasiController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -42,16 +68,49 @@ class _addWisataState extends State<addWisata> {
               Center(
                 child: Column(
                   children: [
-                    Container(
-                      padding: EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: Colors.blue[50],
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Icon(
-                        Icons.camera_alt,
-                        size: 48,
-                        color: Colors.blue,
+                    GestureDetector(
+                      onTap: () {
+                        // Menampilkan pilihan untuk mengambil foto dari galeri atau kamera
+                        showModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return Container(
+                              height: 150,
+                              child: Column(
+                                children: [
+                                  ListTile(
+                                    leading: Icon(Icons.camera_alt),
+                                    title: Text("Ambil Foto dengan Kamera"),
+                                    onTap: () {
+                                      _pickImage(ImageSource.camera);
+                                      Navigator.pop(context);
+                                    },
+                                  ),
+                                  ListTile(
+                                    leading: Icon(Icons.image),
+                                    title: Text("Pilih Foto dari Galeri"),
+                                    onTap: () {
+                                      _pickImage(ImageSource.gallery);
+                                      Navigator.pop(context);
+                                    },
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        );
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: Colors.blue[50],
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Icon(
+                          Icons.camera_alt,
+                          size: 48,
+                          color: Colors.blue,
+                        ),
                       ),
                     ),
                     SizedBox(height: 8),
@@ -59,11 +118,21 @@ class _addWisataState extends State<addWisata> {
                       "Foto",
                       style: TextStyle(color: Colors.blue, fontSize: 16),
                     ),
+                    SizedBox(height: 16),
+                    // Menampilkan gambar jika sudah ada yang dipilih
+                    _image != null
+                        ? Image.file(
+                            _image!,
+                            width: 100,
+                            height: 100,
+                            fit: BoxFit.cover,
+                          )
+                        : Text("Belum ada foto yang dipilih"),
                   ],
                 ),
               ),
               SizedBox(height: 16),
-              buildTextField("Nama Lahan", TextInputType.text),
+              buildTextField("Nama Lahan", TextInputType.text, namaLahanController),
               SizedBox(height: 16),
               Text(
                 "Deskripsi Lahan",
@@ -80,6 +149,7 @@ class _addWisataState extends State<addWisata> {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: TextField(
+                  controller: deskripsiController,
                   maxLines: 5,
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.symmetric(horizontal: 8),
@@ -107,17 +177,48 @@ class _addWisataState extends State<addWisata> {
                 });
               }),
               SizedBox(height: 16),
-              buildTextField("Fasilitas", TextInputType.text),
+              buildTextField("Fasilitas", TextInputType.text, fasilitasController),
               SizedBox(height: 16),
-              buildTextField("Harga", TextInputType.number),
+              buildTextField("Harga", TextInputType.number, hargaController),
+              SizedBox(height: 16),
+              buildTextField("Lokasi", TextInputType.text, lokasiController),
 
               SizedBox(height: 30),
               ElevatedButton(
-                onPressed: () {
-                  // Aksi tombol simpan
-                  print("Jenis Produk: $selectedJenisProduk");
-                  print("Kapasitas: $selectedKapasitas");
-                  print("Jumlah Stok: $selectedJumlahStok");
+                onPressed: () async {
+                  final userId = FirebaseAuth.instance.currentUser?.uid;
+
+                  if (userId == null) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text("Gagal mendapatkan ID pengguna")),
+                    );
+                    return;
+                  }
+
+                  final wisata = WisataModel(
+                    namaLahan: namaLahanController.text, // Text from TextField
+                    deskripsi: deskripsiController.text, // Text from TextField
+                    jenisLahan: selectedJenisProduk ?? '', // Dropdown value
+                    kapasitas: selectedKapasitas ?? '', // Dropdown value
+                    fasilitas: fasilitasController.text, // Text from TextField
+                    harga: double.tryParse(hargaController.text) ?? 0.0, // Convert text to double
+                    lokasi: lokasiController.text, // Text from TextField
+                    userId: userId, // User UID from Firebase Authentication
+                  );
+
+                  final controller = WisataController();
+
+                  try {
+                    await controller.addWisata(wisata);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text("Data wisata berhasil ditambahkan")),
+                    );
+                    Navigator.pop(context); // Kembali ke halaman sebelumnya
+                  } catch (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text("Gagal menambahkan data wisata: $e")),
+                    );
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   padding: EdgeInsets.symmetric(vertical: 16),
@@ -130,10 +231,12 @@ class _addWisataState extends State<addWisata> {
                   child: Text("Simpan", style: TextStyle(color: Colors.white)),
                 ),
               ),
+
               SizedBox(height: 8),
               OutlinedButton(
                 onPressed: () {
-                  // Aksi tombol batal
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => navbarAdmin()));
                 },
                 style: OutlinedButton.styleFrom(
                   padding: EdgeInsets.symmetric(vertical: 16),
@@ -154,7 +257,8 @@ class _addWisataState extends State<addWisata> {
   }
 
   // Method untuk membuat TextField dalam kotak individu
-  Widget buildTextField(String label, TextInputType inputType) {
+  Widget buildTextField(
+      String label, TextInputType inputType, TextEditingController controller) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -171,6 +275,7 @@ class _addWisataState extends State<addWisata> {
             borderRadius: BorderRadius.circular(8),
           ),
           child: TextField(
+            controller: controller,
             keyboardType: inputType,
             decoration: InputDecoration(
               hintText: "Masukkan $label",
@@ -201,19 +306,17 @@ class _addWisataState extends State<addWisata> {
             border: Border.all(color: Colors.blue),
             borderRadius: BorderRadius.circular(8),
           ),
-          child: DropdownButtonHideUnderline(
-            child: DropdownButton<String>(
-              value: selectedValue,
-              hint: Text("Pilih $label"),
-              isExpanded: true,
-              items: items.map((item) {
-                return DropdownMenuItem(
-                  value: item,
-                  child: Text(item),
-                );
-              }).toList(),
-              onChanged: onChanged,
-            ),
+          child: DropdownButton<String>(
+            value: selectedValue,
+            hint: Text("Pilih $label"),
+            isExpanded: true,
+            items: items.map((item) {
+              return DropdownMenuItem<String>(
+                value: item,
+                child: Text(item),
+              );
+            }).toList(),
+            onChanged: (value) => onChanged(value),
           ),
         ),
       ],
