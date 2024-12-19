@@ -157,61 +157,34 @@ class _AddAlatState extends State<addAlat> {
               SizedBox(height: 30),
               ElevatedButton(
                 onPressed: () async {
-                  if (_image == null) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                          content:
-                              Text("Silakan pilih gambar terlebih dahulu")),
-                    );
-                    return;
-                  }
-
                   final userId = FirebaseAuth.instance.currentUser?.uid;
-
                   if (userId == null) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text("Gagal mendapatkan ID pengguna")),
                     );
                     return;
                   }
+                  final sewaAlat = AlatModel(
+                    namaProduk: namaProdukController.text,
+                    deskripsiProduk: deskripsiController.text,
+                    jenisProduk: selectedJenisProduk ?? '',
+                    kapasitas: selectedKapasitas ?? '',
+                    jumlahStok: int.tryParse(jumlahStokController.text) ?? 0,
+                    harga: double.tryParse(hargaController.text) ?? 0.0,
+                    lokasi: lokasiController.text,
+                    userId: userId,
+                  );
+                  final controller = Sewacontroller();
                   try {
-                    // Unggah gambar ke Firebase Storage
-                    final fileName =
-                        DateTime.now().millisecondsSinceEpoch.toString();
-                    final storageRef = FirebaseStorage.instance
-                        .ref()
-                        .child('uploads/$userId/$fileName');
-
-                    final uploadTask = await storageRef.putFile(_image!);
-                    final imageUrl = await uploadTask.ref.getDownloadURL();
-
-                    // Simpan data ke Firestore
-                    AlatModel sewaAlat = AlatModel(
-                      namaProduk: namaProdukController.text,
-                      deskripsiProduk: deskripsiController.text,
-                      jenisProduk: selectedJenisProduk ?? '',
-                      kapasitas: selectedKapasitas ?? '',
-                      jumlahStok: int.tryParse(jumlahStokController.text) ?? 0,
-                      harga: double.tryParse(hargaController.text) ?? 0.0,
-                      lokasi: lokasiController.text,
-                      userId: userId,
-                      imageUrl: imageUrl,
-                    );
-
-                    final controller = Sewacontroller();
-
-                    // Menambahkan alat ke Firestore
                     await controller.addsewaAlat(sewaAlat);
-
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text("Data alat berhasil ditambahkan")),
                     );
-
-                    // Navigasi ke halaman sebelumnya setelah berhasil simpan
                     Navigator.pop(context);
                   } catch (e) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text("Gagal mengunggah gambar: $e")),
+                      SnackBar(
+                          content: Text("Gagal menambahkan data alat: $e")),
                     );
                   }
                 },

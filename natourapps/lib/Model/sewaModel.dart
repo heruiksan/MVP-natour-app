@@ -9,7 +9,7 @@ class AlatModel {
   double harga;
   String lokasi;
   String userId;
-  String imageUrl;
+  String? imageUrl;
 
   AlatModel({
     required this.namaProduk,
@@ -20,7 +20,7 @@ class AlatModel {
     required this.harga,
     required this.lokasi,
     required this.userId,
-    required this.imageUrl,
+    this.imageUrl,
   });
 
   // Mengonversi objek ke Map untuk Firestore

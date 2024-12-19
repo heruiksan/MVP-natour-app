@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:natourapps/view/penyewa/addAlat.dart';
 import 'package:natourapps/view/penyewa/listAlatSewa.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class dashboardPenyewa extends StatefulWidget {
   @override
@@ -8,6 +10,35 @@ class dashboardPenyewa extends StatefulWidget {
 }
 
 class _dashboardPenyewaState extends State<dashboardPenyewa> {
+
+   String? currentUserName;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchUserName();
+  }
+
+  Future<void> fetchUserName() async {
+    try {
+      User? user = FirebaseAuth.instance.currentUser; // Get current user
+      if (user != null) {
+        DocumentSnapshot userDoc = await FirebaseFirestore.instance
+            .collection('users') // Replace with your Firestore collection name
+            .doc(user.uid)
+            .get();
+        setState(() {
+          currentUserName = userDoc['fullName'] ?? 'Guest'; // Replace 'name' with your field
+        });
+      }
+    } catch (e) {
+      print("Error fetching user name: $e");
+      setState(() {
+        currentUserName = 'Guest';
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +84,7 @@ class _dashboardPenyewaState extends State<dashboardPenyewa> {
                                         color: Colors.black, fontSize: 14),
                                   ),
                                   Text(
-                                    "Heru",
+                                    currentUserName ?? "Pengguna", // Nama dinamis
                                     style: TextStyle(
                                       color: Colors.blue,
                                       fontWeight: FontWeight.bold,
