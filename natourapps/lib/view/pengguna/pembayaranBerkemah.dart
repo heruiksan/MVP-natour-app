@@ -79,21 +79,21 @@ class _PembayaranBerkemahState extends State<PembayaranBerkemah> {
                           child: Row(
                             children: [
                               // Menampilkan gambar Alat
-                              Container(
-                                color: Colors
-                                    .blueGrey, // Set your desired background color here
-                                child: SizedBox(
-                                  height: 250,
-                                  width: double.infinity,
-                                  child: Center(
-                                    child: Text(
-                                      '250x250',
-                                      style: TextStyle(
-                                          color: Colors.grey, fontSize: 12),
-                                    ),
-                                  ),
-                                ),
-                              ),
+                              // Container(
+                              //   color: Colors
+                              //       .blueGrey, // Set your desired background color here
+                              //   child: SizedBox(
+                              //     height: 250,
+                              //     width: double.infinity,
+                              //     child: Center(
+                              //       child: Text(
+                              //         '250x250',
+                              //         style: TextStyle(
+                              //             color: Colors.grey, fontSize: 12),
+                              //       ),
+                              //     ),
+                              //   ),
+                              // ),
                               SizedBox(
                                 width: 10,
                               ),
