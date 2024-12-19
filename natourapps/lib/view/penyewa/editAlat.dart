@@ -1,51 +1,55 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:natourapps/Model/sewaModel.dart';
 
 class EditAlat extends StatefulWidget {
-  final String initialName;
-  final String initialDescription;
-  final String initialJenisProduk;
-  final String initialKapasitas;
-  final String initialStok;
-  final String initialHarga;
+  final String documentId;
+  final String userId; // Tambahkan userId untuk menentukan koleksi yang benar
+  final AlatModel model;
 
-  EditAlat({
-    required this.initialName,
-    required this.initialDescription,
-    required this.initialJenisProduk,
-    required this.initialKapasitas,
-    required this.initialStok,
-    required this.initialHarga,
-  });
+  EditAlat(
+      {required this.documentId, required this.userId, required this.model});
 
   @override
   _EditAlatState createState() => _EditAlatState();
 }
 
 class _EditAlatState extends State<EditAlat> {
-  // Variabel untuk menyimpan nilai dropdown
-  String? selectedJenisProduk;
-  String? selectedKapasitas;
-  String? selectedJumlahStok;
+  late AlatModel editedModel;
 
-  // Data dropdown
+  late TextEditingController namaController;
+  late TextEditingController deskripsiController;
+  late TextEditingController jumlahStokController;
+  late TextEditingController hargaController;
+  late TextEditingController lokasiController;
+
   final List<String> jenisProdukList = ["Elektronik", "Fashion", "Makanan"];
   final List<String> kapasitasList = ["Small", "Medium", "Large"];
-
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController descriptionController = TextEditingController();
-  final TextEditingController stokController = TextEditingController();
-  final TextEditingController hargaController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    // Initialize controllers with current data
-    nameController.text = widget.initialName;
-    descriptionController.text = widget.initialDescription;
-    selectedJenisProduk = widget.initialJenisProduk;
-    selectedKapasitas = widget.initialKapasitas;
-    stokController.text = widget.initialStok;
-    hargaController.text = widget.initialHarga;
+    editedModel = widget.model;
+
+    // Inisialisasi controller dengan nilai awal dari model
+    namaController = TextEditingController(text: editedModel.namaProduk);
+    deskripsiController =
+        TextEditingController(text: editedModel.deskripsiProduk);
+    jumlahStokController =
+        TextEditingController(text: editedModel.jumlahStok.toString());
+    hargaController = TextEditingController(text: editedModel.harga.toString());
+    lokasiController = TextEditingController(text: editedModel.lokasi);
+  }
+
+  @override
+  void dispose() {
+    // Pastikan controller dibersihkan saat widget dihapus
+    namaController.dispose();
+    deskripsiController.dispose();
+    jumlahStokController.dispose();
+    hargaController.dispose();
+    lokasiController.dispose();
+    super.dispose();
   }
 
   @override
@@ -72,6 +76,7 @@ class _EditAlatState extends State<EditAlat> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Foto Section
               Center(
                 child: Column(
                   children: [
@@ -96,7 +101,9 @@ class _EditAlatState extends State<EditAlat> {
                 ),
               ),
               SizedBox(height: 16),
-              buildTextField("Nama Produk", nameController, TextInputType.text),
+              buildTextField("Nama Produk", namaController, (value) {
+                editedModel.namaProduk = value;
+              }),
               SizedBox(height: 16),
               Text(
                 "Deskripsi Produk",
@@ -106,44 +113,77 @@ class _EditAlatState extends State<EditAlat> {
                     color: Colors.blue),
               ),
               SizedBox(height: 8),
-              buildTextField(
-                  "Deskripsi", descriptionController, TextInputType.text,
-                  maxLines: 5),
+              buildTextField("Deskripsi", deskripsiController, (value) {
+                editedModel.deskripsiProduk = value;
+              }, maxLines: 5),
               SizedBox(height: 16),
 
               // Dropdown untuk Jenis Produk
               buildDropdownField(
-                  "Jenis Produk", selectedJenisProduk, jenisProdukList,
+                  "Jenis Produk", editedModel.jenisProduk, jenisProdukList,
                   (value) {
-                setState(() {
-                  selectedJenisProduk = value;
-                });
+                setState(() => editedModel.jenisProduk = value!);
               }),
               SizedBox(height: 16),
 
               // Dropdown untuk Kapasitas
-              buildDropdownField("Kapasitas", selectedKapasitas, kapasitasList,
-                  (value) {
-                setState(() {
-                  selectedKapasitas = value;
-                });
+              buildDropdownField(
+                  "Kapasitas", editedModel.kapasitas, kapasitasList, (value) {
+                setState(() => editedModel.kapasitas = value!);
               }),
               SizedBox(height: 16),
-              buildTextField(
-                  "Jumlah Stok", stokController, TextInputType.number),
+              buildTextField("Jumlah Stok", jumlahStokController, (value) {
+                editedModel.jumlahStok = int.tryParse(value) ?? 0;
+              }, keyboardType: TextInputType.number),
               SizedBox(height: 16),
-              buildTextField("Harga", hargaController, TextInputType.number),
+              buildTextField("Harga", hargaController, (value) {
+                editedModel.harga = double.tryParse(value) ?? 0.0;
+              }, keyboardType: TextInputType.number),
+              SizedBox(height: 16),
+              buildTextField("Lokasi", lokasiController, (value) {
+                editedModel.lokasi = value;
+              }),
+              SizedBox(height: 16),
 
-              SizedBox(height: 30),
+              // Tombol Simpan
               ElevatedButton(
-                onPressed: () {
-                  // Aksi tombol simpan untuk update
-                  print("Nama Produk: ${nameController.text}");
-                  print("Deskripsi Produk: ${descriptionController.text}");
-                  print("Jenis Produk: $selectedJenisProduk");
-                  print("Kapasitas: $selectedKapasitas");
-                  print("Jumlah Stok: ${stokController.text}");
-                  print("Harga: ${hargaController.text}");
+                onPressed: () async {
+                  // Validasi untuk memastikan semua field diisi dengan benar
+                  if (editedModel.namaProduk.isEmpty ||
+                      editedModel.deskripsiProduk.isEmpty ||
+                      editedModel.jenisProduk.isEmpty ||
+                      editedModel.kapasitas.isEmpty ||
+                      editedModel.jumlahStok <= 0 ||
+                      editedModel.harga <= 0.0 ||
+                      editedModel.lokasi.isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                          content:
+                              Text('Pastikan semua field terisi dengan benar')),
+                    );
+                    return;
+                  }
+
+                  try {
+                    // Ambil data berdasarkan userId dan documentId
+                    await FirebaseFirestore.instance
+                        .collection('Sewa alat')
+                        .doc(widget
+                            .userId) // Gunakan userId untuk menentukan koleksi yang tepat
+                        .collection('Detail alat')
+                        .doc(widget
+                            .documentId) // Gunakan documentId untuk menentukan dokumen yang tepat
+                        .update(editedModel.toMap());
+
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Data berhasil diupdate')),
+                    );
+                    Navigator.pop(context);
+                  } catch (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Gagal mengupdate data: $e')),
+                    );
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   padding: EdgeInsets.symmetric(vertical: 16),
@@ -156,6 +196,7 @@ class _EditAlatState extends State<EditAlat> {
                   child: Text("Simpan", style: TextStyle(color: Colors.white)),
                 ),
               ),
+
               SizedBox(height: 8),
               OutlinedButton(
                 onPressed: () {
@@ -181,9 +222,9 @@ class _EditAlatState extends State<EditAlat> {
   }
 
   // Method untuk membuat TextField dalam kotak individu
-  Widget buildTextField(
-      String label, TextEditingController controller, TextInputType inputType,
-      {int? maxLines}) {
+  Widget buildTextField(String label, TextEditingController controller,
+      Function(String) onChanged,
+      {TextInputType keyboardType = TextInputType.text, int maxLines = 1}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -201,7 +242,8 @@ class _EditAlatState extends State<EditAlat> {
           ),
           child: TextField(
             controller: controller,
-            keyboardType: inputType,
+            onChanged: onChanged,
+            keyboardType: keyboardType,
             maxLines: maxLines,
             decoration: InputDecoration(
               hintText: "Masukkan $label",
@@ -215,8 +257,8 @@ class _EditAlatState extends State<EditAlat> {
   }
 
   // Method untuk membuat Dropdown Field
-  Widget buildDropdownField(String label, String? selectedValue,
-      List<String> items, Function(String?) onChanged) {
+  Widget buildDropdownField(String label, String value, List<String> items,
+      Function(String?) onChanged) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -234,7 +276,7 @@ class _EditAlatState extends State<EditAlat> {
           ),
           child: DropdownButtonHideUnderline(
             child: DropdownButton<String>(
-              value: selectedValue,
+              value: value,
               hint: Text("Pilih $label"),
               isExpanded: true,
               items: items.map((item) {

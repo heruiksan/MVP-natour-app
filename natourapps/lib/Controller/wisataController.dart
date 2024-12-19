@@ -12,7 +12,7 @@ class WisataController {
       // Mendapatkan UID pengguna yang sedang login
       String userId = _auth.currentUser!.uid;
 
-      // Menyimpan data wisata dalam koleksi 'wisata' dan sub-koleksi 'detailWisata' berdasarkan UID pengguna
+      // Menyimpan data wisata dalam koleksi 'tempat wisata' dan sub-koleksi 'detailWisata' berdasarkan UID pengguna
       await _firestore
           .collection('tempat wisata') // Koleksi utama
           .doc(userId) // ID dokumen adalah UID pengguna
@@ -20,6 +20,7 @@ class WisataController {
           .add(wisata.toMap()); // Menyimpan data wisata
       print("Data wisata berhasil ditambahkan!");
     } catch (e) {
+      print("Gagal menambahkan data wisata: $e");
       throw Exception("Gagal menambahkan data wisata: $e");
     }
   }

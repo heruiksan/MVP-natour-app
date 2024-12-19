@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:natourapps/Model/wisataMode.dart';
 import 'package:natourapps/view/adminWisata/dashboardAdmin.dart';
 import 'package:natourapps/view/adminWisata/listTiket.dart';
 import 'package:natourapps/view/adminWisata/settingAdmin.dart';
@@ -11,9 +12,14 @@ class navbarAdmin extends StatefulWidget {
 class _navbarAdminState extends State<navbarAdmin> {
   int _selectedIndex = 0;
 
+  // Replace with the actual userId from your app's context (e.g., FirebaseAuth, etc.)
+  final String userId = "someUserId"; // Example userId
+
   static List<Widget> _widgetOptions = <Widget>[
     dashboardAdmin(),
-    listTiket(),
+    // listTiket now requires userId, pass it when navigating
+    // listTiket(userId: userId),
+    // This will be handled inside the onTap method
     settingAdmin()
   ];
 
@@ -21,6 +27,16 @@ class _navbarAdminState extends State<navbarAdmin> {
     setState(() {
       _selectedIndex = index;
     });
+
+    // If the selected index is 1 (i.e., "lahan" tab), pass the userId to listTiket
+    if (index == 1) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => listTiket(userId: userId), // Pass userId here
+        ),
+      );
+    }
   }
 
   @override
@@ -49,7 +65,7 @@ class _navbarAdminState extends State<navbarAdmin> {
               BottomNavigationBarItem(
                 icon: Icon(Icons.location_on),
                 activeIcon: Icon(Icons.location_on, size: 32),
-                label: 'lahan',
+                label: 'Lahan',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.settings),

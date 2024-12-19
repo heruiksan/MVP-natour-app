@@ -23,6 +23,7 @@ class AlatModel {
     required this.imageUrl,
   });
 
+  // Mengonversi objek ke Map untuk Firestore
   Map<String, dynamic> toMap() {
     return {
       'namaProduk': namaProduk,
@@ -37,18 +38,23 @@ class AlatModel {
     };
   }
 
+  // Mengonversi data Firestore ke objek AlatModel
   factory AlatModel.fromFirestore(DocumentSnapshot doc) {
     final data = doc.data() as Map<String, dynamic>;
-    return AlatModel( // Dapatkan ID dokumen
-      namaProduk: data['namaProduk'],
-      deskripsiProduk: data['deskripsiProduk'],
-      jenisProduk: data['jenisProduk'],
-      kapasitas: data['kapasitas'],
-      jumlahStok: data['jumlahStok'],
-      harga: data['harga'],
-      lokasi: data['lokasi'],
-      userId: data['userId'],
-      imageUrl: data['imageUrl'],
+    return AlatModel(
+      namaProduk: data['namaProduk'] ?? '',
+      deskripsiProduk: data['deskripsiProduk'] ?? '',
+      jenisProduk: data['jenisProduk'] ?? '',
+      kapasitas: data['kapasitas'] ?? '',
+      jumlahStok: data['jumlahStok'] is int
+          ? data['jumlahStok']
+          : int.tryParse(data['jumlahStok'].toString()) ?? 0, // Pastikan int
+      harga: data['harga'] is double
+          ? data['harga']
+          : double.tryParse(data['harga'].toString()) ?? 0.0, // Pastikan double
+      lokasi: data['lokasi'] ?? '',
+      userId: data['userId'] ?? '',
+      imageUrl: data['imageUrl'] ?? '',
     );
   }
 }

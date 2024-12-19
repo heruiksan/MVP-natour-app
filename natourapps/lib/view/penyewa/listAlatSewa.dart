@@ -2,7 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:natourapps/Model/sewaModel.dart';
-import 'package:natourapps/view/penyewa/addAlat.dart'; // Ensure the model is imported
+import 'package:natourapps/view/penyewa/addAlat.dart';
+import 'package:natourapps/view/penyewa/editAlat.dart';
 
 class listAlatSewa extends StatefulWidget {
   @override
@@ -35,9 +36,17 @@ class _listAlatSewaState extends State<listAlatSewa> {
         .snapshots();
   }
 
-  void _editItem(String id) {
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text('Edit item: $id')));
+  void _editItem(String id, AlatModel model, String userId) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EditAlat(
+          documentId: id, // ID dokumen Firestore
+          model: model, // Model yang akan diedit
+          userId: userId, // Pastikan userId dikirimkan
+        ),
+      ),
+    );
   }
 
   void _deleteItem(String id, String userId) async {
@@ -65,13 +74,18 @@ class _listAlatSewaState extends State<listAlatSewa> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading:
+            false, // Set to false to avoid default back button
         title: Row(
           children: [
-            CircleAvatar(
-              radius: 24,
-              backgroundImage: AssetImage('assets/profile.png'),
-              backgroundColor: Colors.blue,
+            // Back Arrow IconButton
+            IconButton(
+              icon:
+                  Icon(Icons.arrow_back, color: Colors.blue), // Blue arrow icon
+              onPressed: () {
+                Navigator.pop(
+                    context); // This will navigate back to the previous screen
+              },
             ),
             SizedBox(width: 8),
             Text(
@@ -109,9 +123,11 @@ class _listAlatSewaState extends State<listAlatSewa> {
                 return Center(child: Text("No data available"));
               }
 
-              final items = snapshot.data!.docs
-                  .map((doc) => AlatModel.fromFirestore(doc))
-                  .toList();
+              final items = snapshot.data!.docs.map((doc) {
+                final model = AlatModel.fromFirestore(doc);
+                final id = doc.id; // Ambil ID dokumen Firestore
+                return {'model': model, 'id': id};
+              }).toList();
 
               return Column(
                 children: [
@@ -163,7 +179,9 @@ class _listAlatSewaState extends State<listAlatSewa> {
                       physics: BouncingScrollPhysics(),
                       itemCount: items.length,
                       itemBuilder: (context, index) {
-                        final item = items[index];
+                        final item = items[index]['model'] as AlatModel;
+                        final id = items[index]['id'] as String;
+
                         return Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 16.0, vertical: 8.0),
@@ -238,12 +256,10 @@ class _listAlatSewaState extends State<listAlatSewa> {
                                               PopupMenuButton<String>(
                                                 onSelected: (value) {
                                                   if (value == 'Edit') {
-                                                    _editItem(item
-                                                        .userId); // Use document ID for edit
+                                                    _editItem(id, item, userId);
                                                   } else if (value ==
                                                       'Delete') {
-                                                    _deleteItem(item.userId,
-                                                        userId); // Pass userId to delete
+                                                    _deleteItem(id, userId);
                                                   }
                                                 },
                                                 itemBuilder: (context) => [
@@ -261,7 +277,7 @@ class _listAlatSewaState extends State<listAlatSewa> {
                                           Text(item.kapasitas,
                                               style: TextStyle(fontSize: 12)),
                                           Text(
-                                            "Rp${item.harga}/day", // Assuming the price field
+                                            "Rp${item.harga}/day",
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 14),
