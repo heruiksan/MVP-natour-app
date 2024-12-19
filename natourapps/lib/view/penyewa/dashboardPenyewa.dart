@@ -10,8 +10,7 @@ class dashboardPenyewa extends StatefulWidget {
 }
 
 class _dashboardPenyewaState extends State<dashboardPenyewa> {
-
-   String? currentUserName;
+  String? currentUserName;
 
   @override
   void initState() {
@@ -28,7 +27,8 @@ class _dashboardPenyewaState extends State<dashboardPenyewa> {
             .doc(user.uid)
             .get();
         setState(() {
-          currentUserName = userDoc['fullName'] ?? 'Guest'; // Replace 'name' with your field
+          currentUserName =
+              userDoc['fullName'] ?? 'Guest'; // Replace 'name' with your field
         });
       }
     } catch (e) {
@@ -84,7 +84,8 @@ class _dashboardPenyewaState extends State<dashboardPenyewa> {
                                         color: Colors.black, fontSize: 14),
                                   ),
                                   Text(
-                                    currentUserName ?? "Pengguna", // Nama dinamis
+                                    currentUserName ??
+                                        "Pengguna", // Nama dinamis
                                     style: TextStyle(
                                       color: Colors.blue,
                                       fontWeight: FontWeight.bold,
@@ -290,32 +291,6 @@ class _dashboardPenyewaState extends State<dashboardPenyewa> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => listAlatSewa()),
-                        );
-                      },
-                      child: Container(
-                        padding: EdgeInsets.all(15),
-                        decoration: BoxDecoration(
-                          color: Colors.blue[50],
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: Colors.blue, width: 2),
-                        ),
-                        child: Column(
-                          children: [
-                            Icon(Icons.house, size: 40, color: Colors.blue),
-                            SizedBox(height: 8),
-                            Text("Penyewaan"),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
                   SizedBox(width: 8), // Jarak antar kotak
                   Expanded(
                     child: GestureDetector(

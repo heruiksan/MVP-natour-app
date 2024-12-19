@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:natourapps/Model/sewaModel.dart';
+import 'package:natourapps/view/pengguna/detailAlat.dart';
 import 'package:natourapps/view/penyewa/addAlat.dart';
+import 'package:natourapps/view/penyewa/deskripsiAlat.dart';
 import 'package:natourapps/view/penyewa/editAlat.dart';
 
 class listAlatSewa extends StatefulWidget {
@@ -80,11 +82,12 @@ class _listAlatSewaState extends State<listAlatSewa> {
           children: [
             // Back Arrow IconButton
             IconButton(
-              icon:
-                  Icon(Icons.arrow_back, color: Colors.blue), // Blue arrow icon
+              icon: Icon(
+                Icons.filter_hdr_rounded,
+                color: Colors.blue,
+              ), // Blue arrow icon
               onPressed: () {
-                Navigator.pop(
-                    context); // This will navigate back to the previous screen
+                null;
               },
             ),
             SizedBox(width: 8),
@@ -187,10 +190,17 @@ class _listAlatSewaState extends State<listAlatSewa> {
                               horizontal: 16.0, vertical: 8.0),
                           child: InkWell(
                             onTap: () {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                    content:
-                                        Text("Clicked on ${item.namaProduk}")),
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Deskripsialat(
+                                    namaAlat: item.namaProduk,
+                                    alamatAlat: item.lokasi,
+                                    deskripsiAlat: item.deskripsiProduk,
+                                    sisaAlat: item.jumlahStok,
+                                    hargaAlat: item.harga,
+                                  ),
+                                ),
                               );
                             },
                             borderRadius: BorderRadius.circular(8),
@@ -247,11 +257,17 @@ class _listAlatSewaState extends State<listAlatSewa> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
-                                              Text(
-                                                item.namaProduk,
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 16),
+                                              Expanded(
+                                                // Wrap the Text widget with Expanded
+                                                child: Text(
+                                                  item.namaProduk,
+                                                  overflow: TextOverflow
+                                                      .ellipsis, // Use ellipsis for overflow
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 16),
+                                                ),
                                               ),
                                               PopupMenuButton<String>(
                                                 onSelected: (value) {
@@ -287,7 +303,7 @@ class _listAlatSewaState extends State<listAlatSewa> {
                                         ],
                                       ),
                                     ),
-                                  ),
+                                  )
                                 ],
                               ),
                             ),

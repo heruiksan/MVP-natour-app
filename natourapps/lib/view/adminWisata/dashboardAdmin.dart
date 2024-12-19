@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:natourapps/view/adminWisata/addWisata.dart';
 import 'package:natourapps/view/adminWisata/listTiket.dart';
@@ -14,6 +16,35 @@ class _dashboardAdminState extends State<dashboardAdmin> {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  String? currentUserName;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchUserName();
+  }
+
+  Future<void> fetchUserName() async {
+    try {
+      User? user = FirebaseAuth.instance.currentUser; // Get current user
+      if (user != null) {
+        DocumentSnapshot userDoc = await FirebaseFirestore.instance
+            .collection('users') // Replace with your Firestore collection name
+            .doc(user.uid)
+            .get();
+        setState(() {
+          currentUserName =
+              userDoc['fullName'] ?? 'Guest'; // Replace 'name' with your field
+        });
+      }
+    } catch (e) {
+      print("Error fetching user name: $e");
+      setState(() {
+        currentUserName = 'Guest';
+      });
+    }
   }
 
   @override
@@ -61,7 +92,8 @@ class _dashboardAdminState extends State<dashboardAdmin> {
                                         color: Colors.black, fontSize: 14),
                                   ),
                                   Text(
-                                    "Heru",
+                                    currentUserName ??
+                                        "Pengguna", // Nama dinamis
                                     style: TextStyle(
                                       color: Colors.blue,
                                       fontWeight: FontWeight.bold,
@@ -295,36 +327,6 @@ class _dashboardAdminState extends State<dashboardAdmin> {
                             SizedBox(height: 8),
                             Text(
                               "Pengunjung",
-                              style: TextStyle(
-                                  fontSize: 11, fontWeight: FontWeight.w500),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 8), // Jarak antar kotak
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => addWisata()),
-                        );
-                      },
-                      child: Container(
-                        padding: EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                          color: Colors.blue[50],
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: Colors.blue, width: 2),
-                        ),
-                        child: Column(
-                          children: [
-                            Icon(Icons.add_box, size: 40, color: Colors.blue),
-                            SizedBox(height: 8),
-                            Text(
-                              "Posting",
                               style: TextStyle(
                                   fontSize: 11, fontWeight: FontWeight.w500),
                             ),

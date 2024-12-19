@@ -1,7 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:natourapps/Model/wisataMode.dart'; // Pastikan Anda menambahkan model yang telah dibuat
+import 'package:natourapps/Model/sewaModel.dart';
+import 'package:natourapps/Model/wisataMode.dart';
+import 'package:natourapps/view/adminWisata/addWisata.dart';
+import 'package:natourapps/view/adminWisata/detailWisata.dart';
+import 'package:natourapps/view/adminWisata/editWisata.dart';
+import 'package:natourapps/view/penyewa/addAlat.dart';
+import 'package:natourapps/view/penyewa/editAlat.dart';
 
 class listTiket extends StatefulWidget {
   @override
@@ -9,22 +15,24 @@ class listTiket extends StatefulWidget {
 }
 
 class _listTiketState extends State<listTiket> {
-  String? userId;
+  late Future<String> userIdFuture;
 
   @override
   void initState() {
     super.initState();
-    final currentUser = FirebaseAuth.instance.currentUser;
-    if (currentUser != null) {
-      userId = currentUser.uid;
+    userIdFuture = _getUserId();
+  }
+
+  Future<String> _getUserId() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      return user.uid;
+    } else {
+      throw 'User not logged in';
     }
   }
 
-  // Fungsi untuk mengambil stream data dari Firestore
-  Stream<QuerySnapshot> getWisataStream() {
-    if (userId == null) {
-      return Stream.empty();
-    }
+  Stream<QuerySnapshot> _getItemsStream(String userId) {
     return FirebaseFirestore.instance
         .collection('tempat wisata')
         .doc(userId)
@@ -32,58 +40,67 @@ class _listTiketState extends State<listTiket> {
         .snapshots();
   }
 
-  // Fungsi untuk menghapus data dari Firestore
-  Future<void> deleteWisata(String id) async {
+  void _editItem(String id, WisataModel model, String userId) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => editWisata(
+          documentId: id, // ID dokumen Firestore
+          model: model, // Model yang akan diedit
+          userId: userId, // Pastikan userId dikirimkan
+        ),
+      ),
+    );
+  }
+
+  void _deleteItem(String id, String userId) async {
     try {
       await FirebaseFirestore.instance
           .collection('tempat wisata')
-          .doc(userId) // Gunakan userId dari akun login
+          .doc(userId)
           .collection('detailWisata')
           .doc(id)
           .delete();
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Data berhasil dihapus")),
+        SnackBar(content: Text('Item berhasil dihapus: $id')),
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Gagal menghapus data: $e")),
+        SnackBar(content: Text('Gagal menghapus item: $e')),
       );
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    if (userId == null) {
-      return Scaffold(
-        body: Center(
-          child: Text("Anda belum login."),
-        ),
-      );
-    }
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading:
+            false, // Set to false to avoid default back button
         title: Row(
           children: [
-            CircleAvatar(
-              radius: 24,
-              backgroundImage: AssetImage('assets/profile.png'),
-              backgroundColor: Colors.blue,
+            IconButton(
+              icon: Icon(
+                Icons.filter_hdr_rounded,
+                color: Colors.blue,
+              ), // Blue arrow icon
+              onPressed: () {
+                null;
+              },
             ),
             SizedBox(width: 8),
             Text(
-              "Wisata",
+              "Lahan",
               style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
             ),
           ],
         ),
       ),
-      body: StreamBuilder<QuerySnapshot>(
-        stream: getWisataStream(),
+      body: FutureBuilder<String>(
+        future: userIdFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
@@ -93,83 +110,209 @@ class _listTiketState extends State<listTiket> {
             return Center(child: Text("Error: ${snapshot.error}"));
           }
 
-          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return Center(child: Text("No data available"));
+          if (!snapshot.hasData) {
+            return Center(child: Text("No user data found"));
           }
 
-          final items = snapshot.data!.docs.map((doc) {
-            return WisataModel.fromFirestore(doc);
-          }).toList();
+          final userId = snapshot.data!;
 
-          return Column(
-            children: [
-              // Tombol Posting Baru
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                child: GestureDetector(
-                  onTap: () {
-                    // Navigasi ke halaman tambah wisata
-                  },
-                  child: Container(
-                    height: 50,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(5),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black12,
-                          blurRadius: 4,
-                          offset: Offset(0, 2),
+          return StreamBuilder<QuerySnapshot>(
+            stream: _getItemsStream(userId),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              }
+
+              if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                return Center(child: Text("No data available"));
+              }
+
+              final items = snapshot.data!.docs.map((doc) {
+                final model = WisataModel.fromFirestore(doc);
+                final id = doc.id; // Ambil ID dokumen Firestore
+                return {'model': model, 'id': id};
+              }).toList();
+
+              return Column(
+                children: [
+                  // Tombol Posting Baru
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16.0, vertical: 8.0),
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => addWisata()),
+                        );
+                      },
+                      child: Container(
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(5),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black12,
+                              blurRadius: 4,
+                              offset: Offset(0, 2),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.add,
-                          color: Colors.grey,
-                        ),
-                        SizedBox(width: 8),
-                        Text(
-                          "Posting baru",
-                          style: TextStyle(
-                            color: Colors.grey,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                child: ListView.builder(
-                  physics: BouncingScrollPhysics(),
-                  itemCount: items.length,
-                  itemBuilder: (context, index) {
-                    final item = items[index];
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16.0, vertical: 8.0),
-                      child: InkWell(
-                        onTap: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                                content: Text("Clicked on ${item.namaLahan}")),
-                          );
-                        },
-                        borderRadius: BorderRadius.circular(8),
-                        child: Container(
-                          // Konten ListView
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.add, color: Colors.grey),
+                            SizedBox(width: 8),
+                            Text(
+                              "Posting baru",
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    );
-                  },
-                ),
-              ),
-            ],
+                    ),
+                  ),
+
+                  // Expanded untuk ListView agar diskroll
+                  Expanded(
+                    child: ListView.builder(
+                      physics: BouncingScrollPhysics(),
+                      itemCount: items.length,
+                      itemBuilder: (context, index) {
+                        final item = items[index]['model'] as WisataModel;
+                        final id = items[index]['id'] as String;
+
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16.0, vertical: 8.0),
+                          child: InkWell(
+                            onTap: () {
+                              // Navigasi ke halaman DetailWisata dengan documentId dan userId
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Detailwisata(
+                                    namaLahan:item.namaLahan,
+      deskripsi:item.deskripsi,
+      jenisLahan:item.jenisLahan,
+      kapasitas:item.kapasitas,
+      fasilitas:item.fasilitas,
+      harga:item.harga,
+      lokasi:item.lokasi,
+                                  ),
+                                ),
+                              );
+                            },
+                            borderRadius: BorderRadius.circular(8),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(8),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black12,
+                                    blurRadius: 4,
+                                    offset: Offset(0, 2),
+                                  ),
+                                ],
+                              ),
+                              child: Row(
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(8),
+                                      bottomLeft: Radius.circular(8),
+                                    ),
+                                    child: (item.imageUrl != null &&
+                                            item.imageUrl!.isNotEmpty)
+                                        ? Image.network(
+                                            item.imageUrl!,
+                                            width: 150,
+                                            height: 130,
+                                            fit: BoxFit.cover,
+                                          )
+                                        : SizedBox(
+                                            width: 150,
+                                            height: 130,
+                                            child: Center(
+                                              child: Text(
+                                                'No Image',
+                                                style: TextStyle(
+                                                    color: Colors.grey,
+                                                    fontSize: 12),
+                                              ),
+                                            ),
+                                          ),
+                                  ),
+                                  SizedBox(width: 8),
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 8.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                item.namaLahan,
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16),
+                                              ),
+                                              PopupMenuButton<String>(
+                                                onSelected: (value) {
+                                                  if (value == 'Edit') {
+                                                    _editItem(id, item, userId);
+                                                  } else if (value ==
+                                                      'Delete') {
+                                                    _deleteItem(id, userId);
+                                                  }
+                                                },
+                                                itemBuilder: (context) => [
+                                                  PopupMenuItem(
+                                                      value: 'Edit',
+                                                      child: Text('Edit')),
+                                                  PopupMenuItem(
+                                                      value: 'Delete',
+                                                      child: Text('Delete')),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                          SizedBox(height: 4),
+                                          Text(item.kapasitas,
+                                              style: TextStyle(fontSize: 12)),
+                                          Text(
+                                            "Rp${item.harga}/day",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14),
+                                          ),
+                                          Text(item.lokasi,
+                                              style: TextStyle(fontSize: 12)),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              );
+            },
           );
         },
       ),

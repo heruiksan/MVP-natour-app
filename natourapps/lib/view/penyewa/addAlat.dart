@@ -17,7 +17,7 @@ class _AddAlatState extends State<addAlat> {
   String? selectedKapasitas;
   File? _image;
 
-  final List<String> jenisProdukList = ["Elektronik", "Fashion", "Makanan"];
+  final List<String> jenisProdukList = ["Tenda", "Pakaian", "Utility"];
   final List<String> kapasitasList = ["Small", "Medium", "Large"];
 
   final TextEditingController namaProdukController = TextEditingController();

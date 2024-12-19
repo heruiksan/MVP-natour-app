@@ -1,53 +1,64 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:natourapps/Model/sewaModel.dart';
+import 'package:natourapps/Model/wisataMode.dart';
 
-class EditWisata extends StatefulWidget {
-  // Initial values to pre-fill the form
-  final String initialNamaLahan;
-  final String initialDeskripsiLahan;
-  final String initialJenisLahan;
-  final String initialKapasitas;
-  final String initialFasilitas;
-  final String initialHarga;
+class editWisata extends StatefulWidget {
+  final String documentId;
+  final String userId; // Tambahkan userId untuk menentukan koleksi yang benar
+  final WisataModel model;
 
-  EditWisata({
-    required this.initialNamaLahan,
-    required this.initialDeskripsiLahan,
-    required this.initialJenisLahan,
-    required this.initialKapasitas,
-    required this.initialFasilitas,
-    required this.initialHarga,
-  });
+  editWisata(
+      {required this.documentId, required this.userId, required this.model});
 
   @override
-  _EditWisataState createState() => _EditWisataState();
+  _editWisataState createState() => _editWisataState();
 }
 
-class _EditWisataState extends State<EditWisata> {
-  // Variabel untuk menyimpan nilai dropdown
-  String? selectedJenisLahan;
-  String? selectedKapasitas;
+class _editWisataState extends State<editWisata> {
+  late WisataModel editedModel;
 
-  // Data dropdown
-  final List<String> jenisLahanList = ["A", "B", "C"];
-  final List<String> kapasitasList = ["Small", "Medium", "Large"];
+  late TextEditingController namaLahanController;
+  late TextEditingController deskripsiController;
+  late TextEditingController fasilitasController;
+  late TextEditingController hargaController;
+  late TextEditingController lokasiController;
 
-  // Controllers for the text fields
-  final TextEditingController namaLahanController = TextEditingController();
-  final TextEditingController deskripsiLahanController =
-      TextEditingController();
-  final TextEditingController fasilitasController = TextEditingController();
-  final TextEditingController hargaController = TextEditingController();
+  final List<String> selectedJenisLahan = ["Elektronik", "Fashion", "Makanan"];
+  final List<String> selectedKapasitas = ["Small", "Medium", "Large"];
 
   @override
   void initState() {
     super.initState();
-    // Initialize controllers with current data
-    namaLahanController.text = widget.initialNamaLahan;
-    deskripsiLahanController.text = widget.initialDeskripsiLahan;
-    selectedJenisLahan = widget.initialJenisLahan;
-    selectedKapasitas = widget.initialKapasitas;
-    fasilitasController.text = widget.initialFasilitas;
-    hargaController.text = widget.initialHarga;
+    editedModel = widget.model;
+
+    // Ensure the values exist in the list before setting them
+    if (!selectedJenisLahan.contains(editedModel.jenisLahan)) {
+      editedModel.jenisLahan =
+          selectedJenisLahan[0]; // Default to the first item
+    }
+
+    if (!selectedKapasitas.contains(editedModel.kapasitas)) {
+      editedModel.kapasitas = selectedKapasitas[0]; // Default to the first item
+    }
+
+    // Initialize the controllers
+    namaLahanController = TextEditingController(text: editedModel.namaLahan);
+    deskripsiController = TextEditingController(text: editedModel.deskripsi);
+    fasilitasController = TextEditingController(text: editedModel.fasilitas);
+    hargaController = TextEditingController(text: editedModel.harga.toString());
+    lokasiController = TextEditingController(text: editedModel.lokasi);
+  }
+
+  @override
+  void dispose() {
+    // Dispose controllers
+    namaLahanController.dispose();
+    deskripsiController.dispose();
+    fasilitasController.dispose();
+    hargaController.dispose();
+    lokasiController.dispose();
+    super.dispose();
   }
 
   @override
@@ -59,7 +70,7 @@ class _EditWisataState extends State<EditWisata> {
             Icon(Icons.edit, color: Colors.blue),
             SizedBox(width: 8),
             Text(
-              'Edit Posting',
+              'Edit Wisata',
               style: TextStyle(color: Colors.blue),
             ),
           ],
@@ -74,6 +85,7 @@ class _EditWisataState extends State<EditWisata> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Foto Section
               Center(
                 child: Column(
                   children: [
@@ -98,54 +110,88 @@ class _EditWisataState extends State<EditWisata> {
                 ),
               ),
               SizedBox(height: 16),
-              buildTextField(
-                  "Nama Lahan", namaLahanController, TextInputType.text),
+              buildTextField("Nama Produk", namaLahanController, (value) {
+                editedModel.namaLahan = value;
+              }),
               SizedBox(height: 16),
               Text(
-                "Deskripsi Lahan",
+                "Deskripsi Produk",
                 style: TextStyle(
                     fontWeight: FontWeight.w400,
                     fontSize: 18,
                     color: Colors.blue),
               ),
               SizedBox(height: 8),
-              buildTextField(
-                  "Deskripsi", deskripsiLahanController, TextInputType.text,
-                  maxLines: 5),
+              buildTextField("Deskripsi", deskripsiController, (value) {
+                editedModel.deskripsi = value;
+              }, maxLines: 5),
               SizedBox(height: 16),
 
-              // Dropdown untuk Jenis Lahan
+              // Dropdown untuk Jenis Produk
               buildDropdownField(
-                  "Jenis Lahan", selectedJenisLahan, jenisLahanList, (value) {
-                setState(() {
-                  selectedJenisLahan = value;
-                });
+                  "Jenis Produk", editedModel.jenisLahan, selectedJenisLahan,
+                  (value) {
+                setState(() => editedModel.jenisLahan = value!);
               }),
               SizedBox(height: 16),
 
               // Dropdown untuk Kapasitas
-              buildDropdownField("Kapasitas", selectedKapasitas, kapasitasList,
+              buildDropdownField(
+                  "Kapasitas", editedModel.kapasitas, selectedKapasitas,
                   (value) {
-                setState(() {
-                  selectedKapasitas = value;
-                });
+                setState(() => editedModel.kapasitas = value!);
               }),
               SizedBox(height: 16),
-              buildTextField(
-                  "Fasilitas", fasilitasController, TextInputType.text),
+              buildTextField("fasilitas", fasilitasController, (value) {
+                editedModel.fasilitas = value;
+              }),
               SizedBox(height: 16),
-              buildTextField("Harga", hargaController, TextInputType.number),
+              buildTextField("Harga", hargaController, (value) {
+                editedModel.harga = double.tryParse(value) ?? 0.0;
+              }, keyboardType: TextInputType.number),
+              SizedBox(height: 16),
+              buildTextField("Lokasi", lokasiController, (value) {
+                editedModel.lokasi = value;
+              }),
+              SizedBox(height: 16),
 
-              SizedBox(height: 30),
+              // Tombol Simpan
               ElevatedButton(
-                onPressed: () {
-                  // Aksi tombol simpan untuk update
-                  print("Nama Lahan: ${namaLahanController.text}");
-                  print("Deskripsi Lahan: ${deskripsiLahanController.text}");
-                  print("Jenis Lahan: $selectedJenisLahan");
-                  print("Kapasitas: $selectedKapasitas");
-                  print("Fasilitas: ${fasilitasController.text}");
-                  print("Harga: ${hargaController.text}");
+                onPressed: () async {
+                  // Validasi untuk memastikan semua field diisi dengan benar
+                  if (editedModel.namaLahan.isEmpty ||
+                      editedModel.deskripsi.isEmpty ||
+                      editedModel.jenisLahan.isEmpty ||
+                      editedModel.kapasitas.isEmpty ||
+                      editedModel.fasilitas.isEmpty ||
+                      editedModel.harga <= 0.0 ||
+                      editedModel.lokasi.isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                          content:
+                              Text('Pastikan semua field terisi dengan benar')),
+                    );
+                    return;
+                  }
+
+                  try {
+                    // Ambil data berdasarkan userId dan documentId
+                    await FirebaseFirestore.instance
+                        .collection('tempat wisata')
+                        .doc(widget.userId)
+                        .collection('detailWisata')
+                        .doc(widget.documentId)
+                        .update(editedModel.toMap());
+
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Data berhasil diupdate')),
+                    );
+                    Navigator.pop(context);
+                  } catch (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Gagal mengupdate data: $e')),
+                    );
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   padding: EdgeInsets.symmetric(vertical: 16),
@@ -158,6 +204,7 @@ class _EditWisataState extends State<EditWisata> {
                   child: Text("Simpan", style: TextStyle(color: Colors.white)),
                 ),
               ),
+
               SizedBox(height: 8),
               OutlinedButton(
                 onPressed: () {
@@ -183,9 +230,9 @@ class _EditWisataState extends State<EditWisata> {
   }
 
   // Method untuk membuat TextField dalam kotak individu
-  Widget buildTextField(
-      String label, TextEditingController controller, TextInputType inputType,
-      {int? maxLines}) {
+  Widget buildTextField(String label, TextEditingController controller,
+      Function(String) onChanged,
+      {TextInputType keyboardType = TextInputType.text, int maxLines = 1}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -203,7 +250,8 @@ class _EditWisataState extends State<EditWisata> {
           ),
           child: TextField(
             controller: controller,
-            keyboardType: inputType,
+            onChanged: onChanged,
+            keyboardType: keyboardType,
             maxLines: maxLines,
             decoration: InputDecoration(
               hintText: "Masukkan $label",
@@ -217,8 +265,8 @@ class _EditWisataState extends State<EditWisata> {
   }
 
   // Method untuk membuat Dropdown Field
-  Widget buildDropdownField(String label, String? selectedValue,
-      List<String> items, Function(String?) onChanged) {
+  Widget buildDropdownField(String label, String value, List<String> items,
+      Function(String?) onChanged) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -236,7 +284,7 @@ class _EditWisataState extends State<EditWisata> {
           ),
           child: DropdownButtonHideUnderline(
             child: DropdownButton<String>(
-              value: selectedValue,
+              value: value,
               hint: Text("Pilih $label"),
               isExpanded: true,
               items: items.map((item) {

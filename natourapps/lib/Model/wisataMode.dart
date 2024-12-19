@@ -1,15 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class WisataModel {
-  final String namaLahan;
-  final String deskripsi;
-  final String jenisLahan;
-  final String kapasitas;
-  final String fasilitas;
-  final double harga;
-  final String lokasi;
-  final String? imageUrl;
-  final String userId;
+  String namaLahan;
+  String deskripsi;
+  String jenisLahan;
+  String kapasitas;
+  String fasilitas;
+  double harga;
+  String lokasi;
+  String? imageUrl;
+  String userId;
 
   WisataModel({
     required this.namaLahan,
