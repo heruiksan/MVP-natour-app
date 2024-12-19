@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:natourapps/Controller/sewaController.dart';
 import 'package:natourapps/Model/sewaModel.dart';
 import 'package:natourapps/view/penyewa/bottomNavPenyewa.dart';
+import 'package:natourapps/view/penyewa/fileinputwidget.dart';
 
 class addAlat extends StatefulWidget {
   @override
@@ -27,6 +28,8 @@ class _AddAlatState extends State<addAlat> {
   final TextEditingController jumlahStokController = TextEditingController();
   final TextEditingController hargaController = TextEditingController();
   final TextEditingController lokasiController = TextEditingController();
+  TextEditingController _imageUrlController = TextEditingController(text: '');
+
 
   // Fungsi untuk memilih gambar dari kamera atau galeri
   Future<void> _pickImage(ImageSource source) async {
@@ -67,49 +70,56 @@ class _AddAlatState extends State<addAlat> {
               Center(
                 child: Column(
                   children: [
-                    GestureDetector(
-                      onTap: () {
-                        showModalBottomSheet(
-                          context: context,
-                          builder: (context) {
-                            return Container(
-                              height: 150,
-                              child: Column(
-                                children: [
-                                  ListTile(
-                                    leading: Icon(Icons.camera_alt),
-                                    title: Text("Ambil Foto dengan Kamera"),
-                                    onTap: () {
-                                      _pickImage(ImageSource.camera);
-                                      Navigator.pop(context);
-                                    },
-                                  ),
-                                  ListTile(
-                                    leading: Icon(Icons.image),
-                                    title: Text("Pilih Foto dari Galeri"),
-                                    onTap: () {
-                                      _pickImage(ImageSource.gallery);
-                                      Navigator.pop(context);
-                                    },
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                        );
+                    // GestureDetector(
+                    //   onTap: () {
+                    //     showModalBottomSheet(
+                    //       context: context,
+                    //       builder: (context) {
+                    //         return Container(
+                    //           height: 150,
+                    //           child: Column(
+                    //             children: [
+                    //               ListTile(
+                    //                 leading: Icon(Icons.camera_alt),
+                    //                 title: Text("Ambil Foto dengan Kamera"),
+                    //                 onTap: () {
+                    //                   _pickImage(ImageSource.camera);
+                    //                   Navigator.pop(context);
+                    //                 },
+                    //               ),
+                    //               ListTile(
+                    //                 leading: Icon(Icons.image),
+                    //                 title: Text("Pilih Foto dari Galeri"),
+                    //                 onTap: () {
+                    //                   _pickImage(ImageSource.gallery);
+                    //                   Navigator.pop(context);
+                    //                 },
+                    //               ),
+                    //             ],
+                    //           ),
+                    //         );
+                    //       },
+                    //     );
+                    //   },
+                    //   child: Container(
+                    //     padding: EdgeInsets.all(16),
+                    //     decoration: BoxDecoration(
+                    //       color: Colors.blue[50],
+                    //       borderRadius: BorderRadius.circular(12),
+                    //     ),
+                    //     child: Icon(
+                    //       Icons.camera_alt,
+                    //       size: 48,
+                    //       color: Colors.blue,
+                    //     ),
+                    //   ),
+                    // ),
+                    
+                    FileInputWidget(
+                      fileType: 'Image',
+                      onSaveToDatabase: (img) {
+                        _imageUrlController.text = img!;
                       },
-                      child: Container(
-                        padding: EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                          color: Colors.blue[50],
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Icon(
-                          Icons.camera_alt,
-                          size: 48,
-                          color: Colors.blue,
-                        ),
-                      ),
                     ),
                     SizedBox(height: 8),
                     Text(
@@ -171,6 +181,7 @@ class _AddAlatState extends State<addAlat> {
                     harga: double.tryParse(hargaController.text) ?? 0.0,
                     lokasi: lokasiController.text,
                     userId: userId,
+                    imageUrl: _imageUrlController.text
                   );
 
                   final controller = Sewacontroller();

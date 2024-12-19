@@ -35,5 +35,4 @@ class AlatModel {
       'imageUrl': imageUrl,
     };
   }
-
 }
