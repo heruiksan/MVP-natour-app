@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:natourapps/Controller/sewaController.dart';
 import 'package:natourapps/Model/sewaModel.dart';
 import 'package:natourapps/view/penyewa/bottomNavPenyewa.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class addAlat extends StatefulWidget {
   @override
@@ -12,23 +13,19 @@ class addAlat extends StatefulWidget {
 }
 
 class _AddAlatState extends State<addAlat> {
-  // Variabel untuk menyimpan nilai dropdown
   String? selectedJenisProduk;
   String? selectedKapasitas;
   File? _image;
 
-  // Data dropdown
   final List<String> jenisProdukList = ["Elektronik", "Fashion", "Makanan"];
   final List<String> kapasitasList = ["Small", "Medium", "Large"];
 
-  // TextEditingController untuk setiap TextField
   final TextEditingController namaProdukController = TextEditingController();
   final TextEditingController deskripsiController = TextEditingController();
   final TextEditingController jumlahStokController = TextEditingController();
   final TextEditingController hargaController = TextEditingController();
   final TextEditingController lokasiController = TextEditingController();
 
-  // Fungsi untuk memilih gambar dari kamera atau galeri
   Future<void> _pickImage(ImageSource source) async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: source);
@@ -129,23 +126,30 @@ class _AddAlatState extends State<addAlat> {
                 ),
               ),
               SizedBox(height: 16),
-              buildTextField("Nama Produk", TextInputType.text, namaProdukController),
+              buildTextField(
+                  "Nama Produk", TextInputType.text, namaProdukController),
               SizedBox(height: 16),
-              buildTextField("Deskripsi Produk", TextInputType.text, deskripsiController, maxLines: 5),
+              buildTextField(
+                  "Deskripsi Produk", TextInputType.text, deskripsiController,
+                  maxLines: 5),
               SizedBox(height: 16),
-              buildDropdownField("Jenis Produk", selectedJenisProduk, jenisProdukList, (value) {
+              buildDropdownField(
+                  "Jenis Produk", selectedJenisProduk, jenisProdukList,
+                  (value) {
                 setState(() {
                   selectedJenisProduk = value;
                 });
               }),
               SizedBox(height: 16),
-              buildDropdownField("Kapasitas", selectedKapasitas, kapasitasList, (value) {
+              buildDropdownField("Kapasitas", selectedKapasitas, kapasitasList,
+                  (value) {
                 setState(() {
                   selectedKapasitas = value;
                 });
               }),
               SizedBox(height: 16),
-              buildTextField("Jumlah Stok", TextInputType.number, jumlahStokController),
+              buildTextField(
+                  "Jumlah Stok", TextInputType.number, jumlahStokController),
               SizedBox(height: 16),
               buildTextField("Harga", TextInputType.number, hargaController),
               SizedBox(height: 16),
@@ -153,6 +157,15 @@ class _AddAlatState extends State<addAlat> {
               SizedBox(height: 30),
               ElevatedButton(
                 onPressed: () async {
+                  if (_image == null) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                          content:
+                              Text("Silakan pilih gambar terlebih dahulu")),
+                    );
+                    return;
+                  }
+
                   final userId = FirebaseAuth.instance.currentUser?.uid;
 
                   if (userId == null) {
@@ -161,29 +174,44 @@ class _AddAlatState extends State<addAlat> {
                     );
                     return;
                   }
-
-                  final sewaAlat = AlatModel(
-                    namaProduk: namaProdukController.text,
-                    deskripsiProduk: deskripsiController.text,
-                    jenisProduk: selectedJenisProduk ?? '',
-                    kapasitas: selectedKapasitas ?? '',
-                    jumlahStok: int.tryParse(jumlahStokController.text) ?? 0,
-                    harga: double.tryParse(hargaController.text) ?? 0.0,
-                    lokasi: lokasiController.text,
-                    userId: userId,
-                  );
-
-                  final controller = Sewacontroller();
-
                   try {
+                    // Unggah gambar ke Firebase Storage
+                    final fileName =
+                        DateTime.now().millisecondsSinceEpoch.toString();
+                    final storageRef = FirebaseStorage.instance
+                        .ref()
+                        .child('uploads/$userId/$fileName');
+
+                    final uploadTask = await storageRef.putFile(_image!);
+                    final imageUrl = await uploadTask.ref.getDownloadURL();
+
+                    // Simpan data ke Firestore
+                    AlatModel sewaAlat = AlatModel(
+                      namaProduk: namaProdukController.text,
+                      deskripsiProduk: deskripsiController.text,
+                      jenisProduk: selectedJenisProduk ?? '',
+                      kapasitas: selectedKapasitas ?? '',
+                      jumlahStok: int.tryParse(jumlahStokController.text) ?? 0,
+                      harga: double.tryParse(hargaController.text) ?? 0.0,
+                      lokasi: lokasiController.text,
+                      userId: userId,
+                      imageUrl: imageUrl,
+                    );
+
+                    final controller = Sewacontroller();
+
+                    // Menambahkan alat ke Firestore
                     await controller.addsewaAlat(sewaAlat);
+
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text("Data alat berhasil ditambahkan")),
                     );
+
+                    // Navigasi ke halaman sebelumnya setelah berhasil simpan
                     Navigator.pop(context);
                   } catch (e) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text("Gagal menambahkan data alat: $e")),
+                      SnackBar(content: Text("Gagal mengunggah gambar: $e")),
                     );
                   }
                 },
@@ -222,7 +250,9 @@ class _AddAlatState extends State<addAlat> {
     );
   }
 
-  Widget buildTextField(String label, TextInputType inputType, TextEditingController controller, {int maxLines = 1}) {
+  Widget buildTextField(
+      String label, TextInputType inputType, TextEditingController controller,
+      {int maxLines = 1}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -253,7 +283,8 @@ class _AddAlatState extends State<addAlat> {
     );
   }
 
-  Widget buildDropdownField(String label, String? selectedValue, List<String> items, Function(String?) onChanged) {
+  Widget buildDropdownField(String label, String? selectedValue,
+      List<String> items, Function(String?) onChanged) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

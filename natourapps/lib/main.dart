@@ -1,15 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:natourapps/view/adminWisata/addWisata.dart';
-import 'package:natourapps/view/adminWisata/editWisata.dart';
-import 'package:natourapps/view/adminWisata/listTiket.dart'; //nyoba aja
-import 'package:natourapps/view/adminWisata/settingAdmin.dart';
-import 'package:natourapps/view/pengguna/dashboardPengguna.dart';
-import 'package:natourapps/view/pengguna/detailAlat.dart';
-import 'package:natourapps/view/penyewa/dashboardPenyewa.dart'; // nyoba aja
-import 'package:natourapps/view/penyewa/addAlat.dart'; // nyoba aja
-import 'package:natourapps/view/penyewa/listAlatSewa.dart'; // nyoba aja
-import 'package:natourapps/view/penyewa/detailAlatPenyewa.dart'; // nyoba aja
-import 'package:natourapps/view/adminWisata/dashboardAdmin.dart'; // nyoba aja
 import 'view/loginUser.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:natourapps/firebase_options.dart';

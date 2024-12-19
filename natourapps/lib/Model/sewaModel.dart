@@ -1,13 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class AlatModel {
-  final String namaProduk;
-  final String deskripsiProduk;
-  final String jenisProduk;
-  final String kapasitas;
-  final int jumlahStok;
-  final String lokasi;
-  final double harga;
-  final String userId; 
-  final String? imageUrl;
+  String namaProduk;
+  String deskripsiProduk;
+  String jenisProduk;
+  String kapasitas;
+  int jumlahStok;
+  double harga;
+  String lokasi;
+  String userId;
+  String imageUrl;
 
   AlatModel({
     required this.namaProduk,
@@ -15,13 +17,12 @@ class AlatModel {
     required this.jenisProduk,
     required this.kapasitas,
     required this.jumlahStok,
-    required this.lokasi,
     required this.harga,
+    required this.lokasi,
     required this.userId,
-    this.imageUrl,
+    required this.imageUrl,
   });
 
-  // Method untuk mengonversi model ke map
   Map<String, dynamic> toMap() {
     return {
       'namaProduk': namaProduk,
@@ -29,11 +30,25 @@ class AlatModel {
       'jenisProduk': jenisProduk,
       'kapasitas': kapasitas,
       'jumlahStok': jumlahStok,
-      'lokasi': lokasi,
       'harga': harga,
+      'lokasi': lokasi,
       'userId': userId,
       'imageUrl': imageUrl,
     };
   }
 
+  factory AlatModel.fromFirestore(DocumentSnapshot doc) {
+    final data = doc.data() as Map<String, dynamic>;
+    return AlatModel( // Dapatkan ID dokumen
+      namaProduk: data['namaProduk'],
+      deskripsiProduk: data['deskripsiProduk'],
+      jenisProduk: data['jenisProduk'],
+      kapasitas: data['kapasitas'],
+      jumlahStok: data['jumlahStok'],
+      harga: data['harga'],
+      lokasi: data['lokasi'],
+      userId: data['userId'],
+      imageUrl: data['imageUrl'],
+    );
+  }
 }
