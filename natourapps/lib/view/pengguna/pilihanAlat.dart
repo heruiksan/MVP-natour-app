@@ -1,47 +1,20 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:natourapps/view/pengguna/detailAlat.dart';
 
-class pilihanAlat extends StatefulWidget {
+class PilihanAlat extends StatefulWidget {
   final DateTime selectedDate;
   final int days;
 
-  pilihanAlat({required this.selectedDate, required this.days});
+  PilihanAlat({required this.selectedDate, required this.days});
 
   @override
-  _pilihanAlatState createState() => _pilihanAlatState();
+  _PilihanAlatState createState() => _PilihanAlatState();
 }
 
-class _pilihanAlatState extends State<pilihanAlat> {
-  final List<Map<String, dynamic>> alatList = [
-    {
-      'gambarAlat': 'https://antarestar.com/wp-content/uploads/2021/01/Tenda-Camping-200-x-200-1.png',
-      'namaAlat': 'Tenda',
-      'ratingAlat': 4.5,
-      'alamatAlat': 'Jl. Pantai No. 123',
-      'hargaAlat': 50000,
-      'deskripsiAlat':'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      'sisaAlat':10
-    },
-    {
-      'gambarAlat': 'https://antarestar.com/wp-content/uploads/2021/01/Tenda-Camping-200-x-200-1.png',
-      'namaAlat': 'Kompor',
-      'ratingAlat': 4.8,
-      'alamatAlat': 'Jl. Gunung Agung No. 45',
-      'hargaAlat': 20000,
-      'deskripsiAlat':'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      'sisaAlat':10
-    },
-    {
-      'gambarAlat': 'https://antarestar.com/wp-content/uploads/2021/01/Tenda-Camping-200-x-200-1.png',
-      'namaAlat': 'SB',
-      'ratingAlat': 4.2,
-      'alamatAlat': 'Jl. Taman No. 22',
-      'hargaAlat': 25000,
-      'deskripsiAlat':'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      'sisaAlat':10
-    },
-    // Tambahkan lebih banyak data alat jika perlu
-  ];
+class _PilihanAlatState extends State<PilihanAlat> {
+  final TextEditingController _searchController = TextEditingController();
+  final TextEditingController _locationController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -52,218 +25,271 @@ class _pilihanAlatState extends State<pilihanAlat> {
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.all(20),
-              child: Row(
-                children: [
-                  // TextField untuk pencarian alat
-                  Expanded(
-                    child: TextField(
-                      decoration: InputDecoration(
-                        hintText: "Cari Alat",
-                        hintStyle: TextStyle(
-                          color: Colors.blue.withOpacity(0.6),
-                        ),
-                        prefixIcon: Icon(
-                          Icons.search,
-                          color: Colors.blue,
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(12),
-                            bottomLeft: Radius.circular(12),
-                          ),
-                          borderSide: BorderSide(color: Colors.blue, width: 2),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(12),
-                            bottomLeft: Radius.circular(12),
-                          ),
-                          borderSide: BorderSide(color: Colors.blue, width: 2),
-                        ),
-                        filled: true,
-                        fillColor: Color.fromARGB(255, 228, 242, 255),
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+      body: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.all(20),
+            child: Row(
+              children: [
+                // TextField untuk pencarian alat
+                Expanded(
+                  child: TextField(
+                    controller: _searchController,
+                    decoration: InputDecoration(
+                      hintText: "Cari Alat",
+                      hintStyle: TextStyle(
+                        color: Colors.blue.withOpacity(0.6),
                       ),
+                      prefixIcon: Icon(
+                        Icons.search,
+                        color: Colors.blue,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(12),
+                          bottomLeft: Radius.circular(12),
+                        ),
+                        borderSide: BorderSide(color: Colors.blue, width: 2),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(12),
+                          bottomLeft: Radius.circular(12),
+                        ),
+                        borderSide: BorderSide(color: Colors.blue, width: 2),
+                      ),
+                      filled: true,
+                      fillColor: Color.fromARGB(255, 228, 242, 255),
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 12, horizontal: 16),
                     ),
                   ),
-                  // Dropdown untuk alat
-                  Expanded(
-                    child: TextField(
-                      decoration: InputDecoration(
-                        hintText: "Lokasi",
-                        hintStyle: TextStyle(
-                          color: Colors.blue.withOpacity(0.6),
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(12),
-                            bottomRight: Radius.circular(12),
-                          ),
-                          borderSide: BorderSide(color: Colors.blue, width: 2),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(12),
-                            bottomRight: Radius.circular(12),
-                          ),
-                          borderSide: BorderSide(color: Colors.blue, width: 2),
-                        ),
-                        filled: true,
-                        fillColor: Color.fromARGB(255, 228, 242, 255),
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 10),
-                  // Tombol Cari
-                  ElevatedButton(
-                    onPressed: () {
-                      // Aksi tombol cari
-                    },
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      backgroundColor: Colors.blue,
-                    ),
-                    child: Text(
-                      "Cari",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              child: GridView.builder(
-                shrinkWrap: true, // Menghindari overflow
-                physics: NeverScrollableScrollPhysics(), // Disable scroll
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2, // Jumlah kolom
-                  crossAxisSpacing: 10, // Spasi antar kolom
-                  mainAxisSpacing: 10, // Spasi antar baris
                 ),
-                itemCount: alatList.length,
-                itemBuilder: (context, index) {
-                  final alat = alatList[index];
-                  final int hargaTotalHari = alat['hargaAlat'] * widget.days;
-
-                  return GestureDetector(
-                    onTap: () {
-                      // Navigasi ke halaman DetailLokasi dengan data lokasi
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => DetailAlat(
-                            gambarAlat: alat['gambarAlat'],
-                            namaAlat: alat['namaAlat'],
-                            ratingAlat: alat['ratingAlat'],
-                            alamatAlat: alat['alamatAlat'],
-                            deskripsiAlat: alat['deskripsiAlat'],
-                            sisaAlat: alat['sisaAlat'],
-                            hargaAlat: hargaTotalHari,
-                            selectedDate: widget.selectedDate,
-                            days: widget.days
-                          ),
+                // Dropdown untuk lokasi
+                Expanded(
+                  child: TextField(
+                    controller: _locationController,
+                    decoration: InputDecoration(
+                      hintText: "Lokasi",
+                      hintStyle: TextStyle(
+                        color: Colors.blue.withOpacity(0.6),
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(12),
+                          bottomRight: Radius.circular(12),
                         ),
-                      );
-                    },
-                    child: Card(
-                      elevation: 5,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Image.network(
-                            alat['gambarAlat'],
-                            fit: BoxFit.cover,
-                            height: 120,
-                            width: double.infinity,
+                        borderSide: BorderSide(color: Colors.blue, width: 2),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(12),
+                          bottomRight: Radius.circular(12),
+                        ),
+                        borderSide: BorderSide(color: Colors.blue, width: 2),
+                      ),
+                      filled: true,
+                      fillColor: Color.fromARGB(255, 228, 242, 255),
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                    ),
+                  ),
+                ),
+                SizedBox(width: 10),
+                // Tombol Cari
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {}); // Memicu pembaruan tampilan
+                  },
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    backgroundColor: Colors.blue,
+                  ),
+                  child: Text(
+                    "Cari",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text('Tanggal : ${widget.selectedDate}', 
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blue
+                ),),
+                Text('Malam : ${widget.days}', 
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blue
+                ),),
+              ],
+            ),
+          Expanded(
+            child: StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance
+                  .collectionGroup(
+                      'Detail alat') // Menggunakan Collection Group Query
+                  .snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: CircularProgressIndicator());
+                }
+                if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                  return Center(
+                    child: Text(
+                      'Tidak ada data alat tersedia.',
+                      style: TextStyle(color: Colors.blue, fontSize: 16),
+                    ),
+                  );
+                }
+
+                final alatList = snapshot.data!.docs.where((doc) {
+                  final namaAlat = doc['namaProduk']?.toString() ?? '';
+                  final alamatAlat = doc['lokasi']?.toString() ?? '';
+                  return namaAlat
+                          .toLowerCase()
+                          .contains(_searchController.text.toLowerCase()) &&
+                      alamatAlat
+                          .toLowerCase()
+                          .contains(_locationController.text.toLowerCase());
+                }).toList();
+
+                return GridView.builder(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2, // Jumlah kolom
+                    crossAxisSpacing: 10, // Spasi antar kolom
+                    mainAxisSpacing: 10, // Spasi antar baris
+                  ),
+                  itemCount: alatList.length,
+                  itemBuilder: (context, index) {
+                    final alat = alatList[index].data() as Map<String, dynamic>;
+                    final double hargaTotalHari = alat['harga'] * widget.days;
+
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DetailAlat(
+                              namaAlat: alat['namaProduk'],
+                              alamatAlat: alat['lokasi'],
+                              deskripsiAlat: alat['deskripsiProduk'],
+                              sisaAlat: alat['jumlahStok'],
+                              hargaAlat: hargaTotalHari,
+                              selectedDate: widget.selectedDate,
+                              days: widget.days,
+                            ),
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(left: 8.0),
+                        );
+                      },
+                      child: Card(
+                        elevation: 5,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              width: 150,
+                              height: 130,
+                              child: Center(
                                 child: Text(
-                                  alat['namaAlat'],
+                                  'No Image',
                                   style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.blue),
+                                      color: Colors.grey, fontSize: 12),
                                 ),
                               ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8.0),
+                                  child: Text(
+                                    alat['namaProduk'],
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.blue),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8.0),
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.star,
+                                        color: Colors.yellow,
+                                        size: 18,
+                                      ),
+                                      SizedBox(width: 4),
+                                      Text(
+                                        '5.0',
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.blue.withOpacity(0.6),
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: Text(
+                                alat['lokasi'],
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.blue.withOpacity(0.6),
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                            Container(
+                              color: Colors.blue,
+                              width: double.infinity,
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 8.0, right: 8.0),
                                 child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Icon(
-                                      Icons.star,
-                                      color: Colors.yellow,
-                                      size: 18,
-                                    ),
-                                    SizedBox(width: 4),
                                     Text(
-                                      alat['ratingAlat'].toString(),
+                                      'Rp $hargaTotalHari',
                                       style: TextStyle(
                                           fontSize: 14,
-                                          color: Colors.blue.withOpacity(0.6),
-                                          fontWeight: FontWeight.w600),
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white),
+                                    ),
+                                    Text(
+                                      '>',
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white),
                                     ),
                                   ],
                                 ),
                               ),
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: Text(
-                              alat['alamatAlat'],
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.blue.withOpacity(0.6),
-                                  fontWeight: FontWeight.w600),
                             ),
-                          ),
-                          Container(
-                            color: Colors.blue,
-                            width: double.infinity,
-                            child: Padding(
-                              padding: const EdgeInsets.only(left:8.0, right: 8.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Rp $hargaTotalHari',
-                                    style: TextStyle(
-                                        fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white),
-                                  ),
-                                  Text(
-                                    '>',
-                                    style: TextStyle(
-                                        fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  );
-                },
-              ),
+                    );
+                  },
+                );
+              },
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

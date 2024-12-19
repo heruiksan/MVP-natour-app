@@ -1,112 +1,123 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:natourapps/view/adminWisata/detailWisata.dart';
+import 'package:natourapps/view/pengguna/detailAlat.dart';
 import 'package:natourapps/view/pengguna/detailLokasi.dart';
 
-class pilihanBerkemah extends StatefulWidget {
+class PilihanBerkemah extends StatefulWidget {
   final DateTime selectedDate;
-  final int nights;
+  final int days;
 
-  pilihanBerkemah({required this.selectedDate, required this.nights});
+  PilihanBerkemah({required this.selectedDate, required this.days});
 
   @override
-  _pilihanBerkemahState createState() => _pilihanBerkemahState();
+  _PilihanBerkemahState createState() => _PilihanBerkemahState();
 }
 
-class _pilihanBerkemahState extends State<pilihanBerkemah> {
-  final List<Map<String, dynamic>> lokasiList = [
-    {
-      'gambarLokasi': 'https://www.kemenparekraf.go.id/_next/image?url=https%3A%2F%2Fapi2.kemenparekraf.go.id%2Fstorage%2Fapp%2Fuploads%2Fpublic%2F620%2Fb45%2F6e6%2F620b456e67fb4793798859.jpg&w=3840&q=75',
-      'namaLokasi': 'Pantai Indah',
-      'ratingLokasi': 4.5,
-      'alamatLokasi': 'Jl. Pantai No. 123',
-      'hargaLokasi': 15000,
-      'deskripsiLokasi':'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      'sisaArea':10
-    },
-    {
-      'gambarLokasi': 'https://www.kemenparekraf.go.id/_next/image?url=https%3A%2F%2Fapi2.kemenparekraf.go.id%2Fstorage%2Fapp%2Fuploads%2Fpublic%2F620%2Fb45%2F6e6%2F620b456e67fb4793798859.jpg&w=3840&q=75',
-      'namaLokasi': 'Gunung Agung',
-      'ratingLokasi': 4.8,
-      'alamatLokasi': 'Jl. Gunung Agung No. 45',
-      'hargaLokasi': 20000,
-      'deskripsiLokasi':'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      'sisaArea':10
-    },
-    {
-      'gambarLokasi': 'https://www.kemenparekraf.go.id/_next/image?url=https%3A%2F%2Fapi2.kemenparekraf.go.id%2Fstorage%2Fapp%2Fuploads%2Fpublic%2F620%2Fb45%2F6e6%2F620b456e67fb4793798859.jpg&w=3840&q=75',
-      'namaLokasi': 'Taman',
-      'ratingLokasi': 4.2,
-      'alamatLokasi': 'Jl. Taman No. 22',
-      'hargaLokasi': 10000,
-      'deskripsiLokasi':'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      'sisaArea':10
-    },
-    // Tambahkan lebih banyak data lokasi jika perlu
-  ];
+class _PilihanBerkemahState extends State<PilihanBerkemah> {
+  final TextEditingController _searchController = TextEditingController();
+  final TextEditingController _locationController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          "Berkemah",
+          "Tempat Wisata",
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.all(20),
-              child: Row(
-                children: [
-                  // TextField untuk pencarian alat
-                  Expanded(
-                    child: TextField(
-                      decoration: InputDecoration(
-                        hintText: "Cari tempat berkemah",
-                        hintStyle: TextStyle(
-                          color: Colors.blue.withOpacity(0.6),
-                        ),
-                        prefixIcon: Icon(
-                          Icons.search,
-                          color: Colors.blue,
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: Colors.blue, width: 2),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: Colors.blue, width: 2),
-                        ),
-                        filled: true,
-                        fillColor: Color.fromARGB(255, 228, 242, 255),
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+      body: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.all(20),
+            child: Row(
+              children: [
+                // TextField untuk pencarian alat
+                Expanded(
+                  child: TextField(
+                    controller: _searchController,
+                    decoration: InputDecoration(
+                      hintText: "Cari Wisata",
+                      hintStyle: TextStyle(
+                        color: Colors.blue.withOpacity(0.6),
                       ),
+                      prefixIcon: Icon(
+                        Icons.search,
+                        color: Colors.blue,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(12),
+                          bottomLeft: Radius.circular(12),
+                        ),
+                        borderSide: BorderSide(color: Colors.blue, width: 2),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(12),
+                          bottomLeft: Radius.circular(12),
+                        ),
+                        borderSide: BorderSide(color: Colors.blue, width: 2),
+                      ),
+                      filled: true,
+                      fillColor: Color.fromARGB(255, 228, 242, 255),
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 12, horizontal: 16),
                     ),
                   ),
-                  SizedBox(width: 10),
-                  // Tombol Cari
-                  ElevatedButton(
-                    onPressed: () {
-                      // Aksi tombol cari
-                    },
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+                ),
+                // Dropdown untuk lokasi
+                Expanded(
+                  child: TextField(
+                    controller: _locationController,
+                    decoration: InputDecoration(
+                      hintText: "Lokasi",
+                      hintStyle: TextStyle(
+                        color: Colors.blue.withOpacity(0.6),
                       ),
-                      backgroundColor: Colors.blue,
-                    ),
-                    child: Text(
-                      "Cari",
-                      style: TextStyle(color: Colors.white),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(12),
+                          bottomRight: Radius.circular(12),
+                        ),
+                        borderSide: BorderSide(color: Colors.blue, width: 2),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(12),
+                          bottomRight: Radius.circular(12),
+                        ),
+                        borderSide: BorderSide(color: Colors.blue, width: 2),
+                      ),
+                      filled: true,
+                      fillColor: Color.fromARGB(255, 228, 242, 255),
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 12, horizontal: 16),
                     ),
                   ),
-                ],
-              ),
+                ),
+                SizedBox(width: 10),
+                // Tombol Cari
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {}); // Memicu pembaruan tampilan
+                  },
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    backgroundColor: Colors.blue,
+                  ),
+                  child: Text(
+                    "Cari",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ],
             ),
-            Row(
+          ),
+          Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Text('Tanggal : ${widget.selectedDate}', 
@@ -114,132 +125,173 @@ class _pilihanBerkemahState extends State<pilihanBerkemah> {
                   fontWeight: FontWeight.bold,
                   color: Colors.blue
                 ),),
-                Text('Malam : ${widget.nights}', 
+                Text('Malam : ${widget.days}', 
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.blue
                 ),),
               ],
             ),
-            SizedBox(height: 10,),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              child: GridView.builder(
-                shrinkWrap: true, // Menghindari overflow
-                physics: NeverScrollableScrollPhysics(), // Disable scroll
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2, // Jumlah kolom
-                  crossAxisSpacing: 10, // Spasi antar kolom
-                  mainAxisSpacing: 10, // Spasi antar baris
-                ),
-                itemCount: lokasiList.length,
-                itemBuilder: (context, index) {
-                  final lokasi = lokasiList[index];
-                  // Hitung harga total berdasarkan jumlah malam
-                  final int hargaTotalMalam = lokasi['hargaLokasi'] * widget.nights;
+          Expanded(
+            child: StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance
+                  .collectionGroup(
+                      'detailWisata') // Menggunakan Collection Group Query
+                  .snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: CircularProgressIndicator());
+                }
+                if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                  return Center(
+                    child: Text(
+                      'Tidak ada data wisata tersedia.',
+                      style: TextStyle(color: Colors.blue, fontSize: 16),
+                    ),
+                  );
+                }
 
-                  
-                  return GestureDetector(
-                    onTap: () {
-                      // Navigasi ke halaman DetailLokasi dengan data lokasi
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => DetailLokasi(
-                            gambarLokasi: lokasi['gambarLokasi'],
-                            namaLokasi: lokasi['namaLokasi'],
-                            ratingLokasi: lokasi['ratingLokasi'],
-                            alamatLokasi: lokasi['alamatLokasi'],
-                            deskripsiLokasi: lokasi['deskripsiLokasi'],
-                            sisaArea: lokasi['sisaArea'],
-                            hargaLokasi: hargaTotalMalam,
-                            selectedDate: widget.selectedDate,
-                            nights: widget.nights,
+                final alatList = snapshot.data!.docs.where((doc) {
+                  final namaAlat = doc['namaLahan']?.toString() ?? '';
+                  final alamatAlat = doc['lokasi']?.toString() ?? '';
+                  return namaAlat
+                          .toLowerCase()
+                          .contains(_searchController.text.toLowerCase()) &&
+                      alamatAlat
+                          .toLowerCase()
+                          .contains(_locationController.text.toLowerCase());
+                }).toList();
+
+                return GridView.builder(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2, // Jumlah kolom
+                    crossAxisSpacing: 10, // Spasi antar kolom
+                    mainAxisSpacing: 10, // Spasi antar baris
+                  ),
+                  itemCount: alatList.length,
+                  itemBuilder: (context, index) {
+                    final alat = alatList[index].data() as Map<String, dynamic>;
+                    final double hargaTotalHari = alat['harga'] * widget.days;
+
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DetailLokasi(
+                              namaLokasi: alat['namaLahan'],
+                              alamatLokasi: alat['lokasi'],
+                              deskripsiLokasi: alat['deskripsi'],
+                              kapasitas: alat['kapasitas'],
+                              hargaLokasi: hargaTotalHari,
+                              selectedDate: widget.selectedDate,
+                              days: widget.days,
+                            ),
                           ),
-                        ),
-                      );
-                    },
-                    child: Card(
-                    elevation: 5,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Image.network(
-                          lokasi['gambarLokasi'],
-                          fit: BoxFit.cover,
-                          height: 120,
-                          width: double.infinity,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        );
+                      },
+                      child: Card(
+                        elevation: 5,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left:8.0),
-                              child: Text(
-                                lokasi['namaLokasi'],
-                                style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.bold, color: Colors.blue),
+                            SizedBox(
+                              width: 150,
+                              height: 130,
+                              child: Center(
+                                child: Text(
+                                  'No Image',
+                                  style: TextStyle(
+                                      color: Colors.grey, fontSize: 12),
+                                ),
                               ),
                             ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.star,
-                                color: Colors.yellow,
-                                size: 18,
-                              ),
-                              SizedBox(width: 4),
-                              Text(
-                                lokasi['ratingLokasi'].toString(),
-                                style: TextStyle(fontSize: 14, color: Colors.blue
-                        .withOpacity(0.6), fontWeight: FontWeight.w600),
-                              ),
-                            ],
-                          ),
-                        ),
-                          ],
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Text(
-                            lokasi['alamatLokasi'],
-                            style: TextStyle(fontSize: 12, color: Colors.blue
-                        .withOpacity(0.6), fontWeight: FontWeight.w600),
-                          ),
-                        ),
-                        Container(
-                          color: Colors.blue,
-                          width: double.infinity,
-                          child: Padding(
-                            padding: const EdgeInsets.only(left:8.0, right: 8.0),
-                            child: Row(
+                            Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
-                                  'Rp $hargaTotalMalam',
-                                  style: TextStyle(
-                                      fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8.0),
+                                  child: Text(
+                                    alat['namaLahan'],
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.blue),
+                                  ),
                                 ),
-                                Text(
-                                  '>',
-                                  style: TextStyle(
-                                      fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8.0),
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.star,
+                                        color: Colors.yellow,
+                                        size: 18,
+                                      ),
+                                      SizedBox(width: 4),
+                                      Text(
+                                        '5.0',
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.blue.withOpacity(0.6),
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),
-                          ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: Text(
+                                alat['lokasi'],
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.blue.withOpacity(0.6),
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                            Container(
+                              color: Colors.blue,
+                              width: double.infinity,
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 8.0, right: 8.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Rp $hargaTotalHari',
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white),
+                                    ),
+                                    Text(
+                                      '>',
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  ),
-                  );
-                },
-              ),
+                      ),
+                    );
+                  },
+                );
+              },
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:natourapps/view/pengguna/pembayaranBerhasil.dart';
 
-
 class PembayaranAlat extends StatefulWidget {
-  final String gambarAlat;
   final String namaAlat;
-  final double ratingAlat;
   final String alamatAlat;
   final String deskripsiAlat;
   final int sisaAlat;
-  final int hargaAlat;
+  final double hargaAlat;
   final DateTime selectedDate;
   final int days;
   final double hargaTotal;
@@ -17,9 +14,7 @@ class PembayaranAlat extends StatefulWidget {
 
   // Constructor untuk menerima data dari halaman sebelumnya
   PembayaranAlat({
-    required this.gambarAlat,
     required this.namaAlat,
-    required this.ratingAlat,
     required this.alamatAlat,
     required this.deskripsiAlat,
     required this.sisaAlat,
@@ -83,8 +78,22 @@ class _PembayaranAlatState extends State<PembayaranAlat> {
                           padding: const EdgeInsets.all(0.0),
                           child: Row(
                             children: [
-                              Image.network(widget.gambarAlat,
-                                  fit: BoxFit.cover, height: 50, width: 50),
+                              // Menampilkan gambar Alat
+                              Container(
+                                color: Colors
+                                    .blueGrey, // Set your desired background color here
+                                child: SizedBox(
+                                  height: 250,
+                                  width: double.infinity,
+                                  child: Center(
+                                    child: Text(
+                                      '250x250',
+                                      style: TextStyle(
+                                          color: Colors.grey, fontSize: 12),
+                                    ),
+                                  ),
+                                ),
+                              ),
                               SizedBox(
                                 width: 10,
                               ),
@@ -152,8 +161,7 @@ class _PembayaranAlatState extends State<PembayaranAlat> {
               ),
             ),
             Padding(
-              padding:
-                  EdgeInsets.only(right: 30, left: 30, top: 0, bottom: 15),
+              padding: EdgeInsets.only(right: 30, left: 30, top: 0, bottom: 15),
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
@@ -254,7 +262,7 @@ class _PembayaranAlatState extends State<PembayaranAlat> {
                                         255, 110, 190, 255)),
                               ),
                               Text(
-                                'Rp${widget.hargaAlat/widget.days}',
+                                'Rp${widget.hargaAlat / widget.days}',
                                 style: TextStyle(
                                     fontWeight: FontWeight.w600,
                                     fontSize: 16,
@@ -356,16 +364,15 @@ class _PembayaranAlatState extends State<PembayaranAlat> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left:30.0, right: 30, bottom: 30, top: 10),
+              padding: const EdgeInsets.only(
+                  left: 30.0, right: 30, bottom: 30, top: 10),
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => PembayaranBerhasil(
-                                  
-                                ),
-                              ),
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PembayaranBerhasil(),
+                    ),
                   );
                 },
                 style: ElevatedButton.styleFrom(

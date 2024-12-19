@@ -410,9 +410,9 @@ class _dashboardPenggunaState extends State<dashboardPengguna> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => pilihanBerkemah(
+                      builder: (context) => PilihanBerkemah(
                         selectedDate: selectedDate,
-                        nights: nights,
+                        days: nights,
                       ),
                     ),
                   );
@@ -498,7 +498,7 @@ class _dashboardPenggunaState extends State<dashboardPengguna> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => pilihanAlat(
+                      builder: (context) => PilihanAlat(
                         selectedDate: selectedDate,
                         days: days,
                       ),

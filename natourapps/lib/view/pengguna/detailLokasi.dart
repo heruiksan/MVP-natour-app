@@ -2,27 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:natourapps/view/pengguna/pembayaranBerkemah.dart';
 
 class DetailLokasi extends StatefulWidget {
-  final String gambarLokasi;
   final String namaLokasi;
-  final double ratingLokasi;
   final String alamatLokasi;
   final String deskripsiLokasi;
-  final int sisaArea;
-  final int hargaLokasi;
+  final String kapasitas;
+  final double hargaLokasi;
   final DateTime selectedDate;
-  final int nights;
+  final int days;
 
   // Constructor untuk menerima data dari halaman sebelumnya
   DetailLokasi({
-    required this.gambarLokasi,
     required this.namaLokasi,
-    required this.ratingLokasi,
     required this.alamatLokasi,
     required this.deskripsiLokasi,
-    required this.sisaArea,
+    required this.kapasitas,
     required this.hargaLokasi,
     required this.selectedDate,
-    required this.nights,
+    required this.days,
   });
 
   @override
@@ -52,9 +48,21 @@ class _DetailLokasiState extends State<DetailLokasi> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Menampilkan gambar lokasi
-                  Image.network(widget.gambarLokasi,
-                      fit: BoxFit.cover, height: 250, width: double.infinity),
+                   // Menampilkan gambar Alat
+                  Container(
+                    color: Colors
+                        .blueGrey, // Set your desired background color here
+                    child: SizedBox(
+                      height: 250,
+                      width: double.infinity,
+                      child: Center(
+                        child: Text(
+                          '250x250',
+                          style: TextStyle(color: Colors.grey, fontSize: 12),
+                        ),
+                      ),
+                    ),
+                  ),
                   SizedBox(height: 10),
                   // Menampilkan Nama Lokasi
                   Padding(
@@ -142,7 +150,7 @@ class _DetailLokasiState extends State<DetailLokasi> {
                                                   size: 18),
                                               SizedBox(width: 4),
                                               Text(
-                                                widget.ratingLokasi.toString(),
+                                                '5.0',
                                                 style: TextStyle(
                                                     fontSize: 16,
                                                     fontWeight: FontWeight.w600,
@@ -158,14 +166,14 @@ class _DetailLokasiState extends State<DetailLokasi> {
                                             CrossAxisAlignment.center,
                                         children: [
                                           Text(
-                                            'Sisa Area',
+                                            'Kapasitas',
                                             style: TextStyle(
                                               color:
                                                   Colors.blue.withOpacity(0.7),
                                             ),
                                           ),
                                           Text(
-                                            '${widget.sisaArea}',
+                                            '${widget.kapasitas}',
                                             style: TextStyle(
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.bold,
@@ -283,15 +291,13 @@ class _DetailLokasiState extends State<DetailLokasi> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => PembayaranBerkemah(
-                                  gambarLokasi: widget.gambarLokasi,
                                   namaLokasi: widget.namaLokasi,
-                                  ratingLokasi: widget.ratingLokasi,
                                   alamatLokasi: widget.alamatLokasi,
                                   deskripsiLokasi: widget.deskripsiLokasi,
-                                  sisaArea: widget.sisaArea,
+                                  kapasitas: widget.kapasitas,
                                   hargaLokasi: widget.hargaLokasi,
                                   selectedDate: widget.selectedDate,
-                                  nights: widget.nights,
+                                  nights: widget.days,
                                   hargaTotal: _totalHarga,
                                   jumlahOrang: _jumlahOrang,
                                 ),
@@ -344,7 +350,7 @@ class _DetailLokasiState extends State<DetailLokasi> {
                                       ),
                                     ),
                                     Text(
-                                      '${widget.nights} Hari',
+                                      '${widget.days} Hari',
                                       style: TextStyle(
                                         fontSize: 20,
                                         fontWeight: FontWeight.bold,

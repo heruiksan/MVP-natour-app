@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:natourapps/view/pengguna/pembayaranBerhasil.dart';
 
-
 class PembayaranBerkemah extends StatefulWidget {
-  final String gambarLokasi;
   final String namaLokasi;
-  final double ratingLokasi;
   final String alamatLokasi;
   final String deskripsiLokasi;
-  final int sisaArea;
-  final int hargaLokasi;
+  final String kapasitas;
+  final double hargaLokasi;
   final DateTime selectedDate;
   final int nights;
   final double hargaTotal;
@@ -17,12 +14,10 @@ class PembayaranBerkemah extends StatefulWidget {
 
   // Constructor untuk menerima data dari halaman sebelumnya
   PembayaranBerkemah({
-    required this.gambarLokasi,
     required this.namaLokasi,
-    required this.ratingLokasi,
     required this.alamatLokasi,
     required this.deskripsiLokasi,
-    required this.sisaArea,
+    required this.kapasitas,
     required this.hargaLokasi,
     required this.selectedDate,
     required this.nights,
@@ -83,8 +78,22 @@ class _PembayaranBerkemahState extends State<PembayaranBerkemah> {
                           padding: const EdgeInsets.all(0.0),
                           child: Row(
                             children: [
-                              Image.network(widget.gambarLokasi,
-                                  fit: BoxFit.cover, height: 50, width: 50),
+                              // Menampilkan gambar Alat
+                              Container(
+                                color: Colors
+                                    .blueGrey, // Set your desired background color here
+                                child: SizedBox(
+                                  height: 250,
+                                  width: double.infinity,
+                                  child: Center(
+                                    child: Text(
+                                      '250x250',
+                                      style: TextStyle(
+                                          color: Colors.grey, fontSize: 12),
+                                    ),
+                                  ),
+                                ),
+                              ),
                               SizedBox(
                                 width: 10,
                               ),
@@ -152,8 +161,7 @@ class _PembayaranBerkemahState extends State<PembayaranBerkemah> {
               ),
             ),
             Padding(
-              padding:
-                  EdgeInsets.only(right: 30, left: 30, top: 0, bottom: 15),
+              padding: EdgeInsets.only(right: 30, left: 30, top: 0, bottom: 15),
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
@@ -254,7 +262,7 @@ class _PembayaranBerkemahState extends State<PembayaranBerkemah> {
                                         255, 110, 190, 255)),
                               ),
                               Text(
-                                'Rp${widget.hargaLokasi/widget.nights}',
+                                'Rp${widget.hargaLokasi / widget.nights}',
                                 style: TextStyle(
                                     fontWeight: FontWeight.w600,
                                     fontSize: 16,
@@ -356,16 +364,15 @@ class _PembayaranBerkemahState extends State<PembayaranBerkemah> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left:30.0, right: 30, bottom: 30, top: 10),
+              padding: const EdgeInsets.only(
+                  left: 30.0, right: 30, bottom: 30, top: 10),
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => PembayaranBerhasil(
-                                  
-                                ),
-                              ),
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PembayaranBerhasil(),
+                    ),
                   );
                 },
                 style: ElevatedButton.styleFrom(

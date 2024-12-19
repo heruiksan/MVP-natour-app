@@ -3,21 +3,17 @@ import 'package:natourapps/view/pengguna/pembayaranAlat.dart';
 
 
 class DetailAlat extends StatefulWidget {
-  final String gambarAlat;
   final String namaAlat;
-  final double ratingAlat;
   final String alamatAlat;
   final String deskripsiAlat;
   final int sisaAlat;
-  final int hargaAlat;
+  final double hargaAlat;
   final DateTime selectedDate;
   final int days;
 
   // Constructor untuk menerima data dari halaman sebelumnya
   DetailAlat({
-    required this.gambarAlat,
     required this.namaAlat,
-    required this.ratingAlat,
     required this.alamatAlat,
     required this.deskripsiAlat,
     required this.sisaAlat,
@@ -54,8 +50,20 @@ class _DetailAlatState extends State<DetailAlat> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Menampilkan gambar Alat
-                  Image.network(widget.gambarAlat,
-                      fit: BoxFit.cover, height: 250, width: double.infinity),
+                  Container(
+                    color: Colors
+                        .blueGrey, // Set your desired background color here
+                    child: SizedBox(
+                      height: 250,
+                      width: double.infinity,
+                      child: Center(
+                        child: Text(
+                          '250x250',
+                          style: TextStyle(color: Colors.grey, fontSize: 12),
+                        ),
+                      ),
+                    ),
+                  ),
                   SizedBox(height: 10),
                   // Menampilkan Nama Alat
                   Padding(
@@ -143,7 +151,7 @@ class _DetailAlatState extends State<DetailAlat> {
                                                   size: 18),
                                               SizedBox(width: 4),
                                               Text(
-                                                widget.ratingAlat.toString(),
+                                                '5.0',
                                                 style: TextStyle(
                                                     fontSize: 16,
                                                     fontWeight: FontWeight.w600,
@@ -284,9 +292,7 @@ class _DetailAlatState extends State<DetailAlat> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => PembayaranAlat(
-                                  gambarAlat: widget.gambarAlat,
                                   namaAlat: widget.namaAlat,
-                                  ratingAlat: widget.ratingAlat,
                                   alamatAlat: widget.alamatAlat,
                                   deskripsiAlat: widget.deskripsiAlat,
                                   sisaAlat: widget.sisaAlat,
