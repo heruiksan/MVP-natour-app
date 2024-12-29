@@ -48,7 +48,7 @@ class _DetailLokasiState extends State<DetailLokasi> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                   // Menampilkan gambar Alat
+                  // Menampilkan gambar Alat
                   Container(
                     color: Colors
                         .blueGrey, // Set your desired background color here
@@ -223,8 +223,7 @@ class _DetailLokasiState extends State<DetailLokasi> {
                 borderRadius: BorderRadius.circular(100),
               ),
               child: IconButton(
-                icon:
-                    Icon(Icons.arrow_back, color: Colors.blue),
+                icon: Icon(Icons.arrow_back, color: Colors.blue),
                 onPressed: () {
                   Navigator.pop(
                       context); // Navigates back to the previous screen
@@ -391,34 +390,36 @@ class _DetailLokasiState extends State<DetailLokasi> {
                                       });
                                     },
                                   ),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        _isClicked =
+                                            !_isClicked; // Toggle tombol
+                                      });
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      backgroundColor:
+                                          Colors.red.withOpacity(0),
+                                      side: BorderSide(
+                                        color: Colors.red, // Warna border
+                                        width: 2, // Ketebalan border
+                                      ),
+                                    ),
+                                    child: Text(
+                                      'Batal',
+                                      style: TextStyle(
+                                        color: Colors.red,
+                                        fontWeight: FontWeight.w800,
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ),
                                 ],
                               ),
                             ],
-                          ),
-                          ElevatedButton(
-                            onPressed: () {
-                              setState(() {
-                                _isClicked = !_isClicked; // Toggle tombol
-                              });
-                            },
-                            style: ElevatedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              backgroundColor: Colors.red.withOpacity(0),
-                              side: BorderSide(
-                                color: Colors.red, // Warna border
-                                width: 2, // Ketebalan border
-                              ),
-                            ),
-                            child: Text(
-                              'Batal',
-                              style: TextStyle(
-                                color: Colors.red,
-                                fontWeight: FontWeight.w800,
-                                fontSize: 20,
-                              ),
-                            ),
                           ),
                         ],
                       ],

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:natourapps/view/pengguna/pembayaranAlat.dart';
 
-
 class DetailAlat extends StatefulWidget {
   final String namaAlat;
   final String alamatAlat;
@@ -224,8 +223,7 @@ class _DetailAlatState extends State<DetailAlat> {
                 borderRadius: BorderRadius.circular(100),
               ),
               child: IconButton(
-                icon:
-                    Icon(Icons.arrow_back, color: Colors.blue),
+                icon: Icon(Icons.arrow_back, color: Colors.blue),
                 onPressed: () {
                   Navigator.pop(
                       context); // Navigates back to the previous screen
@@ -392,34 +390,36 @@ class _DetailAlatState extends State<DetailAlat> {
                                       });
                                     },
                                   ),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        _isClicked =
+                                            !_isClicked; // Toggle tombol
+                                      });
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      backgroundColor:
+                                          Colors.red.withOpacity(0),
+                                      side: BorderSide(
+                                        color: Colors.red, // Warna border
+                                        width: 2, // Ketebalan border
+                                      ),
+                                    ),
+                                    child: Text(
+                                      'Batal',
+                                      style: TextStyle(
+                                        color: Colors.red,
+                                        fontWeight: FontWeight.w800,
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ),
                                 ],
                               ),
                             ],
-                          ),
-                          ElevatedButton(
-                            onPressed: () {
-                              setState(() {
-                                _isClicked = !_isClicked; // Toggle tombol
-                              });
-                            },
-                            style: ElevatedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              backgroundColor: Colors.red.withOpacity(0),
-                              side: BorderSide(
-                                color: Colors.red, // Warna border
-                                width: 2, // Ketebalan border
-                              ),
-                            ),
-                            child: Text(
-                              'Batal',
-                              style: TextStyle(
-                                color: Colors.red,
-                                fontWeight: FontWeight.w800,
-                                fontSize: 20,
-                              ),
-                            ),
                           ),
                         ],
                       ],

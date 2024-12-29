@@ -118,20 +118,20 @@ class _PilihanBerkemahState extends State<PilihanBerkemah> {
             ),
           ),
           Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text('Tanggal : ${widget.selectedDate}', 
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.blue
-                ),),
-                Text('Malam : ${widget.days}', 
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.blue
-                ),),
-              ],
-            ),
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Text(
+                'Tanggal : ${widget.selectedDate}',
+                style:
+                    TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
+              ),
+              Text(
+                'Malam : ${widget.days}',
+                style:
+                    TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
+              ),
+            ],
+          ),
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance
@@ -197,8 +197,8 @@ class _PilihanBerkemahState extends State<PilihanBerkemah> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             SizedBox(
-                              width: 150,
-                              height: 130,
+                              width: 80,
+                              height: 80,
                               child: Center(
                                 child: Text(
                                   'No Image',
@@ -214,31 +214,12 @@ class _PilihanBerkemahState extends State<PilihanBerkemah> {
                                   padding: const EdgeInsets.only(left: 8.0),
                                   child: Text(
                                     alat['namaLahan'],
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.blue),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 8.0),
-                                  child: Row(
-                                    children: [
-                                      Icon(
-                                        Icons.star,
-                                        color: Colors.yellow,
-                                        size: 18,
-                                      ),
-                                      SizedBox(width: 4),
-                                      Text(
-                                        '5.0',
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.blue.withOpacity(0.6),
-                                            fontWeight: FontWeight.w600),
-                                      ),
-                                    ],
                                   ),
                                 ),
                               ],
@@ -254,32 +235,39 @@ class _PilihanBerkemahState extends State<PilihanBerkemah> {
                                     fontWeight: FontWeight.w600),
                               ),
                             ),
-                            Container(
-                              color: Colors.blue,
-                              width: double.infinity,
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 8.0, right: 8.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 8.0,
+                                  right: 8.0,
+                                  bottom: 8.0,
+                                  top:
+                                      4.0), // Padding bawah untuk memberi ruang
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(
+                                    child: Text(
                                       'Rp $hargaTotalHari',
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white),
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.blue,
+                                      ),
                                     ),
-                                    Text(
-                                      '>',
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white),
+                                  ),
+                                  // Aksi sewa (ikon panah)
+                                  Text(
+                                    '>',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.blue,
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],
