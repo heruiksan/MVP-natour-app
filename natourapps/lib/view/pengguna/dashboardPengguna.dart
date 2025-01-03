@@ -313,7 +313,6 @@ class _dashboardPenggunaState extends State<dashboardPengguna> {
                   ),
                 ],
               ),
-              SizedBox(height: screenWidth * 0.18),
             ],
           ),
         ],
