@@ -79,21 +79,21 @@ class _PembayaranAlatState extends State<PembayaranAlat> {
                           child: Row(
                             children: [
                               // Menampilkan gambar Alat
-                              Container(
-                                color: Colors
-                                    .blueGrey, // Set your desired background color here
-                                child: SizedBox(
-                                  height: 250,
-                                  width: double.infinity,
-                                  child: Center(
-                                    child: Text(
-                                      '250x250',
-                                      style: TextStyle(
-                                          color: Colors.grey, fontSize: 12),
-                                    ),
-                                  ),
-                                ),
-                              ),
+                              // Container(
+                              //   color: Colors
+                              //       .blueGrey, // Set your desired background color here
+                              //   child: SizedBox(
+                              //     height: 250,
+                              //     width: double.infinity,
+                              //     child: Center(
+                              //       child: Text(
+                              //         '250x250',
+                              //         style: TextStyle(
+                              //             color: Colors.grey, fontSize: 12),
+                              //       ),
+                              //     ),
+                              //   ),
+                              // ),
                               SizedBox(
                                 width: 10,
                               ),
@@ -215,12 +215,24 @@ class _PembayaranAlatState extends State<PembayaranAlat> {
                                     color: const Color.fromARGB(
                                         255, 110, 190, 255)),
                               ),
-                              Text(
-                                '${widget.namaAlat}',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 16,
-                                    color: Colors.blue),
+                              SizedBox(
+                                width: 230,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      '${widget.namaAlat}',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 16,
+                                        color: Colors.blue,
+                                      ),
+                                      maxLines: 1, // Batasi teks hanya satu baris
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ],
+                                ),
                               )
                             ],
                           ),

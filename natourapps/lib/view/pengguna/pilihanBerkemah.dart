@@ -20,6 +20,8 @@ class _PilihanBerkemahState extends State<PilihanBerkemah> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -30,7 +32,7 @@ class _PilihanBerkemahState extends State<PilihanBerkemah> {
       body: Column(
         children: [
           Padding(
-            padding: EdgeInsets.all(20),
+            padding: EdgeInsets.all(screenWidth * 0.05),
             child: Row(
               children: [
                 // TextField untuk pencarian alat
@@ -48,22 +50,25 @@ class _PilihanBerkemahState extends State<PilihanBerkemah> {
                       ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(12),
-                          bottomLeft: Radius.circular(12),
+                          topLeft: Radius.circular(screenWidth * 0.03),
+                          bottomLeft: Radius.circular(screenWidth * 0.03),
                         ),
-                        borderSide: BorderSide(color: Colors.blue, width: 2),
+                        borderSide: BorderSide(
+                            color: Colors.blue, width: screenWidth * 0.005),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(12),
-                          bottomLeft: Radius.circular(12),
+                          topLeft: Radius.circular(screenWidth * 0.03),
+                          bottomLeft: Radius.circular(screenWidth * 0.03),
                         ),
-                        borderSide: BorderSide(color: Colors.blue, width: 2),
+                        borderSide: BorderSide(
+                            color: Colors.blue, width: screenWidth * 0.005),
                       ),
                       filled: true,
                       fillColor: Color.fromARGB(255, 228, 242, 255),
-                      contentPadding:
-                          EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                      contentPadding: EdgeInsets.symmetric(
+                          vertical: screenWidth * 0.03,
+                          horizontal: screenWidth * 0.04),
                     ),
                   ),
                 ),
@@ -78,26 +83,29 @@ class _PilihanBerkemahState extends State<PilihanBerkemah> {
                       ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(12),
-                          bottomRight: Radius.circular(12),
+                          topRight: Radius.circular(screenWidth * 0.03),
+                          bottomRight: Radius.circular(screenWidth * 0.03),
                         ),
-                        borderSide: BorderSide(color: Colors.blue, width: 2),
+                        borderSide: BorderSide(
+                            color: Colors.blue, width: screenWidth * 0.005),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(12),
-                          bottomRight: Radius.circular(12),
+                          topRight: Radius.circular(screenWidth * 0.03),
+                          bottomRight: Radius.circular(screenWidth * 0.03),
                         ),
-                        borderSide: BorderSide(color: Colors.blue, width: 2),
+                        borderSide: BorderSide(
+                            color: Colors.blue, width: screenWidth * 0.005),
                       ),
                       filled: true,
                       fillColor: Color.fromARGB(255, 228, 242, 255),
-                      contentPadding:
-                          EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                      contentPadding: EdgeInsets.symmetric(
+                          vertical: screenWidth * 0.03,
+                          horizontal: screenWidth * 0.04),
                     ),
                   ),
                 ),
-                SizedBox(width: 10),
+                SizedBox(width: screenWidth * 0.025),
                 // Tombol Cari
                 ElevatedButton(
                   onPressed: () {
@@ -105,7 +113,7 @@ class _PilihanBerkemahState extends State<PilihanBerkemah> {
                   },
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(screenWidth * 0.03),
                     ),
                     backgroundColor: Colors.blue,
                   ),
@@ -135,8 +143,7 @@ class _PilihanBerkemahState extends State<PilihanBerkemah> {
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance
-                  .collectionGroup(
-                      'detailWisata') // Menggunakan Collection Group Query
+                  .collectionGroup('detailWisata')
                   .snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -146,7 +153,8 @@ class _PilihanBerkemahState extends State<PilihanBerkemah> {
                   return Center(
                     child: Text(
                       'Tidak ada data wisata tersedia.',
-                      style: TextStyle(color: Colors.blue, fontSize: 16),
+                      style: TextStyle(
+                          color: Colors.blue, fontSize: screenWidth * 0.04),
                     ),
                   );
                 }
@@ -163,11 +171,11 @@ class _PilihanBerkemahState extends State<PilihanBerkemah> {
                 }).toList();
 
                 return GridView.builder(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2, // Jumlah kolom
-                    crossAxisSpacing: 10, // Spasi antar kolom
-                    mainAxisSpacing: 10, // Spasi antar baris
+                    crossAxisSpacing: screenWidth * 0.025, // Spasi antar kolom
+                    mainAxisSpacing: screenWidth * 0.025, // Spasi antar baris
                   ),
                   itemCount: alatList.length,
                   itemBuilder: (context, index) {
@@ -197,13 +205,14 @@ class _PilihanBerkemahState extends State<PilihanBerkemah> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             SizedBox(
-                              width: 80,
-                              height: 80,
+                              width: screenWidth * 0.4,
+                              height: screenWidth * 0.292,
                               child: Center(
                                 child: Text(
                                   'No Image',
                                   style: TextStyle(
-                                      color: Colors.grey, fontSize: 12),
+                                      color: Colors.grey,
+                                      fontSize: screenWidth * 0.03),
                                 ),
                               ),
                             ),
@@ -211,63 +220,79 @@ class _PilihanBerkemahState extends State<PilihanBerkemah> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.only(left: 8.0),
+                                  padding:
+                                      EdgeInsets.only(left: screenWidth * 0.02),
                                   child: Text(
                                     alat['namaLahan'],
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.blue),
+                                      fontSize: screenWidth * 0.035,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.blue,
+                                    ),
+                                    maxLines: 1, // Maksimal satu baris
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: screenWidth * 0.02),
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.star,
+                                        color: Colors.yellow,
+                                        size: screenWidth * 0.045,
+                                      ),
+                                      SizedBox(width: screenWidth * 0.01),
+                                      Text(
+                                        '5.0',
+                                        style: TextStyle(
+                                            fontSize: screenWidth * 0.035,
+                                            color: Colors.blue.withOpacity(0.6),
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ],
                             ),
                             Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: screenWidth * 0.02),
                               child: Text(
                                 alat['lokasi'],
                                 style: TextStyle(
-                                    fontSize: 12,
+                                    fontSize: screenWidth * 0.03,
                                     color: Colors.blue.withOpacity(0.6),
                                     fontWeight: FontWeight.w600),
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 8.0,
-                                  right: 8.0,
-                                  bottom: 8.0,
-                                  top:
-                                      4.0), // Padding bawah untuk memberi ruang
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Expanded(
-                                    child: Text(
+                            Container(
+                              color: Colors.blue,
+                              width: double.infinity,
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: screenWidth * 0.02),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
                                       'Rp $hargaTotalHari',
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.blue,
-                                      ),
+                                          fontSize: screenWidth * 0.035,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white),
                                     ),
-                                  ),
-                                  // Aksi sewa (ikon panah)
-                                  Text(
-                                    '>',
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.blue,
+                                    Text(
+                                      '>',
+                                      style: TextStyle(
+                                          fontSize: screenWidth * 0.035,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           ],

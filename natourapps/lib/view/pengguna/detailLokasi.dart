@@ -10,7 +10,6 @@ class DetailLokasi extends StatefulWidget {
   final DateTime selectedDate;
   final int days;
 
-  // Constructor untuk menerima data dari halaman sebelumnya
   DetailLokasi({
     required this.namaLokasi,
     required this.alamatLokasi,
@@ -26,20 +25,22 @@ class DetailLokasi extends StatefulWidget {
 }
 
 class _DetailLokasiState extends State<DetailLokasi> {
-  bool _isClicked = false; // Status tombol Registrasi
-  int _jumlahOrang = 1; // Jumlah orang yang ingin didaftarkan
-  late double _harga; // Harga total
+  bool _isClicked = false;
+  int _jumlahOrang = 1;
+  late double _harga;
   late double _totalHarga;
 
   @override
   void initState() {
     super.initState();
-    _harga = widget.hargaLokasi.toDouble(); // Inisialisasi harga
+    _harga = widget.hargaLokasi.toDouble();
     _totalHarga = _harga * _jumlahOrang;
   }
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       body: Stack(
         children: [
@@ -48,86 +49,84 @@ class _DetailLokasiState extends State<DetailLokasi> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Menampilkan gambar Alat
                   Container(
-                    color: Colors
-                        .blueGrey, // Set your desired background color here
+                    color: Colors.blueGrey,
                     child: SizedBox(
-                      height: 250,
+                      height: screenWidth * 0.5,
                       width: double.infinity,
                       child: Center(
                         child: Text(
                           '250x250',
-                          style: TextStyle(color: Colors.grey, fontSize: 12),
+                          style: TextStyle(
+                              color: Colors.grey, fontSize: screenWidth * 0.03),
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(height: 10),
-                  // Menampilkan Nama Lokasi
+                  SizedBox(height: screenWidth * 0.02),
                   Padding(
-                    padding: const EdgeInsets.only(
-                        left: 36.0, right: 36.0, top: 20.0, bottom: 50.0),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: screenWidth * 0.1,
+                        vertical: screenWidth * 0.05),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           widget.namaLokasi,
                           style: TextStyle(
-                              fontSize: 24,
+                              fontSize: screenWidth * 0.06,
                               fontWeight: FontWeight.bold,
                               color: Colors.blue),
                         ),
-                        // Menampilkan Alamat Lokasi
                         Row(
                           children: [
                             Icon(Icons.location_on_outlined,
-                                color: Colors.blue.withOpacity(0.7), size: 25),
+                                color: Colors.blue.withOpacity(0.7),
+                                size: screenWidth * 0.06),
+                            SizedBox(width: screenWidth * 0.02),
                             Text(
                               widget.alamatLokasi,
                               style: TextStyle(
-                                  fontSize: 14,
+                                  fontSize: screenWidth * 0.04,
                                   color: Colors.blue.withOpacity(0.7),
                                   fontWeight: FontWeight.w400),
                             ),
                           ],
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(
-                              left: 0.0, right: 0.0, top: 25.0, bottom: 25.0),
+                          padding: EdgeInsets.symmetric(
+                              vertical: screenWidth * 0.05),
                           child: Container(
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12),
+                              borderRadius:
+                                  BorderRadius.circular(screenWidth * 0.03),
                               color: Colors.white,
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.black
-                                      .withOpacity(0.2), // Warna bayangan
-                                  blurRadius: 10, // Ukuran blur bayangan
-                                  offset:
-                                      Offset(4, 4), // Posisi bayangan (x, y)
-                                  spreadRadius: 1, // Lebar penyebaran bayangan
+                                  color: Colors.black.withOpacity(0.2),
+                                  blurRadius: screenWidth * 0.03,
+                                  offset: Offset(
+                                      screenWidth * 0.01, screenWidth * 0.01),
+                                  spreadRadius: screenWidth * 0.005,
                                 ),
                               ],
                             ),
                             child: Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 5.0, right: 5.0, top: 5.0, bottom: 5.0),
+                              padding: EdgeInsets.all(screenWidth * 0.02),
                               child: Container(
                                 decoration: BoxDecoration(
                                   border: Border.all(
-                                    color: Colors.blue, // Warna border
-                                    width: 1, // Ketebalan border
+                                    color: Colors.blue,
+                                    width: screenWidth * 0.005,
                                   ),
-                                  borderRadius: BorderRadius.circular(10),
+                                  borderRadius:
+                                      BorderRadius.circular(screenWidth * 0.03),
                                   color: Colors.white,
                                 ),
                                 child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 50.0,
-                                      right: 50.0,
-                                      top: 5.0,
-                                      bottom: 5.0),
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: screenWidth * 0.12,
+                                      vertical: screenWidth * 0.02),
                                   child: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -147,12 +146,14 @@ class _DetailLokasiState extends State<DetailLokasi> {
                                             children: [
                                               Icon(Icons.star,
                                                   color: Colors.yellow,
-                                                  size: 18),
-                                              SizedBox(width: 4),
+                                                  size: screenWidth * 0.045),
+                                              SizedBox(
+                                                  width: screenWidth * 0.01),
                                               Text(
                                                 '5.0',
                                                 style: TextStyle(
-                                                    fontSize: 16,
+                                                    fontSize:
+                                                        screenWidth * 0.04,
                                                     fontWeight: FontWeight.w600,
                                                     color: Colors.blue
                                                         .withOpacity(0.7)),
@@ -175,7 +176,7 @@ class _DetailLokasiState extends State<DetailLokasi> {
                                           Text(
                                             '${widget.kapasitas}',
                                             style: TextStyle(
-                                                fontSize: 14,
+                                                fontSize: screenWidth * 0.035,
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.blue),
                                           ),
@@ -189,21 +190,22 @@ class _DetailLokasiState extends State<DetailLokasi> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(bottom: 8.0),
+                          padding: EdgeInsets.only(bottom: screenWidth * 0.02),
                           child: Text(
                             'Deskripsi',
                             style: TextStyle(
-                                fontSize: 20,
+                                fontSize: screenWidth * 0.05,
                                 fontWeight: FontWeight.w500,
                                 color: Colors.blue),
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(bottom: 50.0),
+                          padding: EdgeInsets.only(bottom: screenWidth * 0.5),
                           child: Text(
                             widget.deskripsiLokasi,
-                            style:
-                                TextStyle(fontSize: 14, color: Colors.black87),
+                            style: TextStyle(
+                                fontSize: screenWidth * 0.035,
+                                color: Colors.black87),
                           ),
                         ),
                       ],
@@ -214,19 +216,18 @@ class _DetailLokasiState extends State<DetailLokasi> {
             ),
           ),
           Positioned(
-            top: 40,
-            left: 16,
+            top: screenWidth * 0.1,
+            left: screenWidth * 0.04,
             child: Container(
-              padding: EdgeInsets.all(5),
+              padding: EdgeInsets.all(screenWidth * 0.01),
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.8), // Slight transparency
-                borderRadius: BorderRadius.circular(100),
+                color: Colors.white.withOpacity(0.8),
+                borderRadius: BorderRadius.circular(screenWidth * 0.1),
               ),
               child: IconButton(
                 icon: Icon(Icons.arrow_back, color: Colors.blue),
                 onPressed: () {
-                  Navigator.pop(
-                      context); // Navigates back to the previous screen
+                  Navigator.pop(context);
                 },
               ),
             ),

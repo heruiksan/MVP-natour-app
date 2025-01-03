@@ -20,31 +20,34 @@ class _loginUserState extends State<loginUser> {
 
   @override
   Widget build(BuildContext context) {
+    // Mendapatkan ukuran layar
+    final screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 0, 108, 196),
+      backgroundColor: const Color.fromARGB(255, 0, 108, 196),
       body: Center(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 10.0),
+                padding: EdgeInsets.only(top: screenWidth * 0.02),
                 child: Image.asset(
                   'assets/logo.png',
-                  height: 100,
+                  height: screenWidth * 0.25,
                 ),
               ),
-              const SizedBox(height: 24.0),
-              const Text(
+              SizedBox(height: screenWidth * 0.06),
+              Text(
                 'Login',
                 style: TextStyle(
-                  fontSize: 24.0,
+                  fontSize: screenWidth * 0.06,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
               ),
-              const SizedBox(height: 24.0),
+              SizedBox(height: screenWidth * 0.06),
               TextField(
                 controller: emailController,
                 decoration: InputDecoration(
@@ -54,12 +57,12 @@ class _loginUserState extends State<loginUser> {
                   fillColor: Colors.white,
                   prefixIcon: const Icon(Icons.email, color: Colors.blue),
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12.0),
+                    borderRadius: BorderRadius.circular(screenWidth * 0.03),
                     borderSide: BorderSide.none,
                   ),
                 ),
               ),
-              const SizedBox(height: 16.0),
+              SizedBox(height: screenWidth * 0.04),
               TextField(
                 controller: passwordController,
                 obscureText: true,
@@ -72,26 +75,27 @@ class _loginUserState extends State<loginUser> {
                   suffixIcon:
                       Icon(Icons.visibility_off, color: Colors.grey[400]),
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12.0),
+                    borderRadius: BorderRadius.circular(screenWidth * 0.03),
                     borderSide: BorderSide.none,
                   ),
                 ),
               ),
-              const SizedBox(height: 16.0),
+              SizedBox(height: screenWidth * 0.04),
               Align(
                 alignment: Alignment.centerRight,
                 child: GestureDetector(
                   onTap: () {},
-                  child: const Text(
+                  child: Text(
                     'Lupa Kata Sandi?',
                     style: TextStyle(
                       color: Colors.lightBlueAccent,
+                      fontSize: screenWidth * 0.035,
                       decoration: TextDecoration.underline,
                     ),
                   ),
                 ),
               ),
-              const SizedBox(height: 24.0),
+              SizedBox(height: screenWidth * 0.06),
               ElevatedButton(
                 onPressed: () async {
                   String email = emailController.text.trim();
@@ -110,7 +114,7 @@ class _loginUserState extends State<loginUser> {
 
                   if (result['status'] == 'success') {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Login Berhasil')),
+                      const SnackBar(content: Text('Login Berhasil')),
                     );
 
                     // Arahkan ke halaman berdasarkan role
@@ -143,32 +147,37 @@ class _loginUserState extends State<loginUser> {
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color.fromARGB(255, 55, 192, 255),
+                  backgroundColor: const Color.fromARGB(255, 55, 192, 255),
                   elevation: 5,
                   shadowColor: Colors.black.withOpacity(0.5),
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.0),
+                  padding: EdgeInsets.symmetric(
+                    vertical: screenWidth * 0.04,
                   ),
-                  minimumSize: const Size(double.infinity, 48),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(screenWidth * 0.03),
+                  ),
+                  minimumSize: Size(double.infinity, screenWidth * 0.12),
                 ),
-                child: const Text(
+                child: Text(
                   'Masuk',
                   style: TextStyle(
-                    fontSize: 16.0,
+                    fontSize: screenWidth * 0.04,
                     color: Colors.white,
                   ),
                 ),
               ),
               if (errorMessage.isNotEmpty)
                 Padding(
-                  padding: const EdgeInsets.only(top: 16.0),
+                  padding: EdgeInsets.only(top: screenWidth * 0.04),
                   child: Text(
                     errorMessage,
-                    style: TextStyle(color: Colors.red, fontSize: 14.0),
+                    style: TextStyle(
+                      color: Colors.red,
+                      fontSize: screenWidth * 0.035,
+                    ),
                   ),
                 ),
-              const SizedBox(height: 200.0),
+              SizedBox(height: screenWidth * 0.5),
               GestureDetector(
                 onTap: () {
                   Navigator.push(
@@ -178,21 +187,21 @@ class _loginUserState extends State<loginUser> {
                 },
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
-                  children: const [
+                  children: [
                     Text(
                       'User baru?',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 17.0,
+                        fontSize: screenWidth * 0.045,
                         decoration: TextDecoration.underline,
                       ),
                     ),
-                    SizedBox(width: 5),
+                    SizedBox(width: screenWidth * 0.01),
                     Text(
                       'Daftar',
                       style: TextStyle(
                         color: Colors.blue,
-                        fontSize: 17.0,
+                        fontSize: screenWidth * 0.045,
                       ),
                     ),
                   ],

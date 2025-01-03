@@ -18,6 +18,8 @@ class _PilihanAlatState extends State<PilihanAlat> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -28,10 +30,9 @@ class _PilihanAlatState extends State<PilihanAlat> {
       body: Column(
         children: [
           Padding(
-            padding: EdgeInsets.all(20),
+            padding: EdgeInsets.all(screenWidth * 0.05),
             child: Row(
               children: [
-                // TextField untuk pencarian alat
                 Expanded(
                   child: TextField(
                     controller: _searchController,
@@ -46,26 +47,27 @@ class _PilihanAlatState extends State<PilihanAlat> {
                       ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(12),
-                          bottomLeft: Radius.circular(12),
+                          topLeft: Radius.circular(screenWidth * 0.03),
+                          bottomLeft: Radius.circular(screenWidth * 0.03),
                         ),
                         borderSide: BorderSide(color: Colors.blue, width: 2),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(12),
-                          bottomLeft: Radius.circular(12),
+                          topLeft: Radius.circular(screenWidth * 0.03),
+                          bottomLeft: Radius.circular(screenWidth * 0.03),
                         ),
                         borderSide: BorderSide(color: Colors.blue, width: 2),
                       ),
                       filled: true,
                       fillColor: Color.fromARGB(255, 228, 242, 255),
-                      contentPadding:
-                          EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                      contentPadding: EdgeInsets.symmetric(
+                        vertical: screenWidth * 0.03,
+                        horizontal: screenWidth * 0.04,
+                      ),
                     ),
                   ),
                 ),
-                // Dropdown untuk lokasi
                 Expanded(
                   child: TextField(
                     controller: _locationController,
@@ -76,34 +78,35 @@ class _PilihanAlatState extends State<PilihanAlat> {
                       ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(12),
-                          bottomRight: Radius.circular(12),
+                          topRight: Radius.circular(screenWidth * 0.03),
+                          bottomRight: Radius.circular(screenWidth * 0.03),
                         ),
                         borderSide: BorderSide(color: Colors.blue, width: 2),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(12),
-                          bottomRight: Radius.circular(12),
+                          topRight: Radius.circular(screenWidth * 0.03),
+                          bottomRight: Radius.circular(screenWidth * 0.03),
                         ),
                         borderSide: BorderSide(color: Colors.blue, width: 2),
                       ),
                       filled: true,
                       fillColor: Color.fromARGB(255, 228, 242, 255),
-                      contentPadding:
-                          EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                      contentPadding: EdgeInsets.symmetric(
+                        vertical: screenWidth * 0.03,
+                        horizontal: screenWidth * 0.04,
+                      ),
                     ),
                   ),
                 ),
-                SizedBox(width: 10),
-                // Tombol Cari
+                SizedBox(width: screenWidth * 0.02),
                 ElevatedButton(
                   onPressed: () {
-                    setState(() {}); // Memicu pembaruan tampilan
+                    setState(() {});
                   },
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(screenWidth * 0.03),
                     ),
                     backgroundColor: Colors.blue,
                   ),
@@ -120,21 +123,26 @@ class _PilihanAlatState extends State<PilihanAlat> {
             children: [
               Text(
                 'Tanggal : ${widget.selectedDate}',
-                style:
-                    TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blue,
+                  fontSize: screenWidth * 0.035,
+                ),
               ),
               Text(
                 'Malam : ${widget.days}',
-                style:
-                    TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blue,
+                  fontSize: screenWidth * 0.035,
+                ),
               ),
             ],
           ),
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance
-                  .collectionGroup(
-                      'Detail alat') // Menggunakan Collection Group Query
+                  .collectionGroup('Detail alat')
                   .snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -144,7 +152,10 @@ class _PilihanAlatState extends State<PilihanAlat> {
                   return Center(
                     child: Text(
                       'Tidak ada data alat tersedia.',
-                      style: TextStyle(color: Colors.blue, fontSize: 16),
+                      style: TextStyle(
+                        color: Colors.blue,
+                        fontSize: screenWidth * 0.04,
+                      ),
                     ),
                   );
                 }
@@ -161,11 +172,11 @@ class _PilihanAlatState extends State<PilihanAlat> {
                 }).toList();
 
                 return GridView.builder(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2, // Jumlah kolom
-                    crossAxisSpacing: 10, // Spasi antar kolom
-                    mainAxisSpacing: 10, // Spasi antar baris
+                    crossAxisCount: 2,
+                    crossAxisSpacing: screenWidth * 0.02,
+                    mainAxisSpacing: screenWidth * 0.02,
                   ),
                   itemCount: alatList.length,
                   itemBuilder: (context, index) {
@@ -194,91 +205,67 @@ class _PilihanAlatState extends State<PilihanAlat> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // Gambar alat
                             SizedBox(
-                              width: 80,
-                              height: 80,
+                              width: screenWidth * 0.4,
+                              height: screenWidth * 0.292,
                               child: Center(
                                 child: Text(
                                   'No Image',
                                   style: TextStyle(
-                                      color: Colors.grey, fontSize: 12),
+                                    color: Colors.grey,
+                                    fontSize: screenWidth * 0.03,
+                                  ),
                                 ),
                               ),
                             ),
-
-                            // Nama alat dan Rating
                             Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 8.0, right: 8.0, top: 8.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  // Nama alat
-                                  Expanded(
-                                    child: Text(
-                                      alat['namaProduk'],
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.blue,
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                              padding: EdgeInsets.only(left: screenWidth * 0.02),
+                              child: Text(
+                                alat['namaProduk'],
+                                style: TextStyle(
+                                  fontSize: screenWidth * 0.035,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.blue,
+                                ),
+                                maxLines: 1, // Maksimal satu baris
+                                overflow: TextOverflow.ellipsis,
                               ),
                             ),
-
-                            // Alamat alat
                             Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: screenWidth * 0.02),
                               child: Text(
                                 alat['lokasi'],
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
-                                  fontSize: 12,
+                                  fontSize: screenWidth * 0.03,
                                   color: Colors.blue.withOpacity(0.6),
-                                  fontWeight: FontWeight.w600,
                                 ),
                               ),
                             ),
-
-                            // Harga alat
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 8.0,
-                                  right: 8.0,
-                                  bottom: 8.0,
-                                  top:
-                                      4.0), // Padding bawah untuk memberi ruang
+                            Container(
+                              color: Colors.blue,
+                              width: double.infinity,
+                              padding: EdgeInsets.symmetric(
+                                horizontal: screenWidth * 0.02,
+                              ),
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Expanded(
-                                    child: Text(
-                                      'Rp $hargaTotalHari',
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.blue,
-                                      ),
+                                  Text(
+                                    'Rp $hargaTotalHari',
+                                    style: TextStyle(
+                                      fontSize: screenWidth * 0.035,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
                                     ),
                                   ),
-                                  // Aksi sewa (ikon panah)
                                   Text(
                                     '>',
                                     style: TextStyle(
-                                      fontSize: 14,
+                                      fontSize: screenWidth * 0.035,
                                       fontWeight: FontWeight.bold,
-                                      color: Colors.blue,
+                                      color: Colors.white,
                                     ),
                                   ),
                                 ],
