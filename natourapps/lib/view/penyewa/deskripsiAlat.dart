@@ -23,6 +23,8 @@ class Deskripsialat extends StatefulWidget {
 class _DetailAlatState extends State<Deskripsialat> {
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       body: Stack(
         children: [
@@ -36,12 +38,12 @@ class _DetailAlatState extends State<Deskripsialat> {
                     color: Colors
                         .blueGrey, // Set your desired background color here
                     child: SizedBox(
-                      height: 250,
+                      height: 250 * screenWidth / 375,
                       width: double.infinity,
                       child: Center(
                         child: Text(
                           '250x250',
-                          style: TextStyle(color: Colors.grey, fontSize: 12),
+                          style: TextStyle(color: Colors.grey, fontSize: 12 * screenWidth / 375),
                         ),
                       ),
                     ),
@@ -49,15 +51,15 @@ class _DetailAlatState extends State<Deskripsialat> {
 
                   // Menampilkan Nama Alat
                   Padding(
-                    padding: const EdgeInsets.only(
-                        left: 36.0, right: 36.0, top: 20.0, bottom: 50.0),
+                    padding: EdgeInsets.only(
+                        left: 36.0 * screenWidth / 375, right: 36.0 * screenWidth / 375, top: 20.0 * screenWidth / 375, bottom: 50.0 * screenWidth / 375),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           widget.namaAlat,
                           style: TextStyle(
-                              fontSize: 24,
+                              fontSize: 24 * screenWidth / 375,
                               fontWeight: FontWeight.bold,
                               color: Colors.blue),
                         ),
@@ -65,52 +67,52 @@ class _DetailAlatState extends State<Deskripsialat> {
                         Row(
                           children: [
                             Icon(Icons.location_on_outlined,
-                                color: Colors.blue.withOpacity(0.7), size: 25),
+                                color: Colors.blue.withOpacity(0.7), size: 25 * screenWidth / 375),
                             Text(
                               widget.alamatAlat,
                               style: TextStyle(
-                                  fontSize: 14,
+                                  fontSize: 14 * screenWidth / 375,
                                   color: Colors.blue.withOpacity(0.7),
                                   fontWeight: FontWeight.w400),
                             ),
                           ],
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(
-                              left: 0.0, right: 0.0, top: 25.0, bottom: 25.0),
+                          padding: EdgeInsets.only(
+                              left: 0.0, right: 0.0, top: 25.0 * screenWidth / 375, bottom: 25.0 * screenWidth / 375),
                           child: Container(
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(12 * screenWidth / 375),
                               color: Colors.white,
                               boxShadow: [
                                 BoxShadow(
                                   color: Colors.black
                                       .withOpacity(0.2), // Warna bayangan
-                                  blurRadius: 10, // Ukuran blur bayangan
+                                  blurRadius: 10 * screenWidth / 375, // Ukuran blur bayangan
                                   offset:
-                                      Offset(4, 4), // Posisi bayangan (x, y)
-                                  spreadRadius: 1, // Lebar penyebaran bayangan
+                                      Offset(4 * screenWidth / 375, 4 * screenWidth / 375), // Posisi bayangan (x, y)
+                                  spreadRadius: 1 * screenWidth / 375, // Lebar penyebaran bayangan
                                 ),
                               ],
                             ),
                             child: Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 5.0, right: 5.0, top: 5.0, bottom: 5.0),
+                              padding: EdgeInsets.only(
+                                  left: 5.0 * screenWidth / 375, right: 5.0 * screenWidth / 375, top: 5.0 * screenWidth / 375, bottom: 5.0 * screenWidth / 375),
                               child: Container(
                                 decoration: BoxDecoration(
                                   border: Border.all(
                                     color: Colors.blue, // Warna border
-                                    width: 1, // Ketebalan border
+                                    width: 1 * screenWidth / 375, // Ketebalan border
                                   ),
-                                  borderRadius: BorderRadius.circular(10),
+                                  borderRadius: BorderRadius.circular(10 * screenWidth / 375),
                                   color: Colors.white,
                                 ),
                                 child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 50.0,
-                                      right: 50.0,
-                                      top: 5.0,
-                                      bottom: 5.0),
+                                  padding: EdgeInsets.only(
+                                      left: 50.0 * screenWidth / 375,
+                                      right: 50.0 * screenWidth / 375,
+                                      top: 5.0 * screenWidth / 375,
+                                      bottom: 5.0 * screenWidth / 375),
                                   child: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -130,12 +132,12 @@ class _DetailAlatState extends State<Deskripsialat> {
                                             children: [
                                               Icon(Icons.star,
                                                   color: Colors.yellow,
-                                                  size: 18),
-                                              SizedBox(width: 4),
+                                                  size: 18 * screenWidth / 375),
+                                              SizedBox(width: 4 * screenWidth / 375),
                                               Text(
                                                 '5.0',
                                                 style: TextStyle(
-                                                    fontSize: 16,
+                                                    fontSize: 16 * screenWidth / 375,
                                                     fontWeight: FontWeight.w600,
                                                     color: Colors.blue
                                                         .withOpacity(0.7)),
@@ -158,7 +160,7 @@ class _DetailAlatState extends State<Deskripsialat> {
                                           Text(
                                             '${widget.sisaAlat}',
                                             style: TextStyle(
-                                                fontSize: 14,
+                                                fontSize: 14 * screenWidth / 375,
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.blue),
                                           ),
@@ -172,21 +174,21 @@ class _DetailAlatState extends State<Deskripsialat> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(bottom: 8.0),
+                          padding: EdgeInsets.only(bottom: 8.0 * screenWidth / 375),
                           child: Text(
                             'Deskripsi',
                             style: TextStyle(
-                                fontSize: 20,
+                                fontSize: 20 * screenWidth / 375,
                                 fontWeight: FontWeight.w500,
                                 color: Colors.blue),
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(bottom: 50.0),
+                          padding: EdgeInsets.only(bottom: 50.0 * screenWidth / 375),
                           child: Text(
                             widget.deskripsiAlat,
                             style:
-                                TextStyle(fontSize: 14, color: Colors.black87),
+                                TextStyle(fontSize: 14 * screenWidth / 375, color: Colors.black87),
                           ),
                         ),
                       ],
@@ -197,13 +199,13 @@ class _DetailAlatState extends State<Deskripsialat> {
             ),
           ),
           Positioned(
-            top: 40,
-            left: 16,
+            top: 40 * screenWidth / 375,
+            left: 16 * screenWidth / 375,
             child: Container(
-              padding: EdgeInsets.all(5),
+              padding: EdgeInsets.all(5 * screenWidth / 375),
               decoration: BoxDecoration(
                 color: Colors.white.withOpacity(0.8), // Slight transparency
-                borderRadius: BorderRadius.circular(100),
+                borderRadius: BorderRadius.circular(100 * screenWidth / 375),
               ),
               child: IconButton(
                 icon: Icon(Icons.arrow_back, color: Colors.blue),

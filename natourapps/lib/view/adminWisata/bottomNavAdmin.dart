@@ -40,36 +40,36 @@ class _navbarAdminState extends State<navbarAdmin> {
         children: [
           BottomNavigationBar(
             backgroundColor: Colors.white,
-            items: const <BottomNavigationBarItem>[
+            items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
-                icon: Icon(Icons.home_outlined),
-                activeIcon: Icon(Icons.home, size: 32),
+                icon: Icon(Icons.home_outlined), // Menggunakan screenWidth
+                activeIcon: Icon(Icons.home,), // Menggunakan screenWidth
                 label: 'Beranda',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.location_on),
-                activeIcon: Icon(Icons.location_on, size: 32),
-                label: 'lahan',
+                icon: Icon(Icons.location_on), // Menggunakan screenWidth
+                activeIcon: Icon(Icons.location_on,), // Menggunakan screenWidth
+                label: 'Lahan',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.settings),
-                activeIcon: Icon(Icons.settings, size: 32),
+                icon: Icon(Icons.settings), // Menggunakan screenWidth
+                activeIcon: Icon(Icons.settings,), // Menggunakan screenWidth
                 label: 'Pengaturan',
               ),
             ],
             currentIndex: _selectedIndex,
-            selectedItemColor: Colors.blue,
+            selectedItemColor: biruNatour,
             unselectedItemColor: Colors.black,
             showSelectedLabels: true,
             showUnselectedLabels: true,
             onTap: _onItemTapped,
             selectedLabelStyle: TextStyle(
               fontWeight: FontWeight.w600,
-              color: Colors.black,
+              color: Colors.black,// Menggunakan screenWidth untuk ukuran font
             ),
             unselectedLabelStyle: TextStyle(
               fontWeight: FontWeight.w600,
-              color: Colors.black,
+              color: Colors.black,// Menggunakan screenWidth untuk ukuran font
             ),
           ),
         ],

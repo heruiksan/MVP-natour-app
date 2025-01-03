@@ -46,17 +46,17 @@ class _NavBarState extends State<NavBar> {
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                 icon: Icon(Icons.home_outlined),
-                activeIcon: Icon(Icons.home, size: 32),
+                activeIcon: Icon(Icons.home, ),
                 label: 'Beranda',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.confirmation_num_outlined),
-                activeIcon: Icon(Icons.confirmation_num, size: 32),
+                activeIcon: Icon(Icons.confirmation_num, ),
                 label: 'Tiket',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.settings),
-                activeIcon: Icon(Icons.settings, size: 32),
+                activeIcon: Icon(Icons.settings, ),
                 label: 'Pengaturan',
               ),
             ],

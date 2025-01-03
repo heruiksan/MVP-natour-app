@@ -49,55 +49,53 @@ class _dashboardAdminState extends State<dashboardAdmin> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       body: Stack(
         children: [
           ListView(
-            padding: EdgeInsets.all(20),
+            padding: EdgeInsets.all(screenWidth * 0.05), // 5% of screen width
             children: [
               SafeArea(
                 child: Container(
-                  padding:
-                      EdgeInsets.symmetric(vertical: 16.0, horizontal: 0.0),
+                  padding: EdgeInsets.symmetric(
+                    vertical: screenWidth * 0.04, // 4% of screen width
+                    horizontal: 0.0,
+                  ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                        padding: EdgeInsets.all(0.1), // Padding di dalam kotak
+                        padding: EdgeInsets.all(screenWidth * 0.002), // Adjust padding based on screen width
                         decoration: BoxDecoration(
-                          color: Colors.blue[50], // Warna latar kotak
-                          borderRadius: BorderRadius.circular(
-                              500), // Sudut kotak melengkung
+                          color: Colors.blue[50], // Background color
+                          borderRadius: BorderRadius.circular(screenWidth * 0.1), // Rounded corners
                         ),
                         child: Row(
                           children: [
                             CircleAvatar(
-                              radius: 24, // Ukuran lingkaran
-                              backgroundImage: AssetImage(
-                                  'assets/profile.png'), // Gambar profil
-                              backgroundColor: Colors
-                                  .blue, // Warna latar belakang jika gambar kosong
+                              radius: screenWidth * 0.06, // 6% of screen width for the circle size
+                              backgroundImage: AssetImage('assets/profile.png'), // Profile picture
+                              backgroundColor: Colors.blue, // Background color if image is not found
                             ),
-                            SizedBox(width: 5), // Jarak antara gambar dan teks
-                            // Teks di samping gambar
+                            SizedBox(width: screenWidth * 0.01), // Horizontal space between avatar and text
                             Padding(
-                              padding: EdgeInsets.only(
-                                  right: 16), // Padding kanan untuk teks
+                              padding: EdgeInsets.only(right: screenWidth * 0.04), // Right padding for text
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
                                     "Selamat Datang,",
                                     style: TextStyle(
-                                        color: Colors.black, fontSize: 14),
+                                        color: Colors.black, fontSize: screenWidth * 0.035),
                                   ),
                                   Text(
-                                    currentUserName ??
-                                        "Pengguna", // Nama dinamis
+                                    currentUserName ?? "Pengguna", // Dynamic name
                                     style: TextStyle(
                                       color: Colors.blue,
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 16,
+                                      fontSize: screenWidth * 0.04,
                                     ),
                                   ),
                                 ],
@@ -109,7 +107,7 @@ class _dashboardAdminState extends State<dashboardAdmin> {
                       Icon(
                         Icons.notifications_none,
                         color: Colors.blue,
-                        size: 40.0,
+                        size: screenWidth * 0.1, // Adjust icon size based on screen width
                       ),
                     ],
                   ),
@@ -118,50 +116,45 @@ class _dashboardAdminState extends State<dashboardAdmin> {
               Text(
                 "Kunjungi Tempat Indah Sekitarmu!",
                 style: TextStyle(
-                    fontSize: 30,
+                    fontSize: screenWidth * 0.075, // Adjust text size based on screen width
                     fontWeight: FontWeight.bold,
                     color: Colors.blue),
               ),
-              SizedBox(height: 16),
+              SizedBox(height: screenWidth * 0.04), // Vertical space between widgets
               TextField(
                 decoration: InputDecoration(
                   hintText: "Cari tempat wisata",
                   hintStyle: TextStyle(
-                    color: Colors.blue
-                        .withOpacity(0.6), // Slightly lighter hint text color
+                    color: Colors.blue.withOpacity(0.6),
                   ),
                   prefixIcon: Icon(
                     Icons.search,
                     color: Colors.blue, // Icon color
                   ),
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide:
-                        BorderSide(color: Colors.blue, width: 2), // Blue border
+                    borderRadius: BorderRadius.circular(screenWidth * 0.03), // Adjust border radius
+                    borderSide: BorderSide(color: Colors.blue, width: screenWidth * 0.005), // Adjust border width
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(screenWidth * 0.03),
                     borderSide: BorderSide(
-                        color: Colors.blue, width: 2), // Blue border on focus
+                        color: Colors.blue, width: screenWidth * 0.005),
                   ),
                   filled: true,
-                  fillColor: Color.fromARGB(
-                      255, 205, 232, 255), // Light blue background
+                  fillColor: Color.fromARGB(255, 205, 232, 255),
                   contentPadding: EdgeInsets.symmetric(
-                      vertical: 12,
-                      horizontal: 16), // Padding inside the text field
+                      vertical: screenWidth * 0.03, horizontal: screenWidth * 0.04),
                 ),
               ),
-              SizedBox(height: 16),
+              SizedBox(height: screenWidth * 0.04),
               Row(
                 children: [
-                  // Kotak Tanggal
                   Expanded(
                     child: Container(
-                      padding: EdgeInsets.all(16),
+                      padding: EdgeInsets.all(screenWidth * 0.04), // Adjust padding based on screen width
                       decoration: BoxDecoration(
                         color: Colors.blue[50],
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(screenWidth * 0.03), // Adjust corner radius
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -169,28 +162,28 @@ class _dashboardAdminState extends State<dashboardAdmin> {
                           Text(
                             "Jadwal",
                             style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 12),
+                                fontWeight: FontWeight.bold, fontSize: screenWidth * 0.03),
                           ),
-                          SizedBox(height: 8),
+                          SizedBox(height: screenWidth * 0.02),
                           Text("Rabu, 23 November 2022"),
                           Row(
                             children: [
                               Icon(
                                 Icons.confirmation_number,
-                                size: 37,
+                                size: screenWidth * 0.09, // Adjust icon size
                                 color: Colors.blue,
                               ),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Padding(padding: EdgeInsets.only(left: 30)),
+                                  Padding(padding: EdgeInsets.only(left: screenWidth * 0.08)),
                                   Text(
                                     'Mendatang',
-                                    style: TextStyle(fontSize: 10),
+                                    style: TextStyle(fontSize: screenWidth * 0.02),
                                   ),
                                   Text(
                                     '12 Pengunjung',
-                                    style: TextStyle(fontSize: 12),
+                                    style: TextStyle(fontSize: screenWidth * 0.025),
                                   )
                                 ],
                               )
@@ -200,30 +193,28 @@ class _dashboardAdminState extends State<dashboardAdmin> {
                       ),
                     ),
                   ),
-                  SizedBox(width: 8),
-                  // Kotak Cuaca
+                  SizedBox(width: screenWidth * 0.02),
                   Expanded(
                     child: Container(
-                        padding: EdgeInsets.all(16),
+                        padding: EdgeInsets.all(screenWidth * 0.04),
                         decoration: BoxDecoration(
                           color: Colors.blue[50],
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(screenWidth * 0.03),
                         ),
                         alignment: Alignment.center,
                         child: Column(
                           mainAxisAlignment:
-                              MainAxisAlignment.center, // Vertikal ke tengah
+                              MainAxisAlignment.center,
                           crossAxisAlignment:
-                              CrossAxisAlignment.center, // Horizontal ke tengah
+                              CrossAxisAlignment.center,
                           children: [
-                            // Row yang berisi ikon dan teks
                             Text(
                               'Keuntungan',
                               style: TextStyle(color: Colors.blue),
                             ),
                             Icon(
                               Icons.bar_chart,
-                              size: 55,
+                              size: screenWidth * 0.13,
                               color: Colors.blue,
                             ),
                             Row(
@@ -231,66 +222,65 @@ class _dashboardAdminState extends State<dashboardAdmin> {
                               children: [
                                 Icon(
                                   Icons.arrow_upward,
-                                  size: 20,
+                                  size: screenWidth * 0.06,
                                   color: Colors.blue,
                                 ),
-                                SizedBox(width: 4),
+                                SizedBox(width: screenWidth * 0.01),
                                 Text(
                                   "+15%",
                                   style: TextStyle(
-                                    fontSize: 15,
+                                    fontSize: screenWidth * 0.04,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.blue,
                                   ),
                                 ),
                               ],
                             ),
-                            // Anda bisa menambahkan widget lainnya di sini
-                            SizedBox(height: 5),
+                            SizedBox(height: screenWidth * 0.02),
                           ],
                         )),
                   ),
                 ],
               ),
-              SizedBox(height: 16),
+              SizedBox(height: screenWidth * 0.04),
               Row(
                 children: [
                   Expanded(
                     child: Container(
-                      padding: EdgeInsets.all(16),
+                      padding: EdgeInsets.all(screenWidth * 0.04),
                       decoration: BoxDecoration(
                         color: Colors.blue[50],
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(screenWidth * 0.03),
                       ),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Icon(
-                            Icons.group, // Ikon keuntungan
-                            size: 80, // Ukuran ikon
-                            color: Colors.blue, // Warna ikon
+                            Icons.group,
+                            size: screenWidth * 0.2,
+                            color: Colors.blue,
                           ),
-                          SizedBox(width: 8), // Jarak antara ikon dan teks
+                          SizedBox(width: screenWidth * 0.02),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Pengunjung saat ini", // Teks menggantikan tanggal
+                                "Pengunjung saat ini",
                                 style: TextStyle(
                                   fontWeight: FontWeight.w400,
-                                  fontSize: 17,
-                                  color: Colors.blue, // Warna teks
+                                  fontSize: screenWidth * 0.04,
+                                  color: Colors.blue,
                                 ),
                               ),
-                              SizedBox(height: 4),
+                              SizedBox(height: screenWidth * 0.02),
                               Text(
-                                "19 wisatawan", // Tulisan keuntungan
+                                "19 wisatawan",
                                 style: TextStyle(
-                                  fontSize: 20,
+                                  fontSize: screenWidth * 0.05,
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.blue, // Warna teks 15%
+                                  color: Colors.blue,
                                 ),
-                              ), // Jarak antara teks keuntungan dan 15%
+                              ),
                             ],
                           ),
                         ],
@@ -299,15 +289,15 @@ class _dashboardAdminState extends State<dashboardAdmin> {
                   ),
                 ],
               ),
-              SizedBox(height: 16),
+              SizedBox(height: screenWidth * 0.04),
               Text(
                 "Layanan Kami",
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 20,
+                    fontSize: screenWidth * 0.05,
                     color: Colors.blue),
               ),
-              SizedBox(height: 16),
+              SizedBox(height: screenWidth * 0.04),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -315,40 +305,40 @@ class _dashboardAdminState extends State<dashboardAdmin> {
                     child: GestureDetector(
                       onTap: () {},
                       child: Container(
-                        padding: EdgeInsets.all(15),
+                        padding: EdgeInsets.all(screenWidth * 0.04),
                         decoration: BoxDecoration(
                           color: Colors.blue[50],
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: Colors.blue, width: 2),
+                          borderRadius: BorderRadius.circular(screenWidth * 0.03),
+                          border: Border.all(color: Colors.blue, width: screenWidth * 0.005),
                         ),
                         child: Column(
                           children: [
-                            Icon(Icons.bar_chart, size: 40, color: Colors.blue),
-                            SizedBox(height: 8),
+                            Icon(Icons.bar_chart, size: screenWidth * 0.1, color: Colors.blue),
+                            SizedBox(height: screenWidth * 0.02),
                             Text(
                               "Pengunjung",
                               style: TextStyle(
-                                  fontSize: 11, fontWeight: FontWeight.w500),
+                                  fontSize: screenWidth * 0.025, fontWeight: FontWeight.w500),
                             ),
                           ],
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(width: 8), // Jarak antar kotak
+                  SizedBox(width: screenWidth * 0.02),
                   Expanded(
                     child: Container(
-                      padding: EdgeInsets.all(16),
+                      padding: EdgeInsets.all(screenWidth * 0.04),
                       decoration: BoxDecoration(
                         color: Colors.blue[50],
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: Colors.blue, width: 2),
+                        borderRadius: BorderRadius.circular(screenWidth * 0.03),
+                        border: Border.all(color: Colors.blue, width: screenWidth * 0.005),
                       ),
                       child: Column(
                         children: [
                           Icon(Icons.account_balance,
-                              size: 40, color: Colors.blue),
-                          SizedBox(height: 8),
+                              size: screenWidth * 0.1, color: Colors.blue),
+                          SizedBox(height: screenWidth * 0.02),
                           Text("Keuangan"),
                         ],
                       ),
@@ -356,7 +346,6 @@ class _dashboardAdminState extends State<dashboardAdmin> {
                   ),
                 ],
               ),
-              SizedBox(height: 70),
             ],
           ),
         ],

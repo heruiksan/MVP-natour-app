@@ -43,12 +43,14 @@ class _addWisataState extends State<addWisata> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       appBar: AppBar(
         title: Row(
           children: [
             Icon(Icons.flag, color: Colors.blue),
-            SizedBox(width: 8),
+            SizedBox(width: screenWidth * 0.02),
             Text(
               'Posting',
               style: TextStyle(color: Colors.blue),
@@ -60,7 +62,7 @@ class _addWisataState extends State<addWisata> {
         iconTheme: IconThemeData(color: Colors.blue),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(screenWidth * 0.04),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -75,7 +77,7 @@ class _addWisataState extends State<addWisata> {
                           context: context,
                           builder: (context) {
                             return Container(
-                              height: 150,
+                              height: screenWidth * 0.4,
                               child: Column(
                                 children: [
                                   ListTile(
@@ -101,49 +103,49 @@ class _addWisataState extends State<addWisata> {
                         );
                       },
                       child: Container(
-                        padding: EdgeInsets.all(16),
+                        padding: EdgeInsets.all(screenWidth * 0.04),
                         decoration: BoxDecoration(
                           color: Colors.blue[50],
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Icon(
                           Icons.camera_alt,
-                          size: 48,
+                          size: screenWidth * 0.12,
                           color: Colors.blue,
                         ),
                       ),
                     ),
-                    SizedBox(height: 8),
+                    SizedBox(height: screenWidth * 0.02),
                     Text(
                       "Foto",
-                      style: TextStyle(color: Colors.blue, fontSize: 16),
+                      style: TextStyle(color: Colors.blue, fontSize: screenWidth * 0.04),
                     ),
-                    SizedBox(height: 16),
+                    SizedBox(height: screenWidth * 0.04),
                     // Menampilkan gambar jika sudah ada yang dipilih
                     _image != null
                         ? Image.file(
                             _image!,
-                            width: 100,
-                            height: 100,
+                            width: screenWidth * 0.25,
+                            height: screenWidth * 0.25,
                             fit: BoxFit.cover,
                           )
                         : Text("Belum ada foto yang dipilih"),
                   ],
                 ),
               ),
-              SizedBox(height: 16),
-              buildTextField("Nama Lahan", TextInputType.text, namaLahanController),
-              SizedBox(height: 16),
+              SizedBox(height: screenWidth * 0.04),
+              buildTextField("Nama Lahan", TextInputType.text, namaLahanController, screenWidth),
+              SizedBox(height: screenWidth * 0.04),
               Text(
                 "Deskripsi Lahan",
                 style: TextStyle(
                     fontWeight: FontWeight.w400,
-                    fontSize: 18,
+                    fontSize: screenWidth * 0.045,
                     color: Colors.blue),
               ),
-              SizedBox(height: 8),
+              SizedBox(height: screenWidth * 0.02),
               Container(
-                padding: EdgeInsets.all(10),
+                padding: EdgeInsets.all(screenWidth * 0.02),
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.blue),
                   borderRadius: BorderRadius.circular(8),
@@ -152,13 +154,13 @@ class _addWisataState extends State<addWisata> {
                   controller: deskripsiController,
                   maxLines: 5,
                   decoration: InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(horizontal: 8),
+                    contentPadding: EdgeInsets.symmetric(horizontal: screenWidth * 0.02),
                     border: InputBorder.none,
                     hintText: "Tambah deskripsi",
                   ),
                 ),
               ),
-              SizedBox(height: 16),
+              SizedBox(height: screenWidth * 0.04),
 
               // Dropdown untuk Jenis Produk
               buildDropdownField(
@@ -166,8 +168,8 @@ class _addWisataState extends State<addWisata> {
                 setState(() {
                   selectedJenisProduk = value;
                 });
-              }),
-              SizedBox(height: 16),
+              }, screenWidth),
+              SizedBox(height: screenWidth * 0.04),
 
               // Dropdown untuk Kapasitas
               buildDropdownField("Kapasitas", selectedKapasitas, kapasitasList,
@@ -175,15 +177,15 @@ class _addWisataState extends State<addWisata> {
                 setState(() {
                   selectedKapasitas = value;
                 });
-              }),
-              SizedBox(height: 16),
-              buildTextField("Fasilitas", TextInputType.text, fasilitasController),
-              SizedBox(height: 16),
-              buildTextField("Harga", TextInputType.number, hargaController),
-              SizedBox(height: 16),
-              buildTextField("Lokasi", TextInputType.text, lokasiController),
+              }, screenWidth),
+              SizedBox(height: screenWidth * 0.04),
+              buildTextField("Fasilitas", TextInputType.text, fasilitasController, screenWidth),
+              SizedBox(height: screenWidth * 0.04),
+              buildTextField("Harga", TextInputType.number, hargaController, screenWidth),
+              SizedBox(height: screenWidth * 0.04),
+              buildTextField("Lokasi", TextInputType.text, lokasiController, screenWidth),
 
-              SizedBox(height: 30),
+              SizedBox(height: screenWidth * 0.1),
               ElevatedButton(
                 onPressed: () async {
                   final userId = FirebaseAuth.instance.currentUser?.uid;
@@ -196,14 +198,14 @@ class _addWisataState extends State<addWisata> {
                   }
 
                   final wisata = WisataModel(
-                    namaLahan: namaLahanController.text, // Text from TextField
-                    deskripsi: deskripsiController.text, // Text from TextField
-                    jenisLahan: selectedJenisProduk ?? '', // Dropdown value
-                    kapasitas: selectedKapasitas ?? '', // Dropdown value
-                    fasilitas: fasilitasController.text, // Text from TextField
-                    harga: double.tryParse(hargaController.text) ?? 0.0, // Convert text to double
-                    lokasi: lokasiController.text, // Text from TextField
-                    userId: userId, // User UID from Firebase Authentication
+                    namaLahan: namaLahanController.text,
+                    deskripsi: deskripsiController.text,
+                    jenisLahan: selectedJenisProduk ?? '',
+                    kapasitas: selectedKapasitas ?? '',
+                    fasilitas: fasilitasController.text,
+                    harga: double.tryParse(hargaController.text) ?? 0.0,
+                    lokasi: lokasiController.text,
+                    userId: userId,
                   );
 
                   final controller = WisataController();
@@ -213,7 +215,7 @@ class _addWisataState extends State<addWisata> {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text("Data wisata berhasil ditambahkan")),
                     );
-                    Navigator.pop(context); // Kembali ke halaman sebelumnya
+                    Navigator.pop(context);
                   } catch (e) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text("Gagal menambahkan data wisata: $e")),
@@ -221,7 +223,7 @@ class _addWisataState extends State<addWisata> {
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(vertical: 16),
+                  padding: EdgeInsets.symmetric(vertical: screenWidth * 0.04),
                   backgroundColor: Colors.blue,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
@@ -232,14 +234,14 @@ class _addWisataState extends State<addWisata> {
                 ),
               ),
 
-              SizedBox(height: 8),
+              SizedBox(height: screenWidth * 0.02),
               OutlinedButton(
                 onPressed: () {
                   Navigator.pushReplacement(context,
                       MaterialPageRoute(builder: (context) => navbarAdmin()));
                 },
                 style: OutlinedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(vertical: 16),
+                  padding: EdgeInsets.symmetric(vertical: screenWidth * 0.04),
                   side: BorderSide(color: Colors.blue),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
@@ -258,18 +260,18 @@ class _addWisataState extends State<addWisata> {
 
   // Method untuk membuat TextField dalam kotak individu
   Widget buildTextField(
-      String label, TextInputType inputType, TextEditingController controller) {
+      String label, TextInputType inputType, TextEditingController controller, double screenWidth) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           label,
           style: TextStyle(
-              fontWeight: FontWeight.bold, fontSize: 16, color: Colors.blue),
+              fontWeight: FontWeight.bold, fontSize: screenWidth * 0.04, color: Colors.blue),
         ),
-        SizedBox(height: 8),
+        SizedBox(height: screenWidth * 0.02),
         Container(
-          padding: EdgeInsets.all(5),
+          padding: EdgeInsets.all(screenWidth * 0.02),
           decoration: BoxDecoration(
             border: Border.all(color: Colors.blue),
             borderRadius: BorderRadius.circular(8),
@@ -279,7 +281,7 @@ class _addWisataState extends State<addWisata> {
             keyboardType: inputType,
             decoration: InputDecoration(
               hintText: "Masukkan $label",
-              contentPadding: EdgeInsets.symmetric(horizontal: 8),
+              contentPadding: EdgeInsets.symmetric(horizontal: screenWidth * 0.02),
               enabledBorder: InputBorder.none,
             ),
           ),
@@ -290,18 +292,18 @@ class _addWisataState extends State<addWisata> {
 
   // Method untuk membuat Dropdown Field
   Widget buildDropdownField(String label, String? selectedValue,
-      List<String> items, Function(String?) onChanged) {
+      List<String> items, Function(String?) onChanged, double screenWidth) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           label,
           style: TextStyle(
-              fontWeight: FontWeight.bold, fontSize: 16, color: Colors.blue),
+              fontWeight: FontWeight.bold, fontSize: screenWidth * 0.04, color: Colors.blue),
         ),
-        SizedBox(height: 8),
+        SizedBox(height: screenWidth * 0.02),
         Container(
-          padding: EdgeInsets.symmetric(horizontal: 8),
+          padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.02),
           decoration: BoxDecoration(
             border: Border.all(color: Colors.blue),
             borderRadius: BorderRadius.circular(8),

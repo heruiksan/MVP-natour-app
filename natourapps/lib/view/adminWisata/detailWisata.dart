@@ -27,6 +27,9 @@ class Detailwisata extends StatefulWidget {
 class _DetailwisataState extends State<Detailwisata> {
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double scalingFactor = screenWidth / 375;
+
     return Scaffold(
       body: Stack(
         children: [
@@ -40,12 +43,12 @@ class _DetailwisataState extends State<Detailwisata> {
                     color: Colors
                         .blueGrey, // Set your desired background color here
                     child: SizedBox(
-                      height: 250,
+                      height: 250 * scalingFactor,
                       width: double.infinity,
                       child: Center(
                         child: Text(
                           '250x250',
-                          style: TextStyle(color: Colors.grey, fontSize: 12),
+                          style: TextStyle(color: Colors.grey, fontSize: 12 * scalingFactor),
                         ),
                       ),
                     ),
@@ -53,15 +56,15 @@ class _DetailwisataState extends State<Detailwisata> {
 
                   // Menampilkan Nama Alat
                   Padding(
-                    padding: const EdgeInsets.only(
-                        left: 36.0, right: 36.0, top: 20.0, bottom: 50.0),
+                    padding: EdgeInsets.only(
+                        left: 36.0 * scalingFactor, right: 36.0 * scalingFactor, top: 20.0 * scalingFactor, bottom: 50.0 * scalingFactor),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           widget.namaLahan,
                           style: TextStyle(
-                              fontSize: 24,
+                              fontSize: 24 * scalingFactor,
                               fontWeight: FontWeight.bold,
                               color: Colors.blue),
                         ),
@@ -69,52 +72,52 @@ class _DetailwisataState extends State<Detailwisata> {
                         Row(
                           children: [
                             Icon(Icons.location_on_outlined,
-                                color: Colors.blue.withOpacity(0.7), size: 25),
+                                color: Colors.blue.withOpacity(0.7), size: 25 * scalingFactor),
                             Text(
                               widget.lokasi,
                               style: TextStyle(
-                                  fontSize: 14,
+                                  fontSize: 14 * scalingFactor,
                                   color: Colors.blue.withOpacity(0.7),
                                   fontWeight: FontWeight.w400),
                             ),
                           ],
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(
-                              left: 0.0, right: 0.0, top: 25.0, bottom: 25.0),
+                          padding: EdgeInsets.only(
+                              left: 0.0, right: 0.0, top: 25.0 * scalingFactor, bottom: 25.0 * scalingFactor),
                           child: Container(
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(12 * scalingFactor),
                               color: Colors.white,
                               boxShadow: [
                                 BoxShadow(
                                   color: Colors.black
                                       .withOpacity(0.2), // Warna bayangan
-                                  blurRadius: 10, // Ukuran blur bayangan
+                                  blurRadius: 10 * scalingFactor, // Ukuran blur bayangan
                                   offset:
-                                      Offset(4, 4), // Posisi bayangan (x, y)
-                                  spreadRadius: 1, // Lebar penyebaran bayangan
+                                      Offset(4 * scalingFactor, 4 * scalingFactor), // Posisi bayangan (x, y)
+                                  spreadRadius: 1 * scalingFactor, // Lebar penyebaran bayangan
                                 ),
                               ],
                             ),
                             child: Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 5.0, right: 5.0, top: 5.0, bottom: 5.0),
+                              padding: EdgeInsets.only(
+                                  left: 5.0 * scalingFactor, right: 5.0 * scalingFactor, top: 5.0 * scalingFactor, bottom: 5.0 * scalingFactor),
                               child: Container(
                                 decoration: BoxDecoration(
                                   border: Border.all(
                                     color: Colors.blue, // Warna border
-                                    width: 1, // Ketebalan border
+                                    width: 1 * scalingFactor, // Ketebalan border
                                   ),
-                                  borderRadius: BorderRadius.circular(10),
+                                  borderRadius: BorderRadius.circular(10 * scalingFactor),
                                   color: Colors.white,
                                 ),
                                 child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 50.0,
-                                      right: 50.0,
-                                      top: 5.0,
-                                      bottom: 5.0),
+                                  padding: EdgeInsets.only(
+                                      left: 50.0 * scalingFactor,
+                                      right: 50.0 * scalingFactor,
+                                      top: 5.0 * scalingFactor,
+                                      bottom: 5.0 * scalingFactor),
                                   child: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -134,12 +137,12 @@ class _DetailwisataState extends State<Detailwisata> {
                                             children: [
                                               Icon(Icons.star,
                                                   color: Colors.yellow,
-                                                  size: 18),
-                                              SizedBox(width: 4),
+                                                  size: 18 * scalingFactor),
+                                              SizedBox(width: 4 * scalingFactor),
                                               Text(
                                                 '5.0',
                                                 style: TextStyle(
-                                                    fontSize: 16,
+                                                    fontSize: 16 * scalingFactor,
                                                     fontWeight: FontWeight.w600,
                                                     color: Colors.blue
                                                         .withOpacity(0.7)),
@@ -162,7 +165,7 @@ class _DetailwisataState extends State<Detailwisata> {
                                           Text(
                                             '${widget.kapasitas}',
                                             style: TextStyle(
-                                                fontSize: 14,
+                                                fontSize: 14 * scalingFactor,
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.blue),
                                           ),
@@ -176,21 +179,21 @@ class _DetailwisataState extends State<Detailwisata> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(bottom: 8.0),
+                          padding: EdgeInsets.only(bottom: 8.0 * scalingFactor),
                           child: Text(
                             'Deskripsi',
                             style: TextStyle(
-                                fontSize: 20,
+                                fontSize: 20 * scalingFactor,
                                 fontWeight: FontWeight.w500,
                                 color: Colors.blue),
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(bottom: 50.0),
+                          padding: EdgeInsets.only(bottom: 50.0 * scalingFactor),
                           child: Text(
                             widget.deskripsi,
                             style:
-                                TextStyle(fontSize: 14, color: Colors.black87),
+                                TextStyle(fontSize: 14 * scalingFactor, color: Colors.black87),
                           ),
                         ),
                       ],
@@ -201,13 +204,13 @@ class _DetailwisataState extends State<Detailwisata> {
             ),
           ),
           Positioned(
-            top: 40,
-            left: 16,
+            top: 40 * scalingFactor,
+            left: 16 * scalingFactor,
             child: Container(
-              padding: EdgeInsets.all(5),
+              padding: EdgeInsets.all(5 * scalingFactor),
               decoration: BoxDecoration(
                 color: Colors.white.withOpacity(0.8), // Slight transparency
-                borderRadius: BorderRadius.circular(100),
+                borderRadius: BorderRadius.circular(100 * scalingFactor),
               ),
               child: IconButton(
                 icon: Icon(Icons.arrow_back, color: Colors.blue),

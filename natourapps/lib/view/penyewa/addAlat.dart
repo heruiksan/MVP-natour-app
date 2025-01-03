@@ -39,12 +39,14 @@ class _AddAlatState extends State<addAlat> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       appBar: AppBar(
         title: Row(
           children: [
             Icon(Icons.flag, color: Colors.blue),
-            SizedBox(width: 8),
+            SizedBox(width: 8 * screenWidth / 375),
             Text(
               'Posting',
               style: TextStyle(color: Colors.blue),
@@ -56,7 +58,7 @@ class _AddAlatState extends State<addAlat> {
         iconTheme: IconThemeData(color: Colors.blue),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(16.0 * screenWidth / 375),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,7 +72,7 @@ class _AddAlatState extends State<addAlat> {
                           context: context,
                           builder: (context) {
                             return Container(
-                              height: 150,
+                              height: 150 * screenWidth / 375,
                               child: Column(
                                 children: [
                                   ListTile(
@@ -96,43 +98,43 @@ class _AddAlatState extends State<addAlat> {
                         );
                       },
                       child: Container(
-                        padding: EdgeInsets.all(16),
+                        padding: EdgeInsets.all(16 * screenWidth / 375),
                         decoration: BoxDecoration(
                           color: Colors.blue[50],
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(12 * screenWidth / 375),
                         ),
                         child: Icon(
                           Icons.camera_alt,
-                          size: 48,
+                          size: 48 * screenWidth / 375,
                           color: Colors.blue,
                         ),
                       ),
                     ),
-                    SizedBox(height: 8),
+                    SizedBox(height: 8 * screenWidth / 375),
                     Text(
                       "Foto",
-                      style: TextStyle(color: Colors.blue, fontSize: 16),
+                      style: TextStyle(color: Colors.blue, fontSize: 16 * screenWidth / 375),
                     ),
-                    SizedBox(height: 16),
+                    SizedBox(height: 16 * screenWidth / 375),
                     _image != null
                         ? Image.file(
                             _image!,
-                            width: 100,
-                            height: 100,
+                            width: 100 * screenWidth / 375,
+                            height: 100 * screenWidth / 375,
                             fit: BoxFit.cover,
                           )
                         : Text("Belum ada foto yang dipilih"),
                   ],
                 ),
               ),
-              SizedBox(height: 16),
+              SizedBox(height: 16 * screenWidth / 375),
               buildTextField(
                   "Nama Produk", TextInputType.text, namaProdukController),
-              SizedBox(height: 16),
+              SizedBox(height: 16 * screenWidth / 375),
               buildTextField(
                   "Deskripsi Produk", TextInputType.text, deskripsiController,
                   maxLines: 5),
-              SizedBox(height: 16),
+              SizedBox(height: 16 * screenWidth / 375),
               buildDropdownField(
                   "Jenis Produk", selectedJenisProduk, jenisProdukList,
                   (value) {
@@ -140,21 +142,21 @@ class _AddAlatState extends State<addAlat> {
                   selectedJenisProduk = value;
                 });
               }),
-              SizedBox(height: 16),
+              SizedBox(height: 16 * screenWidth / 375),
               buildDropdownField("Kapasitas", selectedKapasitas, kapasitasList,
                   (value) {
                 setState(() {
                   selectedKapasitas = value;
                 });
               }),
-              SizedBox(height: 16),
+              SizedBox(height: 16 * screenWidth / 375),
               buildTextField(
                   "Jumlah Stok", TextInputType.number, jumlahStokController),
-              SizedBox(height: 16),
+              SizedBox(height: 16 * screenWidth / 375),
               buildTextField("Harga", TextInputType.number, hargaController),
-              SizedBox(height: 16),
+              SizedBox(height: 16 * screenWidth / 375),
               buildTextField("Lokasi", TextInputType.text, lokasiController),
-              SizedBox(height: 30),
+              SizedBox(height: 30 * screenWidth / 375),
               ElevatedButton(
                 onPressed: () async {
                   final userId = FirebaseAuth.instance.currentUser?.uid;
@@ -189,24 +191,24 @@ class _AddAlatState extends State<addAlat> {
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(vertical: 16),
+                  padding: EdgeInsets.symmetric(vertical: 16 * screenWidth / 375),
                   backgroundColor: Colors.blue,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(8 * screenWidth / 375),
                   ),
                 ),
                 child: Center(
                   child: Text("Simpan", style: TextStyle(color: Colors.white)),
                 ),
               ),
-              SizedBox(height: 8),
+              SizedBox(height: 8 * screenWidth / 375),
               OutlinedButton(
                 onPressed: () {
                   Navigator.pushReplacement(context,
                       MaterialPageRoute(builder: (context) => navbarPenyewa()));
                 },
                 style: OutlinedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(vertical: 16),
+                  padding: EdgeInsets.symmetric(vertical: 16 * screenWidth / 375),
                   side: BorderSide(color: Colors.blue),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
@@ -226,20 +228,21 @@ class _AddAlatState extends State<addAlat> {
   Widget buildTextField(
       String label, TextInputType inputType, TextEditingController controller,
       {int maxLines = 1}) {
+        double screenWidth = MediaQuery.of(context).size.width;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           label,
           style: TextStyle(
-              fontWeight: FontWeight.bold, fontSize: 16, color: Colors.blue),
+              fontWeight: FontWeight.bold, fontSize: 16 * screenWidth / 375, color: Colors.blue),
         ),
-        SizedBox(height: 8),
+        SizedBox(height: 8 * screenWidth / 375),
         Container(
           padding: EdgeInsets.all(5),
           decoration: BoxDecoration(
             border: Border.all(color: Colors.blue),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(8 * screenWidth / 375),
           ),
           child: TextField(
             controller: controller,
@@ -247,7 +250,7 @@ class _AddAlatState extends State<addAlat> {
             maxLines: maxLines,
             decoration: InputDecoration(
               hintText: "Masukkan $label",
-              contentPadding: EdgeInsets.symmetric(horizontal: 8),
+              contentPadding: EdgeInsets.symmetric(horizontal: 8 * screenWidth / 375),
               enabledBorder: InputBorder.none,
             ),
           ),
@@ -258,17 +261,18 @@ class _AddAlatState extends State<addAlat> {
 
   Widget buildDropdownField(String label, String? selectedValue,
       List<String> items, Function(String?) onChanged) {
+        double screenWidth = MediaQuery.of(context).size.width;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           label,
           style: TextStyle(
-              fontWeight: FontWeight.bold, fontSize: 16, color: Colors.blue),
+              fontWeight: FontWeight.bold, fontSize: 16 * screenWidth / 375, color: Colors.blue),
         ),
-        SizedBox(height: 8),
+        SizedBox(height: 8 * screenWidth / 375),
         Container(
-          padding: EdgeInsets.symmetric(horizontal: 8),
+          padding: EdgeInsets.symmetric(horizontal: 8 * screenWidth / 375),
           decoration: BoxDecoration(
             border: Border.all(color: Colors.blue),
             borderRadius: BorderRadius.circular(8),

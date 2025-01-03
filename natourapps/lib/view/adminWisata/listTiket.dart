@@ -74,6 +74,10 @@ class _listTiketState extends State<listTiket> {
 
   @override
   Widget build(BuildContext context) {
+    // Calculate screen width and scaling factor
+    double screenWidth = MediaQuery.of(context).size.width;
+    double scalingFactor = screenWidth / 375; // Assuming 375 is the baseline width
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -86,15 +90,19 @@ class _listTiketState extends State<listTiket> {
               icon: Icon(
                 Icons.filter_hdr_rounded,
                 color: Colors.blue,
-              ), // Blue arrow icon
+              ),
               onPressed: () {
                 null;
               },
             ),
-            SizedBox(width: 8),
+            SizedBox(width: 8 * scalingFactor), // Scale the space
             Text(
               "Lahan",
-              style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                color: Colors.blue,
+                fontWeight: FontWeight.bold,
+                fontSize: 16 * scalingFactor, // Scale font size
+              ),
             ),
           ],
         ),
@@ -129,7 +137,7 @@ class _listTiketState extends State<listTiket> {
 
               final items = snapshot.data!.docs.map((doc) {
                 final model = WisataModel.fromFirestore(doc);
-                final id = doc.id; // Ambil ID dokumen Firestore
+                final id = doc.id;
                 return {'model': model, 'id': id};
               }).toList();
 
@@ -137,8 +145,8 @@ class _listTiketState extends State<listTiket> {
                 children: [
                   // Tombol Posting Baru
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16.0, vertical: 8.0),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 16 * scalingFactor, vertical: 8 * scalingFactor),
                     child: InkWell(
                       onTap: () {
                         Navigator.push(
@@ -147,15 +155,15 @@ class _listTiketState extends State<listTiket> {
                         );
                       },
                       child: Container(
-                        height: 50,
+                        height: 50 * scalingFactor, // Scale the height
                         decoration: BoxDecoration(
                           color: Colors.white,
-                          borderRadius: BorderRadius.circular(5),
+                          borderRadius: BorderRadius.circular(5 * scalingFactor),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.black12,
-                              blurRadius: 4,
-                              offset: Offset(0, 2),
+                              blurRadius: 4 * scalingFactor,
+                              offset: Offset(0, 2 * scalingFactor),
                             ),
                           ],
                         ),
@@ -163,12 +171,13 @@ class _listTiketState extends State<listTiket> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Icon(Icons.add, color: Colors.grey),
-                            SizedBox(width: 8),
+                            SizedBox(width: 8 * scalingFactor),
                             Text(
                               "Posting baru",
                               style: TextStyle(
                                 color: Colors.grey,
                                 fontWeight: FontWeight.bold,
+                                fontSize: 14 * scalingFactor, // Scale the font size
                               ),
                             ),
                           ],
@@ -187,8 +196,9 @@ class _listTiketState extends State<listTiket> {
                         final id = items[index]['id'] as String;
 
                         return Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 16.0, vertical: 8.0),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 16 * scalingFactor,
+                              vertical: 8 * scalingFactor),
                           child: InkWell(
                             onTap: () {
                               // Navigasi ke halaman DetailWisata dengan documentId dan userId
@@ -196,27 +206,27 @@ class _listTiketState extends State<listTiket> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => Detailwisata(
-                                    namaLahan:item.namaLahan,
-      deskripsi:item.deskripsi,
-      jenisLahan:item.jenisLahan,
-      kapasitas:item.kapasitas,
-      fasilitas:item.fasilitas,
-      harga:item.harga,
-      lokasi:item.lokasi,
+                                    namaLahan: item.namaLahan,
+                                    deskripsi: item.deskripsi,
+                                    jenisLahan: item.jenisLahan,
+                                    kapasitas: item.kapasitas,
+                                    fasilitas: item.fasilitas,
+                                    harga: item.harga,
+                                    lokasi: item.lokasi,
                                   ),
                                 ),
                               );
                             },
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius: BorderRadius.circular(8 * scalingFactor),
                             child: Container(
                               decoration: BoxDecoration(
                                 color: Colors.white,
-                                borderRadius: BorderRadius.circular(8),
+                                borderRadius: BorderRadius.circular(8 * scalingFactor),
                                 boxShadow: [
                                   BoxShadow(
                                     color: Colors.black12,
-                                    blurRadius: 4,
-                                    offset: Offset(0, 2),
+                                    blurRadius: 4 * scalingFactor,
+                                    offset: Offset(0, 2 * scalingFactor),
                                   ),
                                 ],
                               ),
@@ -224,35 +234,35 @@ class _listTiketState extends State<listTiket> {
                                 children: [
                                   ClipRRect(
                                     borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(8),
-                                      bottomLeft: Radius.circular(8),
+                                      topLeft: Radius.circular(8 * scalingFactor),
+                                      bottomLeft: Radius.circular(8 * scalingFactor),
                                     ),
                                     child: (item.imageUrl != null &&
                                             item.imageUrl!.isNotEmpty)
                                         ? Image.network(
                                             item.imageUrl!,
-                                            width: 150,
-                                            height: 130,
+                                            width: 150 * scalingFactor,
+                                            height: 130 * scalingFactor,
                                             fit: BoxFit.cover,
                                           )
                                         : SizedBox(
-                                            width: 150,
-                                            height: 130,
+                                            width: 150 * scalingFactor,
+                                            height: 130 * scalingFactor,
                                             child: Center(
                                               child: Text(
                                                 'No Image',
                                                 style: TextStyle(
                                                     color: Colors.grey,
-                                                    fontSize: 12),
+                                                    fontSize: 12 * scalingFactor),
                                               ),
                                             ),
                                           ),
                                   ),
-                                  SizedBox(width: 8),
+                                  SizedBox(width: 8 * scalingFactor),
                                   Expanded(
                                     child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 8.0),
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 8 * scalingFactor),
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
@@ -265,14 +275,13 @@ class _listTiketState extends State<listTiket> {
                                                 item.namaLahan,
                                                 style: TextStyle(
                                                     fontWeight: FontWeight.bold,
-                                                    fontSize: 16),
+                                                    fontSize: 16 * scalingFactor),
                                               ),
                                               PopupMenuButton<String>(
                                                 onSelected: (value) {
                                                   if (value == 'Edit') {
                                                     _editItem(id, item, userId);
-                                                  } else if (value ==
-                                                      'Delete') {
+                                                  } else if (value == 'Delete') {
                                                     _deleteItem(id, userId);
                                                   }
                                                 },
@@ -287,17 +296,19 @@ class _listTiketState extends State<listTiket> {
                                               ),
                                             ],
                                           ),
-                                          SizedBox(height: 4),
+                                          SizedBox(height: 4 * scalingFactor),
                                           Text(item.kapasitas,
-                                              style: TextStyle(fontSize: 12)),
+                                              style: TextStyle(
+                                                  fontSize: 12 * scalingFactor)),
                                           Text(
                                             "Rp${item.harga}/day",
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold,
-                                                fontSize: 14),
+                                                fontSize: 14 * scalingFactor),
                                           ),
                                           Text(item.lokasi,
-                                              style: TextStyle(fontSize: 12)),
+                                              style: TextStyle(
+                                                  fontSize: 12 * scalingFactor)),
                                         ],
                                       ),
                                     ),

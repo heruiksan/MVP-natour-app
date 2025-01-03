@@ -72,6 +72,8 @@ class _listAlatSewaState extends State<listAlatSewa> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -90,7 +92,7 @@ class _listAlatSewaState extends State<listAlatSewa> {
                 null;
               },
             ),
-            SizedBox(width: 8),
+            SizedBox(width: 8 * screenWidth / 375),
             Text(
               "Penyewaan",
               style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
@@ -136,8 +138,9 @@ class _listAlatSewaState extends State<listAlatSewa> {
                 children: [
                   // Tombol Posting Baru
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16.0, vertical: 8.0),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 16.0 * screenWidth / 375,
+                        vertical: 8.0 * screenWidth / 375),
                     child: InkWell(
                       onTap: () {
                         Navigator.push(
@@ -146,15 +149,16 @@ class _listAlatSewaState extends State<listAlatSewa> {
                         );
                       },
                       child: Container(
-                        height: 50,
+                        height: 50 * screenWidth / 375,
                         decoration: BoxDecoration(
                           color: Colors.white,
-                          borderRadius: BorderRadius.circular(5),
+                          borderRadius:
+                              BorderRadius.circular(5 * screenWidth / 375),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.black12,
-                              blurRadius: 4,
-                              offset: Offset(0, 2),
+                              blurRadius: 4 * screenWidth / 375,
+                              offset: Offset(0, 2 * screenWidth / 375),
                             ),
                           ],
                         ),
@@ -162,7 +166,7 @@ class _listAlatSewaState extends State<listAlatSewa> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Icon(Icons.add, color: Colors.grey),
-                            SizedBox(width: 8),
+                            SizedBox(width: 8 * screenWidth / 375),
                             Text(
                               "Posting baru",
                               style: TextStyle(
@@ -186,8 +190,9 @@ class _listAlatSewaState extends State<listAlatSewa> {
                         final id = items[index]['id'] as String;
 
                         return Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 16.0, vertical: 8.0),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 16.0 * screenWidth / 375,
+                              vertical: 8.0 * screenWidth / 375),
                           child: InkWell(
                             onTap: () {
                               Navigator.push(
@@ -203,16 +208,18 @@ class _listAlatSewaState extends State<listAlatSewa> {
                                 ),
                               );
                             },
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius:
+                                BorderRadius.circular(8 * screenWidth / 375),
                             child: Container(
                               decoration: BoxDecoration(
                                 color: Colors.white,
-                                borderRadius: BorderRadius.circular(8),
+                                borderRadius: BorderRadius.circular(
+                                    8 * screenWidth / 375),
                                 boxShadow: [
                                   BoxShadow(
                                     color: Colors.black12,
-                                    blurRadius: 4,
-                                    offset: Offset(0, 2),
+                                    blurRadius: 4 * screenWidth / 375,
+                                    offset: Offset(0, 2 * screenWidth / 375),
                                   ),
                                 ],
                               ),
@@ -220,35 +227,38 @@ class _listAlatSewaState extends State<listAlatSewa> {
                                 children: [
                                   ClipRRect(
                                     borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(8),
-                                      bottomLeft: Radius.circular(8),
+                                      topLeft: Radius.circular(
+                                          8 * screenWidth / 375),
+                                      bottomLeft: Radius.circular(
+                                          8 * screenWidth / 375),
                                     ),
                                     child: (item.imageUrl != null &&
                                             item.imageUrl!.isNotEmpty)
                                         ? Image.network(
                                             item.imageUrl!,
-                                            width: 150,
-                                            height: 130,
+                                            width: 150 * screenWidth / 375,
+                                            height: 130 * screenWidth / 375,
                                             fit: BoxFit.cover,
                                           )
                                         : SizedBox(
-                                            width: 150,
-                                            height: 130,
+                                            width: 150 * screenWidth / 375,
+                                            height: 130 * screenWidth / 375,
                                             child: Center(
                                               child: Text(
                                                 'No Image',
                                                 style: TextStyle(
                                                     color: Colors.grey,
-                                                    fontSize: 12),
+                                                    fontSize:
+                                                        12 * screenWidth / 375),
                                               ),
                                             ),
                                           ),
                                   ),
-                                  SizedBox(width: 8),
+                                  SizedBox(width: 8 * screenWidth / 375),
                                   Expanded(
                                     child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 8.0),
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 8.0 * screenWidth / 375),
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
@@ -266,7 +276,9 @@ class _listAlatSewaState extends State<listAlatSewa> {
                                                   style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.bold,
-                                                      fontSize: 16),
+                                                      fontSize: 16 *
+                                                          screenWidth /
+                                                          375),
                                                 ),
                                               ),
                                               PopupMenuButton<String>(
@@ -289,17 +301,23 @@ class _listAlatSewaState extends State<listAlatSewa> {
                                               ),
                                             ],
                                           ),
-                                          SizedBox(height: 4),
+                                          SizedBox(
+                                              height: 4 * screenWidth / 375),
                                           Text(item.kapasitas,
-                                              style: TextStyle(fontSize: 12)),
+                                              style: TextStyle(
+                                                  fontSize:
+                                                      12 * screenWidth / 375)),
                                           Text(
                                             "Rp${item.harga}/day",
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold,
-                                                fontSize: 14),
+                                                fontSize:
+                                                    14 * screenWidth / 375),
                                           ),
                                           Text(item.lokasi,
-                                              style: TextStyle(fontSize: 12)),
+                                              style: TextStyle(
+                                                  fontSize:
+                                                      12 * screenWidth / 375)),
                                         ],
                                       ),
                                     ),
